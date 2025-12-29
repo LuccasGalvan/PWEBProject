@@ -1,8 +1,11 @@
 ﻿@page "/carrinho"
+@using System
+@using System.Text.Json
 @using RCLAPI.Services
 @using RCLAPI.DTO
 @inject IJSRuntime JSRuntime
 @inject IApiServices _apiServices
+@inject NavigationManager NavigationManager
 
 <h3>Carrinho de Compras</h3>
 
@@ -86,35 +89,36 @@ else
     protected override async Task OnInitializedAsync()
     {
         await CarregarCarrinho();
+        await VerificarCheckoutPendenteAsync();
     }
 
     private async Task CarregarCarrinho()
     {
-        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        var cartUserId = await GetCartUserIdAsync();
 
-        if (string.IsNullOrEmpty(userId))
+        if (string.IsNullOrEmpty(cartUserId))
         {
-            Console.WriteLine("Utilizador não encontrado no Local Storage.");
+            Console.WriteLine("Carrinho não encontrado no Local Storage.");
             itensCarrinho = new List<CarOrder>();
             return;
         }
 
-        itensCarrinho = await _apiServices.ObterCarrinho(userId);
+        itensCarrinho = await _apiServices.ObterCarrinho(cartUserId);
     }
 
     private async Task RemoverItemCarrinho(int itemId, int quantidade)
     {
-        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        var cartUserId = await GetCartUserIdAsync();
 
-        if (string.IsNullOrEmpty(userId))
+        if (string.IsNullOrEmpty(cartUserId))
         {
-            Console.WriteLine("Utilizador não encontrado no Local Storage.");
+            Console.WriteLine("Carrinho não encontrado no Local Storage.");
             return;
         }
 
         Console.WriteLine($"Removendo item {itemId} do carrinho...");
 
-        var (success, message) = await _apiServices.AtualizarCarrinho(userId, itemId, "remover", quantidade);
+        var (success, message) = await _apiServices.AtualizarCarrinho(cartUserId, itemId, "remover", quantidade);
 
         if (success)
         {
@@ -137,6 +141,7 @@ else
     {
         exibirPopUpCartao = false;
         LimparDadosCartao();
+        _ = LimparCheckoutPendenteAsync();
     }
 
     private async Task ConfirmarCompra()
@@ -144,6 +149,20 @@ else
         if (!ValidarCartao())
         {
             Console.WriteLine("Dados do cartão inválidos.");
+            return;
+        }
+
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        if (string.IsNullOrEmpty(userId))
+        {
+            if (itemSelecionado != null)
+            {
+                await GuardarCheckoutPendenteAsync(itemSelecionado);
+            }
+
+            exibirPopUpCartao = false;
+            LimparDadosCartao();
+            NavigationManager.NavigateTo("/modalogin?returnUrl=/carrinho", true);
             return;
         }
 
@@ -189,6 +208,7 @@ else
         if (sucessoVenda)
         {
             Console.WriteLine($"Compra do produto {item.Produto.Nome} realizada com sucesso!");
+            await LimparCheckoutPendenteAsync();
             // Remove o item comprado do carrinho
             await RemoverItemCarrinho(item.ProdutoId, item.Quantidade);
         }
@@ -203,5 +223,80 @@ else
         numeroCartao = string.Empty;
         validadeCartao = string.Empty;
         cvvCartao = string.Empty;
+    }
+
+    private async Task<string> GetCartUserIdAsync()
+    {
+        var cartUserId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "cartUserId");
+        if (!string.IsNullOrEmpty(cartUserId))
+        {
+            return cartUserId;
+        }
+
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        if (!string.IsNullOrEmpty(userId))
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "cartUserId", userId);
+            return userId;
+        }
+
+        var guestId = $"guest_{Guid.NewGuid()}";
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "cartUserId", guestId);
+        return guestId;
+    }
+
+    private async Task GuardarCheckoutPendenteAsync(CarOrder item)
+    {
+        var pendingCheckout = new PendingCheckout
+        {
+            ProdutoId = item.ProdutoId,
+            Quantidade = item.Quantidade
+        };
+
+        var payload = JsonSerializer.Serialize(pendingCheckout);
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "pendingCheckout", payload);
+    }
+
+    private async Task VerificarCheckoutPendenteAsync()
+    {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        if (string.IsNullOrEmpty(userId))
+        {
+            return;
+        }
+
+        var payload = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "pendingCheckout");
+        if (string.IsNullOrEmpty(payload))
+        {
+            return;
+        }
+
+        PendingCheckout? pendingCheckout;
+        try
+        {
+            pendingCheckout = JsonSerializer.Deserialize<PendingCheckout>(payload);
+        }
+        catch (JsonException)
+        {
+            await LimparCheckoutPendenteAsync();
+            return;
+        }
+
+        if (pendingCheckout == null || itensCarrinho == null)
+        {
+            return;
+        }
+
+        var item = itensCarrinho.FirstOrDefault(entry => entry.ProdutoId == pendingCheckout.ProdutoId);
+        if (item != null)
+        {
+            itemSelecionado = item;
+            exibirPopUpCartao = true;
+        }
+    }
+
+    private async Task LimparCheckoutPendenteAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "pendingCheckout");
     }
 }
