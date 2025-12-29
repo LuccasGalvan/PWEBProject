@@ -529,6 +529,16 @@ namespace GestaoLoja.Migrations
                     b.Navigation("Produto");
                 });
 
+            modelBuilder.Entity("GestaoLoja.Entity.Categoria", b =>
+                {
+                    b.HasOne("GestaoLoja.Entity.Categoria", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("GestaoLoja.Entity.EncomendaItem", b =>
                 {
                     b.HasOne("GestaoLoja.Entity.Encomenda", "Encomenda")
@@ -557,18 +567,6 @@ namespace GestaoLoja.Migrations
                         .IsRequired();
 
                     b.Navigation("Produto");
-                });
-
-            modelBuilder.Entity("GestaoLoja.Entity.Categoria", b =>
-                {
-                    b.HasOne("GestaoLoja.Entity.Categoria", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Children");
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("GestaoLoja.Entity.Produto", b =>
@@ -645,6 +643,11 @@ namespace GestaoLoja.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GestaoLoja.Entity.Categoria", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("GestaoLoja.Entity.Encomenda", b =>

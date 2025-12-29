@@ -90,6 +90,50 @@
   },
   {
     "ContainingType": "RESTfulAPIPWEB.Controllers.EncomendasController",
+    "Method": "Pagar",
+    "RelativePath": "api/Encomendas/{id}/pagar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "RESTfulAPIPWEB.DTO.Encomendas.EncomendaPagamentoResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.EncomendasController",
     "Method": "GetEncomendas",
     "RelativePath": "api/Encomendas/{userId}",
     "HttpMethod": "GET",
@@ -214,6 +258,103 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[RESTfulAPIPWEB.Entity.Favoritos, RESTfulAPIPWEB, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
+    "Method": "GetProdutos",
+    "RelativePath": "api/FornecedorProdutos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[RESTfulAPIPWEB.DTO.Fornecedor.FornecedorProdutoDto, RESTfulAPIPWEB, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
+    "Method": "CreateProduto",
+    "RelativePath": "api/FornecedorProdutos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "RESTfulAPIPWEB.DTO.Fornecedor.FornecedorProdutoCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "RESTfulAPIPWEB.DTO.Fornecedor.FornecedorProdutoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
+    "Method": "UpdateProduto",
+    "RelativePath": "api/FornecedorProdutos/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "RESTfulAPIPWEB.DTO.Fornecedor.FornecedorProdutoUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "RESTfulAPIPWEB.DTO.Fornecedor.FornecedorProdutoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
+    "Method": "GetVendas",
+    "RelativePath": "api/FornecedorProdutos/vendas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[RESTfulAPIPWEB.DTO.Fornecedor.FornecedorVendaDto, RESTfulAPIPWEB, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

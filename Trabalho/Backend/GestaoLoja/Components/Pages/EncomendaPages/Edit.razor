@@ -27,6 +27,8 @@ else if (!loaded)
 }
 else
 {
+    var encomenda = Encomenda!;
+
     <h2>Encomenda</h2>
     <hr />
 
@@ -45,23 +47,22 @@ else
 
                 <div class="mb-3">
                     <label class="form-label">Id</label>
-                    <InputText class="form-control" Value="@Encomenda.Id.ToString()" disabled />
+                    <InputText class="form-control" Value="@encomenda.Id.ToString()" disabled />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">ClienteId</label>
-                    @* show only, never editable *@
-                    <InputText class="form-control" Value="@Encomenda.ClienteId" disabled />
+                    <InputText class="form-control" Value="@encomenda.ClienteId.ToString()" disabled />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Estado</label>
-                    <InputText class="form-control" Value="@Encomenda.Estado" disabled />
+                    <InputText class="form-control" Value="@encomenda.Estado.ToString()" disabled />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Total</label>
-                    <InputNumber class="form-control" Value="@Encomenda.Total" disabled />
+                    <InputNumber TValue="decimal" class="form-control" Value="@encomenda.Total" disabled />
                 </div>
 
                 @if (!string.IsNullOrWhiteSpace(actionError))
@@ -136,14 +137,12 @@ else
         }
 
         if (Action.EncomendaId == Guid.Empty)
-        {
             Action.EncomendaId = Encomenda.Id;
-        }
 
+        // Action.TargetEstado is an enum (non-nullable), Enum.IsDefined will always be true here
+        // unless it was bound from invalid form data. Keep it if you want a guard.
         if (!Enum.IsDefined(typeof(EncomendaEstado), Action.TargetEstado))
-        {
             Action.TargetEstado = Encomenda.Estado;
-        }
 
         loaded = true;
     }
@@ -158,9 +157,7 @@ else
 
         var result = await WorkflowService.TryTransitionAsync(Id, Action.TargetEstado);
         if (!result.Success)
-        {
             actionError = result.ErrorMessage ?? "Transição inválida.";
-        }
 
         await LoadEncomendaAsync();
         isUpdating = false;
