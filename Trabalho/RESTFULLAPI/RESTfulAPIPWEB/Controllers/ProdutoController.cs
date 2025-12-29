@@ -50,5 +50,16 @@ namespace RESTfulAPIPWEB.Controllers
 
             return Ok(produto);
         }
+
+        [HttpGet("featured")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProdutoEmDestaque()
+        {
+            var produto = await _produtoRepository.ObterProdutoEmDestaqueAsync();
+            if (produto == null)
+                return NotFound("Nenhum produto activo disponível.");
+
+            return Ok(produto);
+        }
     }
 }

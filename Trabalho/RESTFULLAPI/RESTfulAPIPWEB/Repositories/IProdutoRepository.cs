@@ -9,5 +9,6 @@ namespace RESTfulAPIPWEB.Repositories
         Task<IEnumerable<Produto>> ObterProdutosMaisVendidosAsync();
         Task<IEnumerable<Produto>> ObterTodosProdutosAsync();
         Task<Produto?> ObterDetalheProdutoAsync(int id);
+        Task<Produto?> ObterProdutoEmDestaqueAsync();
     }
 }

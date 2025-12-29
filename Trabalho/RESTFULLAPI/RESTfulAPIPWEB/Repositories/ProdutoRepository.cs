@@ -68,6 +68,13 @@ namespace RESTfulAPIPWEB.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Produto?> ObterProdutoEmDestaqueAsync()
+        {
+            return await QueryCatalogoVisivel()
+                .OrderBy(p => Guid.NewGuid())
+                .FirstOrDefaultAsync();
+        }
+
         private async Task<HashSet<int>> GetCategoriaComDescendentesAsync(int categoriaId)
         {
             var categorias = await _context.Categorias
