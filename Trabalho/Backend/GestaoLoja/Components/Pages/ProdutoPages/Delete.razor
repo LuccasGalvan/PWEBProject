@@ -1,0 +1,96 @@
+﻿@page "/produtos/delete"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Entity
+@inject IDbContextFactory<GestaoLoja.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Apagar</h1>
+
+<p>Tem a certeza que quer apagar este produto?</p>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+<div>
+    <h2>Produto</h2>
+    <hr />
+    @if (produto is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class="col-sm-2">Nome</dt>
+            <dd class="col-sm-10">@produto.Nome</dd>
+
+            <dt class="col-sm-2">Detalhe</dt>
+            <dd class="col-sm-10">@produto.Detalhe</dd>
+        </dl>
+
+        <EditForm method="post" OnValidSubmit="DeleteProduto" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@isBusy">Delete</button>
+            <a class="btn btn-secondary ms-2" href="/produtos">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Produto? produto;
+    private bool isBusy;
+    private string? error;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+
+        produto = await context.Produtos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (produto is null)
+            NavigationManager.NavigateTo("notfound");
+    }
+
+    private async Task DeleteProduto()
+    {
+        error = null;
+        isBusy = true;
+
+        try
+        {
+            await using var context = await DbFactory.CreateDbContextAsync();
+
+            var dbProduto = await context.Produtos.FirstOrDefaultAsync(p => p.Id == Id);
+            if (dbProduto is null)
+            {
+                NavigationManager.NavigateTo("/produtos");
+                return;
+            }
+
+            context.Produtos.Remove(dbProduto);
+            await context.SaveChangesAsync();
+
+            NavigationManager.NavigateTo("/produtos");
+        }
+        catch (DbUpdateException)
+        {
+            // If product is referenced by EncomendaItem or other tables, SQL will reject delete
+            error = "Não foi possível apagar: o produto está a ser usado (encomendas/carrinho/favoritos).";
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+}

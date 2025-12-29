@@ -1,0 +1,113 @@
+﻿@page "/encomenda/edit"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+@using GestaoLoja.Entity.Enums
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar Encomenda</PageTitle>
+
+<h1>Editar Encomenda</h1>
+
+@if (Encomenda is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>Encomenda</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post"
+                      Model="Encomenda"
+                      OnValidSubmit="UpdateEncomenda"
+                      FormName="editEncomenda"
+                      Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" role="alert" />
+
+                <div class="mb-3">
+                    <label class="form-label">Id</label>
+                    <InputText class="form-control" Value="@Encomenda.Id.ToString()" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ClienteId</label>
+                    @* show only, never editable *@
+                    <InputText class="form-control" Value="@Encomenda.ClienteId" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Estado</label>
+                    <InputSelect class="form-select" @bind-Value="Encomenda.Estado">
+                        @foreach (var v in Enum.GetValues<EncomendaEstado>())
+                        {
+                            <option value="@v">@v</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Encomenda.Estado" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Total</label>
+                    <InputNumber class="form-control" Value="@Encomenda.Total" disabled />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-secondary ms-2" href="/encomenda">Back to List</a>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [SupplyParameterFromQuery]
+    private Guid Id { get; set; }
+
+    // IMPORTANT: prevents the "resets + required even filled" issue with Enhance
+    [SupplyParameterFromForm]
+    private Encomenda? Encomenda { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        // If this is the first GET, Encomenda is null -> load from DB.
+        // If this is the POST (enhanced), Encomenda comes from the form.
+        Encomenda ??= await db.Encomendas
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == Id);
+
+        if (Encomenda is null)
+            NavigationManager.NavigateTo("/encomenda");
+    }
+
+    private async Task UpdateEncomenda()
+    {
+        if (Encomenda is null)
+            return;
+
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var existing = await db.Encomendas.FirstOrDefaultAsync(e => e.Id == Id);
+        if (existing is null)
+        {
+            NavigationManager.NavigateTo("/encomenda");
+            return;
+        }
+
+        // Keep it simple: only update Estado.
+        existing.Estado = Encomenda.Estado;
+
+        await db.SaveChangesAsync();
+        NavigationManager.NavigateTo("/encomenda");
+    }
+}

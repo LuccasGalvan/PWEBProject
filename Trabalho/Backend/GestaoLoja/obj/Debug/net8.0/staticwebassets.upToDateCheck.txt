@@ -1,0 +1,17 @@
+wwwroot\app.css
+wwwroot\bootstrap\bootstrap.min.css
+wwwroot\bootstrap\bootstrap.min.css.map
+wwwroot\favicon.png
+wwwroot\img\about.png
+wwwroot\img\backicon.png
+wwwroot\img\deleteicon.png
+wwwroot\img\detailsicon.png
+wwwroot\img\editicon.png
+wwwroot\img\frutaria.jpg
+wwwroot\img\headicon.png
+wwwroot\img\icoperfil.png
+wwwroot\img\noproductstrans.png
+wwwroot\img\novo.png
+wwwroot\img\PediTiscos.jpeg
+wwwroot\img\register.png
+wwwroot\img\saveicon.png

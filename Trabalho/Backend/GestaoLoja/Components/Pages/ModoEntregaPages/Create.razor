@@ -1,0 +1,104 @@
+﻿<!-- Heres the thing about this specific page: I had to do this in this very peculiar way because I HAVE NO CLUE WHY IT WASNT WORKING 
+LIKE THE OTHERS ARE. it doesnt make sense. I spent HOURS trying to do it normally and this is the only way that it works so it shall remain 
+like this. I am ashamed by the fact that it took me this long and I wont even deny getting to a point where I was blindly pasting GPT's 
+code in the HOPES that it would do something the way it should. I hate this. I hate that it got to this. Sorry.' -->
+
+@page "/modoentregas/create"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Criar Modo de Entrega</PageTitle>
+
+<h1>Criar Modo de Disponibilização</h1>
+
+<EditForm method="post"
+          EditContext="@_editContext"
+          OnSubmit="HandleSubmit"
+          FormName="createModoEntrega"
+          Enhance>
+
+
+    <DataAnnotationsValidator />
+    <ValidationSummary class="text-danger" role="alert" />
+
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+
+        <!-- Force the HTML field name to something we bind from the form -->
+        <InputText id="nome"
+                   class="form-control"
+                   name="Nome"
+                   @bind-Value="_modoEntrega.Nome"
+                   aria-required="true" />
+
+        <ValidationMessage For="@(() => _modoEntrega.Nome)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label for="detalhe" class="form-label">Detalhe</label>
+
+        <InputTextArea id="detalhe"
+                       class="form-control"
+                       name="Detalhe"
+                       @bind-Value="_modoEntrega.Detalhe" />
+
+        <ValidationMessage For="@(() => _modoEntrega.Detalhe)" class="text-danger" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary ms-2" href="/modoentregas">Cancelar</a>
+</EditForm>
+
+@code {
+    // Always non-null, always the same instance
+    private readonly ModoEntrega _modoEntrega = new();
+    private EditContext _editContext = default!;
+
+    // Bind scalars from the POST (reliable)
+    [SupplyParameterFromForm(FormName = "createModoEntrega")]
+    public string? Nome { get; set; }
+
+    [SupplyParameterFromForm(FormName = "createModoEntrega")]
+    public string? Detalhe { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_modoEntrega);
+    }
+
+    protected override void OnParametersSet()
+    {
+        // On POST, these will be filled; on GET they’ll be null.
+        if (Nome is not null) _modoEntrega.Nome = Nome;
+        if (Detalhe is not null) _modoEntrega.Detalhe = Detalhe;
+    }
+
+    private bool _saving;
+
+    private async Task HandleSubmit()
+    {
+        if (_saving) return;
+        _saving = true;
+        try
+        {
+            if (!_editContext.Validate()) return;
+
+            await using var db = await DbFactory.CreateDbContextAsync();
+            db.ModosEntrega.Add(_modoEntrega);
+            await db.SaveChangesAsync();
+            NavigationManager.NavigateTo("/modoentregas");
+        }
+        finally
+        {
+            _saving = false;
+        }
+    }
+}

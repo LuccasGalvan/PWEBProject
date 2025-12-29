@@ -1,0 +1,35 @@
+﻿.nav-item-auto {
+    z-index: 10;
+    position: absolute;
+    left: 47%;
+    bottom:4%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
+    .nav-item-auto label {
+        color: #fff;
+    }
+
+.select-slide {
+    width: 8px;
+    height: 8px;
+    border: 2px solid #000;
+    border-radius: 50px;
+    margin: 2px;
+    cursor: pointer;
+    transition: 1s;
+    top:350px;
+}
+
+.backgroud-solid {
+    background-color: #000;
+}
+
+
+@media (max-width:640px){
+    .nav-item-auto {
+        display: none;
+    }
+}

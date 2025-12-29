@@ -1,0 +1,19 @@
+﻿a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 8pt;
+}
+
+.nav-login {
+    height:53px;
+}
+
+    .nav-login img {
+        height: 15px;
+    }
+
+@media (max-width: 641px) {
+    .nav-login{
+        display:none;
+    }
+}

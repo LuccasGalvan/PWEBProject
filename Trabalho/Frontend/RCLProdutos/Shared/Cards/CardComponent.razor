@@ -1,0 +1,24 @@
+﻿@using Microsoft.EntityFrameworkCore
+
+@using RCLAPI.Services
+@using Microsoft.AspNetCore.Components
+@using RCLAPI.DTO
+@using RCLProdutos.Shared.Slider
+@using RCLProdutos.Shared.Cards
+@using RCLProdutos.Shared.CardProduto
+
+@inject NavigationManager NavigationManager
+
+@* <div class="card" style="background-image:url(@pathurlimg); @marginLeft;position:center"> *@
+
+@if(categoria!.Imagem is not null){
+    <div title="@categoria!.Nome" class="card" style="background-image:url(data:image/*;base64,@(Convert.ToBase64String(categoria.Imagem))); @marginLeft;position:center">
+        <div>
+            <p>@categoria!.Nome</p>
+        </div>
+        <div class="footer-button">
+            <a href="" @onclick='(() => Navega(categoria))'> <img alt="Pesquisar categoria" src="images/searchredicon50x50.png" width="30" /></a>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,12 @@
+﻿@using RCLAPI
+<div class="container-location">
+    <div><img src="images/location.png" /></div>
+    <div class="">
+        <p>@Endereco</p>
+    </div>
+</div>
+
+@code {
+    private string Endereco { get; set; } = @AppConfig.enderecoHome;
+
+}

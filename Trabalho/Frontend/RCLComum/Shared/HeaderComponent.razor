@@ -1,0 +1,50 @@
+﻿@using RCLAPI
+@inject IJSRuntime JSRuntime
+
+<div class="header-container">
+    <div class="header-main">
+        <div>
+            <span class="logo-span">
+                <a class="logo-span" href="/">
+                    @AppConfig.tituloHomePage
+                </a>
+            </span>
+        </div>
+        <div class="nav-main">
+            <BtnCarrinho />
+            <BtnHabituais />
+            <LocationComponent />
+        </div>
+
+        @if (!isLoading && !string.IsNullOrEmpty(userID)) 
+        {
+            <BtnCompras />
+            <BtnSobre />
+        }
+        else if (!isLoading)
+        {
+            <BtnLogin />
+            <BtnRegister />
+        }
+    </div>
+</div>
+
+@code {
+    private string? userID;
+    private bool isLoading = true;  // Flag para controlar o carregamento do estado
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Carrega o userID do localStorage quando a página for renderizada no cliente
+            userID = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+            // Atribui false após o carregamento ser concluído
+            isLoading = false;
+
+            // Força a atualização da página após o carregamento do userID
+            StateHasChanged();
+        }
+    }
+}

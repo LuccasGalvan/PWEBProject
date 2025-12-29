@@ -1,0 +1,47 @@
+﻿@page "/modoentregas/details"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Detalhes</PageTitle>
+
+<h1>Detalhes do Modo de Disponibilização</h1>
+
+@if (modoEntrega is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <dl class="row">
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@modoEntrega.Nome</dd>
+
+        <dt class="col-sm-2">Detalhe</dt>
+        <dd class="col-sm-10">@modoEntrega.Detalhe</dd>
+    </dl>
+
+    <a class="btn btn-primary" href="@($"/modoentregas/edit?id={modoEntrega.Id}")">Editar</a>
+    <a class="btn btn-secondary ms-2" href="/modoentregas">Voltar</a>
+}
+
+@code {
+    [SupplyParameterFromQuery] public int Id { get; set; }
+
+    private ModoEntrega? modoEntrega;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+        modoEntrega = await db.ModosEntrega.AsNoTracking().FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (modoEntrega is null)
+            NavigationManager.NavigateTo("notfound");
+    }
+}

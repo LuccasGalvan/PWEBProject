@@ -1,0 +1,124 @@
+﻿@page "/encomenda"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+@using GestaoLoja.Entity.Enums
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+<PageTitle>Encomendas</PageTitle>
+
+<h1>Encomendas</h1>
+
+<p>
+    <a href="/encomenda/create">Create New</a>
+</p>
+
+<div class="mb-3" style="display:flex; gap: 1rem; flex-wrap: wrap;">
+    <div>
+        <label class="form-label">Estado</label>
+        <select class="form-select" @bind="filtroEstado">
+            <option value="">(todos)</option>
+            @foreach (var e in Enum.GetValues<EncomendaEstado>())
+            {
+                <option value="@e">@e</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label class="form-label">ClienteId (contém)</label>
+        <input class="form-control" @bind="filtroClienteId" />
+    </div>
+
+    <div style="align-self:end;">
+        <button class="btn btn-primary" @onclick="AplicarFiltros">Apply</button>
+        <button class="btn btn-secondary ms-2" @onclick="LimparFiltros">Clear</button>
+    </div>
+</div>
+
+<QuickGrid TGridItem="EncomendaRow"
+           Class="table"
+           ItemsProvider="LoadEncomendas"
+           Pagination="pagination">
+
+    <PropertyColumn Property="e => e.Id" Title="Id" />
+    <PropertyColumn Property="e => e.ClienteId" Title="Cliente" />
+    <PropertyColumn Property="e => e.Estado" Title="Estado" />
+    <PropertyColumn Property="e => e.CriadaEmUtc" Title="Criada" />
+    <PropertyColumn Property="e => e.Total" Title="Total" />
+
+    <TemplateColumn Title="Ações" Context="e">
+        <a href="@($"/encomenda/details?id={e.Id}")">Details</a> |
+        <a href="@($"/encomenda/edit?id={e.Id}")">Edit</a> |
+        <a href="@($"/encomenda/delete?id={e.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+<Paginator State="pagination" />
+
+@code {
+    private EncomendaEstado? filtroEstado;
+    private string? filtroClienteId;
+
+    private readonly PaginationState pagination = new() { ItemsPerPage = 10 };
+
+    private async ValueTask<GridItemsProviderResult<EncomendaRow>> LoadEncomendas(GridItemsProviderRequest<EncomendaRow> request)
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var q = db.Encomendas.AsNoTracking().AsQueryable();
+
+        if (filtroEstado.HasValue)
+            q = q.Where(e => e.Estado == filtroEstado.Value);
+
+        if (!string.IsNullOrWhiteSpace(filtroClienteId))
+            q = q.Where(e => e.ClienteId != null && e.ClienteId.Contains(filtroClienteId));
+
+        var total = await q.CountAsync();
+
+        var pageSize = request.Count ?? pagination.ItemsPerPage;
+
+        // Default ordering (safe + consistent)
+        var items = await q
+            .OrderByDescending(e => e.CriadaEmUtc)
+            .Skip(request.StartIndex)
+            .Take(pageSize)
+            .Select(e => new EncomendaRow
+            {
+                Id = e.Id,
+                ClienteId = e.ClienteId,
+                Estado = e.Estado,
+                CriadaEmUtc = e.CriadaEmUtc,
+                Total = e.Total
+            })
+            .ToListAsync();
+
+        return GridItemsProviderResult.From(items, total);
+    }
+
+    private void AplicarFiltros()
+    {
+        _ = pagination.SetCurrentPageIndexAsync(0);
+    }
+
+    private void LimparFiltros()
+    {
+        filtroEstado = null;
+        filtroClienteId = null;
+        _ = pagination.SetCurrentPageIndexAsync(0);
+    }
+
+    private sealed class EncomendaRow
+    {
+        public Guid Id { get; set; }
+        public string? ClienteId { get; set; }
+        public EncomendaEstado Estado { get; set; }
+        public DateTime CriadaEmUtc { get; set; }
+        public decimal Total { get; set; }
+    }
+}

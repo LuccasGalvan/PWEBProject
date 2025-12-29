@@ -1,0 +1,233 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\obj\\Debug\\net8.0-android\\scopedcss\\bundle\\ProdutosMAUI.styles.css",
+      "PackagePath": "staticwebassets\\ProdutosMAUI.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\Selecticontransp120x50.png",
+      "PackagePath": "staticwebassets\\images\\Selecticontransp120x50.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\about.png",
+      "PackagePath": "staticwebassets\\images\\about.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\back.png",
+      "PackagePath": "staticwebassets\\images\\back.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\backcaroussel.png",
+      "PackagePath": "staticwebassets\\images\\backcaroussel.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\backicon.png",
+      "PackagePath": "staticwebassets\\images\\backicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\cart.png",
+      "PackagePath": "staticwebassets\\images\\cart.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\cartcheio.png",
+      "PackagePath": "staticwebassets\\images\\cartcheio.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\exit.png",
+      "PackagePath": "staticwebassets\\images\\exit.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\favoriteheart.png",
+      "PackagePath": "staticwebassets\\images\\favoriteheart.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\favoritesicon.jpg",
+      "PackagePath": "staticwebassets\\images\\favoritesicon.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\favoritesicontransp.png",
+      "PackagePath": "staticwebassets\\images\\favoritesicontransp.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\headicon.png",
+      "PackagePath": "staticwebassets\\images\\headicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\heart.png",
+      "PackagePath": "staticwebassets\\images\\heart.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\heartfill.png",
+      "PackagePath": "staticwebassets\\images\\heartfill.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\heartfilltransp.png",
+      "PackagePath": "staticwebassets\\images\\heartfilltransp.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icoaguardando.png",
+      "PackagePath": "staticwebassets\\images\\icoaguardando.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icocancelado.png",
+      "PackagePath": "staticwebassets\\images\\icocancelado.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icocatalog.png",
+      "PackagePath": "staticwebassets\\images\\icocatalog.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icochecado.png",
+      "PackagePath": "staticwebassets\\images\\icochecado.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icodelete.png",
+      "PackagePath": "staticwebassets\\images\\icodelete.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icoedit.png",
+      "PackagePath": "staticwebassets\\images\\icoedit.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icoementrega.png",
+      "PackagePath": "staticwebassets\\images\\icoementrega.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icoentrega.png",
+      "PackagePath": "staticwebassets\\images\\icoentrega.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\iconovo.png",
+      "PackagePath": "staticwebassets\\images\\iconovo.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\iconsave.ico",
+      "PackagePath": "staticwebassets\\images\\iconsave.ico"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icoperfil.png",
+      "PackagePath": "staticwebassets\\images\\icoperfil.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\icosair.png",
+      "PackagePath": "staticwebassets\\images\\icosair.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\infoicon.png",
+      "PackagePath": "staticwebassets\\images\\infoicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\infoicontransp50x50.png",
+      "PackagePath": "staticwebassets\\images\\infoicontransp50x50.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\location.png",
+      "PackagePath": "staticwebassets\\images\\location.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\login.png",
+      "PackagePath": "staticwebassets\\images\\login.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\minus.png",
+      "PackagePath": "staticwebassets\\images\\minus.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\next.png",
+      "PackagePath": "staticwebassets\\images\\next.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\nextcaroussel.png",
+      "PackagePath": "staticwebassets\\images\\nextcaroussel.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\pesquisaricon50x50.png",
+      "PackagePath": "staticwebassets\\images\\pesquisaricon50x50.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\plus.png",
+      "PackagePath": "staticwebassets\\images\\plus.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\pngegg.png",
+      "PackagePath": "staticwebassets\\images\\pngegg.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\questionsanswers.jpg",
+      "PackagePath": "staticwebassets\\images\\questionsanswers.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\register.png",
+      "PackagePath": "staticwebassets\\images\\register.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\sacofrutas.jpg",
+      "PackagePath": "staticwebassets\\images\\sacofrutas.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\saveicon.png",
+      "PackagePath": "staticwebassets\\images\\saveicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\searchredicon50x50.png",
+      "PackagePath": "staticwebassets\\images\\searchredicon50x50.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\triangulofrutaamarelo.png",
+      "PackagePath": "staticwebassets\\images\\triangulofrutaamarelo.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\triangulofrutaazul.png",
+      "PackagePath": "staticwebassets\\images\\triangulofrutaazul.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\triangulofrutatranspa.png",
+      "PackagePath": "staticwebassets\\images\\triangulofrutatranspa.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\images\\triangulofrutatrasnp.png",
+      "PackagePath": "staticwebassets\\images\\triangulofrutatrasnp.png"
+    },
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-android\\staticwebassets\\msbuild.ProdutosMAUI.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-android\\staticwebassets\\msbuild.ProdutosMAUI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-android\\staticwebassets\\msbuild.build.ProdutosMAUI.props",
+      "PackagePath": "build\\ProdutosMAUI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-android\\staticwebassets\\msbuild.buildMultiTargeting.ProdutosMAUI.props",
+      "PackagePath": "buildMultiTargeting\\ProdutosMAUI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-android\\staticwebassets\\msbuild.buildTransitive.ProdutosMAUI.props",
+      "PackagePath": "buildTransitive\\ProdutosMAUI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

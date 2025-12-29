@@ -1,0 +1,65 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = 
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows,browser
+build_property.RootNamespace = RCLComum
+build_property.RootNamespace = RCLComum
+build_property.ProjectDir = C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnCompras.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkNvbXByYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnSobre.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0blNvYnJlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnCarrinho.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkNhcnJpbmhvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-gx1sm3g3cb
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnHabituais.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkhhYml0dWFpcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ktiz3qnizd
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkxvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-t1acya91s6
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnRegister.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0blJlZ2lzdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-6l6hj97lse
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/HeaderComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEhlYWRlckNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-f1uj7lwwfx
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/LocationComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvY2F0aW9uQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-s6fbsqhdck
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/NavLoginComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdkxvZ2luQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-498gqg2nlc

@@ -1,0 +1,209 @@
+﻿.slide-children {
+    height: 230px;
+    position: relative;
+    text-align: center;
+    transition: 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid;
+    border-color:transparent;
+}
+
+    .slide-children p {
+        color: black;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+.background-solid {
+    background-color:antiquewhite ;
+}
+
+.prod-container {
+    width: 100%;
+    display: flex;
+    margin: 0 35px;
+}
+
+.slide-img {
+    width: 200px;
+    margin: 0px 20px;
+
+}
+
+    .slide-img img {
+        height: 200px;
+        border-radius: 8%;
+    }
+
+.slide-descr {
+    width: 120px;
+}
+
+.slide-description-header {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 50px;
+    right: 5px;
+}
+
+
+
+.slide-description-top {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 6px;
+    left: 20px;
+
+}
+
+.slide-description-middle p {
+    width: 100%;
+    text-align: justify;
+    font-size: 10pt;
+}
+
+.font-valor {
+    font-size: 20px;
+    color: black
+}
+
+.font-valor1 {
+    font-size: 18px;
+    color: #fc0;
+    font-family: 'Vladimir Script';
+    color: darkorange;
+}
+
+.font-valor2 {
+    font-size: 20px;
+    color: darkblue;
+    font-family: 'Script MT';
+}
+
+
+
+.font-valor3 {
+    font-size: 18px;
+    color: darkorange;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+.slide-description-botton {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 160px;
+    left: 360px;
+}
+
+
+.btn-comprar {
+    width: 200px;
+    height: 6px;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    color: white;
+    border-radius: 8%;
+}
+
+.img {
+    background-color: transparent;
+}
+
+a.button {
+    padding: 1px 6px;
+    border: 1px outset;
+    border-radius: 3px;
+    color: buttontext;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+
+.div-sizes{
+    display:flex;
+}
+
+
+.modalz {
+    z-index: 20;
+}
+
+/* The Modal (background) */
+.modal {
+    z-index: 20;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 300px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 110%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+
+
+
+@media (max-width: 641px){
+    .slide-children{
+        height: 350px;
+    }
+
+    .slide-img {
+        position: absolute;
+        top: 5px;
+        left: 15%;
+        margin: 1px;
+    }
+    .slide-descr {
+        position: absolute;
+        left: 0;
+        margin: 5px;
+        bottom: 15px;
+    }
+
+    .slide-description-middle p {
+        font-size: 7pt;
+        width: 350px;
+    }
+
+    .slide-description-botton{
+        height:45px;
+    }
+
+    .div-sizes {
+        position: absolute;
+        left: 0px;
+        margin-top: 14px;
+    }
+
+    .btn-comprar {
+        height: 30px;
+        width: 150px;
+        margin-top:33px;
+    }
+
+    .div-value-prod {
+        position: absolute;
+        right: 40%;
+        bottom: 0px;
+    }
+}

@@ -1,0 +1,199 @@
+﻿@using RCLProdutos.Shared.CardProduto;
+@using RCLProdutos.Shared.Cards;
+@using RCLProdutos.Shared.Slider;
+
+@inject NavigationManager NavigationManager
+
+@page "/slidecomp"
+
+<div class="slide-children background-solid" style="@marginLeft; width:@(width)%">
+    <div class="prod-container">
+        <div class="slide-img">
+
+            @if (produto.Imagem.Length > 0)
+            {
+                <img title="Imagem Actual: @produto.UrlImagem" heigth="100" id="imagePreview" src="data:image/*;base64,@(Convert.ToBase64String(produto.Imagem))" />
+            }
+
+        </div>
+        <div class="slide-descr">
+
+            <div class="slide-description-header">
+                <a href="" @onclick='(() => Favoritos("troca",produto!.Id))'> <img alt="Pesquisar produtos" src=@favoritoicon width="30" /></a>
+            </div>
+
+            <div class="slide-description-top">
+                <div>
+                    <p class="font-valor2"><span class="font-valor2">@string.Concat(@produto!.Nome, "  ", @produto.Preco, " €/", @produto.modoentrega.Nome)</span></p>
+                </div>
+            </div>
+
+            <div class="slide-description-botton">
+                <a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="images/infoicontransp50x50.png" width="30" /></a>
+                @if (produto.Disponivel)
+                {
+                    <a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="images/cart.png" width="30" /></a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* INFO *@
+
+@if ( abreModal1){
+    <div class="modalz">
+
+        <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay1; overflow:scroll;">
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p style="text-align:center" id="exampleModalToggleLabel" class="font-valor2">Detalhes</p>
+
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container text-center">
+
+                            <div class="row justify-content-md-around" style="height: 80px;">
+                                <div class="col-md-12 ">
+                                    @if (produto.Imagem.Length > 0)
+                                    {
+                                        <img style="height:80px" title="Imagem Actual: @produto.UrlImagem" src="data:image/*;base64,@(Convert.ToBase64String(produto.Imagem))" />
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 50px;">
+                                <div class="row-md-6 ">
+                                    <p class="font-valor1">@produto!.Nome</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 30px;">
+                                <div class="col-md-8 ">
+                                    <p class="font-valor2">@produto!.Origem</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 30px;">
+                                <div class="col-md-10 ">
+                                    <p class="font-valor3">Preço por @produto.modoentrega.Nome: @produto.Preco</p>
+
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 100px;">
+                                <div class="col-md-12 ">
+                                    <p class="font-valor2">@produto.Detalhe</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 20px;">
+                                <div class="col-md-8 ">
+                                    @if (!produto.Disponivel)
+                                    {
+                                        <p class="font-valor3" style="color:red">Lamentamos mas de momento este produto está temporariamente indisponível</p>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        @if (produto.Disponivel)
+                        {
+                            <a href="" @onclick='(() => AbreFecha("fecha","abre"))'> <img alt="Comprar" src="images/cart.png" width="30" /></a>
+                        }
+                        <a href="" @onclick='(() => AbreFecha("fecha",""))'> <img alt="Sair" src="images/exit.png" width="30" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@* COMPRAR *@
+
+@if ( abreModal2)
+{
+    <div class="modalz">
+        <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay2; overflow-y: auto;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-valor2">Comprar</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="container text-center">
+
+                            <div class="row justify-content-md-around" style="height: 80px;">
+                                <div class="col-md-6 ">
+                                    @if (produto.Imagem.Length > 0)
+                                    {
+                                        <img style="height:80px" title="Imagem Actual: @produto.UrlImagem" src="data:image/*;base64,@(Convert.ToBase64String(produto.Imagem))" />
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 50px;">
+                                <div class="row-md-6 ">
+                                    <p class="font-valor1">@produto!.Nome</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 40px;">
+                                <div class="col-md-8 ">
+                                    <p class="font-valor2">@produto!.Origem</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 50px;">
+
+                                <div class="col-md-8 ">
+                                    <p class="font-valor3">Preço por @produto.modoentrega.Nome: @produto.Preco</p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 80px;">
+                                <div class="col-md-10 ">
+                                    <a href="" @onclick='(() => Incrementa("desincrementa",""))'> <img alt="Desincrementar" src="images/minus.png" width="30" /></a>
+                                    &nbsp;@quantidade&nbsp;
+                                    <a href="" @onclick='(() => Incrementa("incrementa",""))'> <img alt="Incrementar" src="images/plus.png" width="30" /></a>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-md-around" style="height: 80px;">
+                                <div class="row-md ">
+
+                                    @if (quantidade > 0)
+                                    {
+                                        <p>@limiteQtd</p>
+                                        <p>Total: @quantidade @produto.modoentrega.Nome x @produto.Preco €/@produto.modoentrega.Nome =  @total €</p>
+                                    
+
+                                         <BtnCategorias qtdTotal={@quantidade}/>
+                              
+                                    
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" @onclick='(() => AbreFecha("grava","fecha"))'> <img alt="Gravar" src="images/iconsave.ico" width="30" /></a>
+                        <a href="" @onclick='(() => AbreFecha("","fecha"))'> <img alt="Sair" src="images/exit.png" width="30" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

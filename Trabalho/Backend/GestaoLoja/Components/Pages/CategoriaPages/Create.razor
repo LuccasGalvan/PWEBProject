@@ -1,0 +1,99 @@
+﻿@page "/categoria/create"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Criar Categoria</PageTitle>
+
+<h1>Criar Categoria</h1>
+
+<EditForm method="post"
+          Model="@Categoria"
+          OnValidSubmit="@CreateCategoria"
+          FormName="createCategoria"
+          Enhance>
+    <DataAnnotationsValidator />
+    <ValidationSummary class="text-danger" />
+
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <InputText class="form-control" @bind-Value="Categoria.Nome" />
+        <ValidationMessage For="() => Categoria.Nome" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Ordem</label>
+        <InputNumber class="form-control" @bind-Value="Categoria.Ordem" />
+        <ValidationMessage For="() => Categoria.Ordem" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">URL da imagem (opcional)</label>
+        <InputText class="form-control" @bind-Value="Categoria.UrlImagem" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Upload de imagem (opcional)</label>
+        <InputFile OnChange="@OnFileSelected" accept=".png,.jpg,.jpeg" />
+        @if (!string.IsNullOrWhiteSpace(fileError))
+        {
+            <div class="text-danger mt-1">@fileError</div>
+        }
+    </div>
+
+    @if (previewSrc is not null)
+    {
+        <div class="mb-3">
+            <img class="img-thumbnail" src="@previewSrc"
+                 style="width:120px; height:120px; object-fit:cover;" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary ms-2" href="/categoria">Cancelar</a>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    private Categoria Categoria { get; set; } = new();
+
+    private string? previewSrc;
+    private string? fileError;
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        fileError = null;
+
+        var file = e.File;
+        const long maxBytes = 512 * 1024; // 512KB
+
+        if (file.Size > maxBytes)
+        {
+            fileError = $"Imagem demasiado grande (máx {maxBytes / 1024}KB).";
+            return;
+        }
+
+        await using var ms = new MemoryStream();
+        await file.OpenReadStream(maxBytes).CopyToAsync(ms);
+
+        Categoria.Imagem = ms.ToArray();
+        previewSrc = $"data:{file.ContentType};base64,{Convert.ToBase64String(Categoria.Imagem)}";
+    }
+
+    private async Task CreateCategoria()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        db.Categorias.Add(Categoria);
+        await db.SaveChangesAsync();
+
+        NavigationManager.NavigateTo("/categoria");
+    }
+}

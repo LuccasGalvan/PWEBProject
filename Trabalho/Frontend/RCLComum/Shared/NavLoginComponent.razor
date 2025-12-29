@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+
+@inject NavigationManager NavigationManager
+
+        <div class="top-row px-4">
+
+    <a href="modallog" class="btn-favoritos" t>
+                        <img src="img/register.png" alt="Logar" />
+                        <p style="color:Red">Login</p>
+                    </a>
+
+        </div>
+
+@code {
+    private string? currentUrl;
+
+
+
+    protected override void OnInitialized()
+
+    {
+
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+    }
+
+
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+
+    {
+
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+
+        StateHasChanged();
+
+    }
+
+
+
+    public void Dispose()
+
+    {
+
+        NavigationManager.LocationChanged -= OnLocationChanged;
+
+    }
+}

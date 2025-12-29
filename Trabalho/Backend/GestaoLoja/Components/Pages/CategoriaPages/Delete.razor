@@ -1,0 +1,85 @@
+﻿@page "/categoria/delete"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Apagar</PageTitle>
+
+<h1>Apagar Categoria</h1>
+
+@if (categoria is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p class="text-danger">Tens a certeza que queres apagar esta categoria?</p>
+
+    <dl class="row">
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@categoria.Nome</dd>
+
+        <dt class="col-sm-2">Ordem</dt>
+        <dd class="col-sm-10">@categoria.Ordem</dd>
+    </dl>
+
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+
+    <EditForm Model="categoria" OnValidSubmit="DeleteCategoria" FormName="delete" Enhance>
+        <button type="submit" class="btn btn-danger">Apagar</button>
+        <a class="btn btn-secondary ms-2" href="/categoria">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromQuery] public int Id { get; set; }
+
+    private Categoria? categoria;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+        categoria = await db.Categorias.AsNoTracking().FirstOrDefaultAsync(c => c.Id == Id);
+
+        if (categoria is null)
+            NavigationManager.NavigateTo("notfound");
+    }
+
+    private async Task DeleteCategoria()
+    {
+        error = null;
+
+        try
+        {
+            await using var db = await DbFactory.CreateDbContextAsync();
+
+            var entity = await db.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
+            if (entity is null)
+            {
+                NavigationManager.NavigateTo("notfound");
+                return;
+            }
+
+            db.Categorias.Remove(entity);
+            await db.SaveChangesAsync();
+
+            NavigationManager.NavigateTo("/categoria");
+        }
+        catch (DbUpdateException)
+        {
+            // Most common: Produtos still reference this Categoria
+            error = "Não foi possível apagar. Existem produtos associados a esta categoria.";
+        }
+    }
+}

@@ -1,0 +1,9 @@
+C:\Users\Luccas\Downloads\LucasMonteiro_2022153271_AfonsoSilva_2021133861\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Downloads\LucasMonteiro_2022153271_AfonsoSilva_2021133861\Trabalho\Frontend\RCLProdutos\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Downloads\LucasMonteiro_2022153271_AfonsoSilva_2021133861\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLProdutos\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLProdutos\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\staticwebassets.build.json

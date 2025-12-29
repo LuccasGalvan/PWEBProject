@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "GestaoLoja\\GestaoLoja.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\RESTFULLAPI\\RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,363 @@
+﻿@page "/Account/GereUser"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Admin")]
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity.Enums
+
+@inject IDbContextFactory<ApplicationDbContext> DbContextFactory
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h3>Gerir Utilizadores</h3>
+
+@if (users is null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Estado</th>
+                <th style="width:300px">Cliente/Fornecedor</th>
+                <th style="width:220px">Gestor</th>
+                <th style="width:260px">Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in users)
+            {
+                var roles = userRoles.TryGetValue(user.Id, out var rr) ? rr : new List<string>();
+
+                var isAdmin = roles.Contains("Admin");
+                var isGestor = roles.Contains("Gestor");
+                var isAdminOrGestor = isAdmin || isGestor;
+
+                var isClienteOuFornecedor = roles.Contains("Cliente") || roles.Contains("Fornecedor");
+                var isSelf = user.Id == currentUserId;
+
+                <tr>
+                    <td>@user.Nome @user.Apelido</td>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", roles)</td>
+                    <td>@user.Estado</td>
+
+                    @* Admin can change Cliente/Fornecedor role (but not for staff/admin, and not for self) *@
+                    <td>
+                        @if (isCurrentAdmin && !isSelf && !isAdminOrGestor)
+                        {
+                            <select class="form-select form-select-sm"
+                                    style="min-width: 180px;"
+                                    @bind="selectedRole[user.Id]">
+                                <option value="Cliente">Cliente</option>
+                                <option value="Fornecedor">Fornecedor</option>
+                            </select>
+
+                            <button class="btn btn-sm btn-success mt-1"
+                                    disabled="@(isBusy)"
+                                    @onclick="() => UpdateUserClientSupplierRoleAsync(user.Id)">
+                                Guardar
+                            </button>
+                        }
+                        else
+                        {
+                            <span class="text-muted">—</span>
+                        }
+                    </td>
+
+                    @* Admin can promote/demote Gestor (but never self; and never demote Admin) *@
+                    <td>
+                        @if (isCurrentAdmin && !isSelf)
+                        {
+                            if (!isAdmin)
+                            {
+                                <button class="btn btn-sm @(isGestor ? "btn-outline-danger" : "btn-outline-primary")"
+                                        disabled="@(isBusy)"
+                                        @onclick="() => ToggleGestorAsync(user.Id)">
+                                    @(isGestor ? "Remover Gestor" : "Promover a Gestor")
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Admin</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">—</span>
+                        }
+                    </td>
+
+                    <td>
+                        @* Only toggle Cliente/Fornecedor estado, and never allow editing yourself *@
+                        @if (isClienteOuFornecedor)
+                        {
+                            <button class="btn btn-sm btn-outline-primary me-2"
+                                    disabled="@(isSelf || isBusy)"
+                                    @onclick="() => ToggleEstadoAsync(user.Id)">
+                                @(user.Estado == UserEstado.Activo ? "Inativar" : "Ativar")
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-sm btn-outline-secondary me-2" disabled>
+                                Sem ação
+                            </button>
+                        }
+
+                        @if (isSelf)
+                        {
+                            <span class="badge text-bg-warning">Tu</span>
+                        }
+                        else if (isAdminOrGestor)
+                        {
+                            <span class="badge text-bg-info">Gestão</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-danger mt-3">@error</div>
+    }
+}
+
+@code {
+    private List<ApplicationUser>? users;
+    private readonly Dictionary<string, List<string>> userRoles = new();
+    private readonly Dictionary<string, string> selectedRole = new();
+
+    private string? currentUserId;
+    private bool isCurrentAdmin;
+
+    private bool isBusy;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        currentUserId = UserManager.GetUserId(authState.User);
+        isCurrentAdmin = authState.User.IsInRole("Admin");
+
+        await EnsureRolesExistAsync();
+        await LoadUsersAsync();
+    }
+
+    private async Task EnsureRolesExistAsync()
+    {
+        var needed = new[] { "Admin", "Gestor", "Cliente", "Fornecedor" };
+        foreach (var r in needed)
+        {
+            if (!await RoleManager.RoleExistsAsync(r))
+                await RoleManager.CreateAsync(new IdentityRole(r));
+        }
+    }
+
+    private async Task LoadUsersAsync()
+    {
+        error = null;
+
+        await using var db = await DbContextFactory.CreateDbContextAsync();
+        users = await db.Users.AsNoTracking().ToListAsync();
+
+        userRoles.Clear();
+        selectedRole.Clear();
+
+        foreach (var u in users)
+        {
+            // IMPORTANT: fetch roles via UserManager, but don't pass tracked user instances into mutations later.
+            var roles = await UserManager.GetRolesAsync(u);
+            userRoles[u.Id] = roles.ToList();
+
+            var firstRole = roles.FirstOrDefault(r => r is "Cliente" or "Fornecedor") ?? "Cliente";
+            selectedRole[u.Id] = firstRole;
+        }
+
+        users = users
+            .OrderByDescending(u => userRoles[u.Id].Contains("Admin") || userRoles[u.Id].Contains("Gestor"))
+            .ThenBy(u => u.Nome)
+            .ThenBy(u => u.Apelido)
+            .ToList();
+    }
+
+    private async Task ToggleEstadoAsync(string userId)
+    {
+        error = null;
+
+        if (userId == currentUserId)
+            return;
+
+        var roles = userRoles.TryGetValue(userId, out var rr) ? rr : new List<string>();
+        var isClienteOuFornecedor = roles.Contains("Cliente") || roles.Contains("Fornecedor");
+        if (!isClienteOuFornecedor)
+            return;
+
+        try
+        {
+            isBusy = true;
+
+            var u = await UserManager.FindByIdAsync(userId);
+            if (u is null)
+            {
+                error = "User not found.";
+                return;
+            }
+
+            u.Estado = u.Estado == UserEstado.Activo
+                ? UserEstado.Pendente
+                : UserEstado.Activo;
+
+            var result = await UserManager.UpdateAsync(u);
+            if (!result.Succeeded)
+            {
+                error = string.Join(" | ", result.Errors.Select(e => e.Description));
+                return;
+            }
+
+            await LoadUsersAsync();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+
+    private async Task UpdateUserClientSupplierRoleAsync(string userId)
+    {
+        error = null;
+
+        if (!isCurrentAdmin)
+            return;
+
+        if (userId == currentUserId)
+            return;
+
+        if (!selectedRole.TryGetValue(userId, out var newRole))
+            return;
+
+        if (newRole is not ("Cliente" or "Fornecedor"))
+            return;
+
+        try
+        {
+            isBusy = true;
+
+            var u = await UserManager.FindByIdAsync(userId);
+            if (u is null)
+            {
+                error = "User not found.";
+                return;
+            }
+
+            var currentRoles = (await UserManager.GetRolesAsync(u)).ToList();
+
+            if (currentRoles.Contains("Admin") || currentRoles.Contains("Gestor"))
+                return;
+
+            var remove = currentRoles.Where(r => r is "Cliente" or "Fornecedor").ToArray();
+            if (remove.Length > 0)
+            {
+                var remRes = await UserManager.RemoveFromRolesAsync(u, remove);
+                if (!remRes.Succeeded)
+                {
+                    error = string.Join(" | ", remRes.Errors.Select(e => e.Description));
+                    return;
+                }
+            }
+
+            var addRes = await UserManager.AddToRoleAsync(u, newRole);
+            if (!addRes.Succeeded)
+            {
+                error = string.Join(" | ", addRes.Errors.Select(e => e.Description));
+                return;
+            }
+
+            u.Estado = UserEstado.Pendente;
+            var updRes = await UserManager.UpdateAsync(u);
+            if (!updRes.Succeeded)
+            {
+                error = string.Join(" | ", updRes.Errors.Select(e => e.Description));
+                return;
+            }
+
+            await LoadUsersAsync();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+
+    private async Task ToggleGestorAsync(string userId)
+    {
+        error = null;
+
+        if (!isCurrentAdmin)
+            return;
+
+        if (userId == currentUserId)
+            return;
+
+        try
+        {
+            isBusy = true;
+
+            var u = await UserManager.FindByIdAsync(userId);
+            if (u is null)
+            {
+                error = "User not found.";
+                return;
+            }
+
+            var roles = (await UserManager.GetRolesAsync(u)).ToList();
+            if (roles.Contains("Admin"))
+                return;
+
+            IdentityResult res = roles.Contains("Gestor")
+                ? await UserManager.RemoveFromRoleAsync(u, "Gestor")
+                : await UserManager.AddToRoleAsync(u, "Gestor");
+
+            if (!res.Succeeded)
+            {
+                error = string.Join(" | ", res.Errors.Select(e => e.Description));
+                return;
+            }
+
+            await LoadUsersAsync();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+}

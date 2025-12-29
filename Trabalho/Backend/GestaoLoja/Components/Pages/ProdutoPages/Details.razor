@@ -1,0 +1,126 @@
+﻿@page "/produtos/details"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Entity
+@inject IDbContextFactory<GestaoLoja.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Detalhes</h1>
+
+<div>
+    <h2>Produto</h2>
+    <hr />
+    @if (produto is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class="col-sm-2">Nome</dt>
+            <dd class="col-sm-10">@produto.Nome</dd>
+
+            <dt class="col-sm-2">Detalhe</dt>
+            <dd class="col-sm-10">@produto.Detalhe</dd>
+
+            <dt class="col-sm-2">Imagem</dt>
+            <dd class="col-sm-10">
+                @{
+                    string? src = null;
+
+                    if (produto.Imagem is { Length: > 0 })
+                        src = $"data:image/png;base64,{Convert.ToBase64String(produto.Imagem)}";
+                }
+
+                @if (src is null)
+                {
+                    <span>—</span>
+                }
+                else
+                {
+                    <img src="@src" style="max-width:200px; max-height:200px;" />
+                }
+            </dd>
+
+            <dt class="col-sm-2">Preço Base</dt>
+            <dd class="col-sm-10">@produto.PrecoBase</dd>
+
+            <dt class="col-sm-2">Margem (%)</dt>
+            <dd class="col-sm-10">@produto.MargemPercentual</dd>
+
+            <dt class="col-sm-2">Preço Final</dt>
+            <dd class="col-sm-10">@produto.PrecoFinal</dd>
+
+            <dt class="col-sm-2">Estado</dt>
+            <dd class="col-sm-10">@produto.Estado</dd>
+
+            <dt class="col-sm-2">Fornecedor</dt>
+            <dd class="col-sm-10">@fornecedorDisplay</dd>
+
+            <dt class="col-sm-2">Promoção</dt>
+            <dd class="col-sm-10">@produto.Promocao</dd>
+
+            <dt class="col-sm-2">Mais Vendido</dt>
+            <dd class="col-sm-10">@produto.MaisVendido</dd>
+
+            <dt class="col-sm-2">Stock</dt>
+            <dd class="col-sm-10">@produto.EmStock</dd>
+
+            <dt class="col-sm-2">Para Venda</dt>
+            <dd class="col-sm-10">@produto.ParaVenda</dd>
+
+            <dt class="col-sm-2">Origem</dt>
+            <dd class="col-sm-10">@produto.Origem</dd>
+
+            <dt class="col-sm-2">Categoria</dt>
+            <dd class="col-sm-10">@categoriaDisplay</dd>
+
+            <dt class="col-sm-2">Modo Entrega</dt>
+            <dd class="col-sm-10">@modoEntregaDisplay</dd>
+        </dl>
+
+        <div>
+            <a href="@($"/produtos/edit?id={produto.Id}")">Edit</a> |
+            <a href="/produtos">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Produto? produto;
+
+    private string fornecedorDisplay = "—";
+    private string categoriaDisplay = "—";
+    private string modoEntregaDisplay = "—";
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+
+        produto = await context.Produtos
+            .AsNoTracking()
+            .Include(p => p.categoria)
+            .Include(p => p.modoentrega)
+            .FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (produto is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        categoriaDisplay = produto.categoria?.Nome ?? $"#{produto.CategoriaId}";
+        modoEntregaDisplay = produto.modoentrega?.Nome ?? (produto.ModoEntregaId is null ? "—" : $"#{produto.ModoEntregaId}");
+
+        // If you have navigation property Fornecedor, use it. If not, keep fallback.
+        // fornecedorDisplay = produto.Fornecedor?.Email ?? produto.FornecedorId;
+        fornecedorDisplay = produto.FornecedorId;
+    }
+}

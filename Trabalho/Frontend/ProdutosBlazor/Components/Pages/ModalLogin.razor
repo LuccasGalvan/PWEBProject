@@ -1,0 +1,64 @@
+﻿@page "/modalogin" 
+
+ @using Microsoft.AspNetCore.Authorization 
+ @using Microsoft.EntityFrameworkCore 
+ @using RCLAPI.DTO 
+ @using RCLAPI.Services 
+
+ @inject NavigationManager NavigationManager 
+ <!-- The Modal --> 
+ <div id="myModal" class="modal" style="display:@estado"> 
+     <!-- Modal content --> 
+     <div class="modal-content"> 
+         <h1>Login de Utilizador</h1> 
+         <span class="close" @onclick="Modal">&times;</span> 
+
+         <EditForm method="post" Model="LoginModel" OnValidSubmit="LoginUser"  
+             FormName="create" Enhance> 
+             <DataAnnotationsValidator /> 
+             <ValidationSummary class="text-danger" /> 
+               
+             <label for="mail" class="form-label">EMail:</label> 
+             <InputText id="mail" @bind-Value="LoginModel.EMail" class="form-control" /> 
+             <ValidationMessage For="() => LoginModel.EMail" class="text-danger" /> 
+
+             <label for="password" class="form-label">Password:</label>  
+             <InputText id="password" type=password @bind-Value="LoginModel.Password"  
+             class="form-control" /> 
+             <ValidationMessage For="() => LoginModel.Password" class="text-danger" /> 
+
+             <button type="submit" class="btn btn-primary"><img title="Login"  
+                 src="/images/login.png" style="height:30px" /></button> 
+             <a href="/" type="button" class="btn btn-outline-secondary"> 
+                 <img title="Recuar" src="/images/backicon.png" style="height:30px" /></a> 
+         </EditForm> 
+     </div> 
+ </div> 
+ @code { 
+     [SupplyParameterFromForm] 
+     public LoginModel LoginModel { get; set; } = new(); 
+     [Inject] 
+     public IApiServices? _apiServices { get; set; } 
+     private string estado = "block"; 
+     private void Modal() 
+     { 
+         if (estado == "block") 
+             estado = "none"; 
+         else estado = "block"; 
+                
+         NavigationManager.NavigateTo("/"); 
+     } 
+     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD 
+     public async Task LoginUser() 
+     { 
+         try 
+         { 
+             var result = await _apiServices.Login(LoginModel); 
+         } 
+         catch (DbUpdateConcurrencyException) 
+         { 
+             return; 
+         } 
+         NavigationManager.NavigateTo("/", true); 
+     } 
+ }

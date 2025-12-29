@@ -1,0 +1,152 @@
+﻿@page "/habituais"
+@using RCLAPI.Services
+@using RCLAPI.DTO
+@inject IJSRuntime JSRuntime
+@inject IApiServices _apiServices
+
+<h3>Página dos Habituais na Web</h3>
+
+@if (favoritos == null)
+{
+    <p>Carregando favoritos...</p>
+}
+else if (!favoritos.Any())
+{
+    <p>Nenhum produto favorito encontrado.</p>
+}
+else
+{
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var favorito in favoritos)
+            {
+                <tr>
+                    <td>
+                        @if (favorito.produto.Imagem != null)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(favorito.produto.Imagem)" alt="@favorito.produto.Nome" width="100" height="100" />
+                        }
+                    </td>
+                    <td>@favorito.produto.Nome</td>
+                    <td>@favorito.produto.Preco.ToString("C")</td>
+                    <td>
+                        <input type="number" min="1" @bind="quantidade_item" style="width: 50px; border-radius: 10px;" />
+                    </td>
+                    <td>
+                        <button @onclick="() => RemoverFavorito(favorito.produto.Id)" style="border: 5px solid red; background-color: red; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            Remover dos Favoritos
+                        </button>
+                        <button @onclick="() => AdicionarAoCarrinho(favorito.produto.Id, quantidade_item)" style="border: 5px solid green; background-color: green; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            Adicionar ao Carrinho
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ProdutoFavorito>? favoritos;
+    private int quantidade_item = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Obter o ID do utilizador do Local Storage
+            var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Obter os favoritos do utilizador
+                favoritos = await _apiServices.GetFavoritos(userId);
+
+                if (favoritos == null || !favoritos.Any())
+                {
+                    favoritos = new List<ProdutoFavorito>(); // Inicializar uma lista vazia se não houver favoritos
+                }
+            }
+            else
+            {
+                Console.WriteLine("ID do utilizador não encontrado no Local Storage.");
+                favoritos = new List<ProdutoFavorito>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar favoritos: {ex.Message}");
+            favoritos = new List<ProdutoFavorito>();
+        }
+    }
+
+    private async Task AdicionarAoCarrinho(int produtoId, int quantidade)
+    {
+        try
+        {
+            // Verificar se a quantidade é válida
+            if (quantidade > 0)
+            {
+                var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+                if (userId == null)
+                {
+                    Console.WriteLine("utilizador não está autenticado ainda");
+                }
+                else
+                {
+                    // Atualizar o carrinho
+                    var response = await _apiServices.AtualizarCarrinho(userId, produtoId, "adicionar", quantidade);
+
+                    if (response.Success)
+                    {
+                        Console.WriteLine("Item adicionado ao carrinho com sucesso!");
+                        quantidade_item = 1;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Erro ao adicionar item ao carrinho: {response.Message}");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Quantidade inválida para adicionar ao carrinho.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro inesperado ao adicionar item ao carrinho: {ex.Message}");
+        }
+    }
+
+    private async Task RemoverFavorito(int produtoId)
+    {
+        try
+        {
+            var (sucesso, mensagemErro) = await _apiServices.ActualizaFavorito("heartsimples", produtoId);
+
+            if (sucesso)
+            {
+                favoritos = favoritos?.Where(f => f.produto.Id != produtoId).ToList();
+            }
+            else
+            {
+                Console.WriteLine($"Erro ao remover favorito: {mensagemErro}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro inesperado ao remover favorito: {ex.Message}");
+        }
+    }
+}

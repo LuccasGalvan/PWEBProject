@@ -1,0 +1,91 @@
+﻿@page "/categoria"
+
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.AspNetCore.Authorization
+@using GestaoLoja.Entity
+@using GestaoLoja.Data
+
+@implements IAsyncDisposable
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+<PageTitle>Categorias</PageTitle>
+
+<h1>Lista de Categorias</h1>
+
+<AuthorizeView Roles="Admin,Gestor">
+    <Authorized>
+        <p>
+            <a title="Nova categoria" href="/categoria/create">
+                <img src="/img/novo.png" style="height:50px" />
+            </a>
+        </p>
+    </Authorized>
+</AuthorizeView>
+
+<QuickGrid Class="table" Items="context.Categorias.OrderBy(c => c.Ordem ?? int.MaxValue).ThenBy(c => c.Nome)">
+    <TemplateColumn Context="categoria" Title="Imagem">
+        @if (categoria.Imagem is not null && categoria.Imagem.Length > 0)
+        {
+            var mime = GuessMime(categoria.Imagem);
+            <img src="@($"data:{mime};base64,{Convert.ToBase64String(categoria.Imagem)}")"
+                 alt="@categoria.Nome"
+                 class="img-thumbnail mt-2"
+                 style="width:100px; height:100px; object-fit:cover;" />
+        }
+        else
+        {
+            <img src="/img/noproductstrans.png"
+                 alt="No Image"
+                 class="img-thumbnail mt-2"
+                 style="width:100px; height:100px; object-fit:cover;" />
+        }
+    </TemplateColumn>
+
+    <PropertyColumn Property="categoria => categoria.Nome" Title="Nome" />
+    <PropertyColumn Property="categoria => categoria.Ordem" Title="Ordem" />
+
+    <TemplateColumn Context="categoria" Title="Opções">
+        <a title="Detalhes" href="@($"/categoria/details?id={categoria.Id}")">
+            <img src="/img/detailsicon.png" style="height:30px" />
+        </a>
+
+        <AuthorizeView Roles="Admin,Gestor">
+            <Authorized>
+                |
+                <a title="Editar" href="@($"/categoria/edit?id={categoria.Id}")">
+                    <img src="/img/editicon.png" style="height:30px" />
+                </a>
+                |
+                <a title="Apagar" href="@($"/categoria/delete?id={categoria.Id}")">
+                    <img src="/img/deleteicon.png" style="height:30px" />
+                </a>
+            </Authorized>
+        </AuthorizeView>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ApplicationDbContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+
+    private static string GuessMime(byte[] bytes)
+    {
+        // JPEG: FF D8
+        if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xD8)
+            return "image/jpeg";
+
+        // PNG: 89 50 4E 47
+        if (bytes.Length >= 4 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47)
+            return "image/png";
+
+        // fallback
+        return "application/octet-stream";
+    }
+}

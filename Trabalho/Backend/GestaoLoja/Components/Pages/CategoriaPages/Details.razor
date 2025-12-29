@@ -1,0 +1,68 @@
+﻿@page "/categoria/details"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Detalhes</PageTitle>
+
+<h1>Detalhes da Categoria</h1>
+
+@if (categoria is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <dl class="row">
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@categoria.Nome</dd>
+
+        <dt class="col-sm-2">Ordem</dt>
+        <dd class="col-sm-10">@categoria.Ordem</dd>
+
+        <dt class="col-sm-2">Imagem</dt>
+        <dd class="col-sm-10">
+            @{
+                string? src = null;
+
+                if (categoria.Imagem is { Length: > 0 })
+                    src = "data:image/*;base64," + Convert.ToBase64String(categoria.Imagem);
+                else if (!string.IsNullOrWhiteSpace(categoria.UrlImagem))
+                    src = categoria.UrlImagem;
+            }
+
+            @if (src is null)
+            {
+                <span>—</span>
+            }
+            else
+            {
+                <img class="img-thumbnail" src="@src" style="width:140px; height:140px; object-fit:cover;" />
+            }
+        </dd>
+    </dl>
+
+    <a class="btn btn-primary" href="@($"/categoria/edit?id={categoria.Id}")">Editar</a>
+    <a class="btn btn-secondary ms-2" href="/categoria">Voltar</a>
+}
+
+@code {
+    [SupplyParameterFromQuery] public int Id { get; set; }
+
+    private Categoria? categoria;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+        categoria = await db.Categorias.AsNoTracking().FirstOrDefaultAsync(c => c.Id == Id);
+
+        if (categoria is null)
+            NavigationManager.NavigateTo("notfound");
+    }
+}

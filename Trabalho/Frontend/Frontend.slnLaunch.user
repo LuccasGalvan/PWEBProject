@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "RCLComum\\RCLComum.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "RCLProdutos\\RCLProdutos.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "RclAPI\\RCLAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ProdutosBlazor\\ProdutosBlazor.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ProdutosMAUI\\ProdutosMAUI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

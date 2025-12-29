@@ -1,0 +1,177 @@
+﻿@page "/categoria/edit"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using System.IO
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar Categoria</PageTitle>
+
+<h1>Editar Categoria</h1>
+
+@if (notFound)
+{
+    <p><em>Not found.</em></p>
+}
+else if (!loaded)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm method="post"
+              Model="@Categoria"
+              OnValidSubmit="@UpdateCategoria"
+              FormName="editCategoria"
+              Enhance>
+
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+
+        @* ensures the form POST carries the Id too *@
+        <@InputHidden @bind-Value="Categoria.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <InputText class="form-control" @bind-Value="Categoria.Nome" />
+            <ValidationMessage For="() => Categoria.Nome" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ordem</label>
+            <InputNumber class="form-control" @bind-Value="Categoria.Ordem" />
+            <ValidationMessage For="() => Categoria.Ordem" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">URL da imagem (opcional)</label>
+            <InputText class="form-control" @bind-Value="Categoria.UrlImagem" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Alterar imagem (opcional)</label>
+            <InputFile OnChange="@OnFileSelected" accept=".png,.jpg,.jpeg" />
+            @if (!string.IsNullOrWhiteSpace(fileError))
+            {
+                <div class="text-danger mt-1">@fileError</div>
+            }
+        </div>
+
+        @if (previewSrc is not null)
+        {
+            <div class="mb-3">
+                <img class="img-thumbnail"
+                     src="@previewSrc"
+                     style="width:120px; height:120px; object-fit:cover;" />
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary ms-2" href="/categoria">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromQuery] public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Categoria Categoria { get; set; } = new();
+
+    private bool loaded;
+    private bool notFound;
+
+    private string? previewSrc;
+    private string? fileError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var existing = await db.Categorias.AsNoTracking().FirstOrDefaultAsync(c => c.Id == Id);
+        if (existing is null)
+        {
+            notFound = true;
+            loaded = true;
+            return;
+        }
+
+        // On GET, Categoria will be empty -> copy DB values into it
+        // On POST, SupplyParameterFromForm will populate Categoria, so we don't overwrite it.
+        if (Categoria.Id == 0 && string.IsNullOrWhiteSpace(Categoria.Nome))
+        {
+            Categoria = existing;
+        }
+
+        previewSrc = GetPreview(existing, Categoria);
+        loaded = true;
+    }
+
+    private static string? GetPreview(Categoria dbValue, Categoria formValue)
+    {
+        // Prefer current form image if user selected a new one
+        if (formValue.Imagem is { Length: > 0 })
+            return "data:image/*;base64," + Convert.ToBase64String(formValue.Imagem);
+
+        // Else show DB stored image
+        if (dbValue.Imagem is { Length: > 0 })
+            return "data:image/*;base64," + Convert.ToBase64String(dbValue.Imagem);
+
+        // Else fallback to URL (form first, then db)
+        if (!string.IsNullOrWhiteSpace(formValue.UrlImagem))
+            return formValue.UrlImagem;
+
+        if (!string.IsNullOrWhiteSpace(dbValue.UrlImagem))
+            return dbValue.UrlImagem;
+
+        return null;
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        fileError = null;
+
+        var file = e.File;
+        const long maxBytes = 512 * 1024;
+
+        if (file.Size > maxBytes)
+        {
+            fileError = $"Imagem demasiado grande (máx {maxBytes / 1024}KB).";
+            return;
+        }
+
+        await using var ms = new MemoryStream();
+        await file.OpenReadStream(maxBytes).CopyToAsync(ms);
+
+        Categoria.Imagem = ms.ToArray();
+        previewSrc = $"data:{file.ContentType};base64,{Convert.ToBase64String(Categoria.Imagem)}";
+    }
+
+    private async Task UpdateCategoria()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var entity = await db.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
+        if (entity is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        entity.Nome = Categoria.Nome;
+        entity.Ordem = Categoria.Ordem;
+        entity.UrlImagem = Categoria.UrlImagem;
+
+        // Only replace stored image if user uploaded a new one
+        if (Categoria.Imagem is { Length: > 0 })
+            entity.Imagem = Categoria.Imagem;
+
+        await db.SaveChangesAsync();
+        NavigationManager.NavigateTo("/categoria");
+    }
+}

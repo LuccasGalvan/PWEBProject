@@ -1,0 +1,83 @@
+﻿@page "/compras"
+@using RCLAPI.Services
+@using RCLAPI.DTO
+@inject IJSRuntime JSRuntime
+@inject IApiServices _apiServices
+
+<h3>Minhas Compras</h3>
+
+@if (vendas == null)
+{
+    <p>Carregando suas compras...</p>
+}
+else if (!vendas.Any())
+{
+    <p>Você ainda não fez nenhuma compra.</p>
+}
+else
+{
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço Total</th>
+                <th>Data da Compra</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var venda in vendas)
+            {
+                <tr>
+                    <td>
+                        <img src="data:image/png;base64,@Convert.ToBase64String(venda.Produto.Imagem)" alt="@venda.Produto.Nome" width="100" height="100" />
+                    </td>
+                    <td>@venda.Produto.Nome</td>
+                    <td>@venda.Quantidade</td>
+                    <td>@venda.Preco.ToString("C")</td>
+                    <td>@venda.DataAdicionado.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    <td>
+                        @if (venda.Confirmada)
+                        {
+                            <span>Confirmada</span>
+                        }
+                        else
+                        {
+                            <span style="color: red;">Pendente</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Vendas>? vendas;
+
+    // O CarregarCompras agora será chamado dentro do OnAfterRenderAsync
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CarregarCompras();
+        }
+    }
+
+    private async Task CarregarCompras()
+    {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            Console.WriteLine("utilizador não encontrado no Local Storage.");
+            vendas = new List<Vendas>();
+            return;
+        }
+
+        vendas = await _apiServices.ObterVendas(userId);
+        StateHasChanged(); // Força a re-renderização após as compras serem carregadas
+    }
+}

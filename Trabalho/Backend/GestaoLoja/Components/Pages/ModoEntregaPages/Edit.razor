@@ -1,0 +1,139 @@
+﻿@page "/modoentregas/edit"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar Modo de Entrega</PageTitle>
+
+<h1>Editar Modo de Disponibilização</h1>
+
+@if (notFound)
+{
+    <p><em>Not found.</em></p>
+}
+else if (!loaded)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm method="post"
+              EditContext="@_editContext"
+              OnSubmit="HandleSubmit"
+              FormName="editModoEntrega"
+              Enhance>
+
+
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+
+        @* Carry Id in the POST (scalar bind uses this) *@
+        <@InputHidden @bind-Value="_model.Id" name="Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <InputText class="form-control" @bind-Value="_model.Nome" name="Nome" />
+            <ValidationMessage For="@(() => _model.Nome)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Detalhe</label>
+            <InputTextArea class="form-control" @bind-Value="_model.Detalhe" name="Detalhe" />
+            <ValidationMessage For="@(() => _model.Detalhe)" class="text-danger" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" disabled="@_saving">Guardar</button>
+        <a class="btn btn-secondary ms-2" href="/modoentregas">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromQuery] public int Id { get; set; }
+
+    // Scalars bound from the form POST (reliable)
+    [SupplyParameterFromForm(FormName = "editModoEntrega")] public int? PostedId { get; set; }
+    [SupplyParameterFromForm(FormName = "editModoEntrega")] public string? Nome { get; set; }
+    [SupplyParameterFromForm(FormName = "editModoEntrega")] public string? Detalhe { get; set; }
+
+    private readonly ModoEntrega _model = new();
+    private EditContext _editContext = default!;
+
+    private bool loaded;
+    private bool notFound;
+    private bool _saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _editContext = new EditContext(_model);
+
+        await using var db = await DbFactory.CreateDbContextAsync();
+        var existing = await db.ModosEntrega.AsNoTracking().FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (existing is null)
+        {
+            notFound = true;
+            loaded = true;
+            return;
+        }
+
+        // Fill the model for the initial GET
+        _model.Id = existing.Id;
+        _model.Nome = existing.Nome;
+        _model.Detalhe = existing.Detalhe;
+
+        loaded = true;
+    }
+
+    protected override void OnParametersSet()
+    {
+        // On POST, apply posted scalar values into the model
+        if (PostedId is not null && PostedId.Value > 0)
+            _model.Id = PostedId.Value;
+
+        if (Nome is not null)
+            _model.Nome = Nome;
+
+        if (Detalhe is not null)
+            _model.Detalhe = Detalhe;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (_saving) return;
+        _saving = true;
+
+        try
+        {
+            if (!_editContext.Validate())
+                return;
+
+            var idToUpdate = _model.Id != 0 ? _model.Id : Id;
+
+            await using var db = await DbFactory.CreateDbContextAsync();
+            var entity = await db.ModosEntrega.FirstOrDefaultAsync(m => m.Id == idToUpdate);
+
+            if (entity is null)
+            {
+                NavigationManager.NavigateTo("notfound");
+                return;
+            }
+
+            entity.Nome = _model.Nome;
+            entity.Detalhe = _model.Detalhe;
+
+            await db.SaveChangesAsync();
+            NavigationManager.NavigateTo("/modoentregas");
+        }
+        finally
+        {
+            _saving = false;
+        }
+    }
+}

@@ -1,0 +1,263 @@
+﻿@page "/produtos/edit"
+@attribute [Authorize(Roles = "Admin,Gestor")]
+
+@using System.IO
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using GestaoLoja.Data
+@using GestaoLoja.Entity
+@using GestaoLoja.Entity.Enums
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar Produto</PageTitle>
+
+<h1>Editar Produto</h1>
+
+@if (!loaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (Produto is null)
+{
+    <p class="text-danger">Produto não encontrado.</p>
+}
+else
+{
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+
+    <EditForm method="post" Model="Produto" OnValidSubmit="UpdateProduto" FormName="edit" Enhance>
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <InputText class="form-control" @bind-Value="Produto.Nome" />
+            <ValidationMessage For="() => Produto.Nome" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Detalhe</label>
+            <InputText class="form-control" @bind-Value="Produto.Detalhe" />
+            <ValidationMessage For="() => Produto.Detalhe" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Origem</label>
+            <InputText class="form-control" @bind-Value="Produto.Origem" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Preço Base</label>
+            <InputNumber class="form-control" @bind-Value="Produto.PrecoBase" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Margem (%)</label>
+            <InputNumber class="form-control" @bind-Value="Produto.MargemPercentual" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <InputSelect class="form-select" @bind-Value="Produto.Estado">
+                @foreach (var v in Enum.GetValues<ProdutoEstado>())
+                {
+                    <option value="@v">@v</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Stock</label>
+            <InputNumber class="form-control" @bind-Value="Produto.EmStock" />
+        </div>
+
+        <div class="mb-3 form-check">
+            <InputCheckbox class="form-check-input" @bind-Value="Produto.ParaVenda" />
+            <label class="form-check-label">Para Venda</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <InputCheckbox class="form-check-input" @bind-Value="Produto.Promocao" />
+            <label class="form-check-label">Promoção</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <InputCheckbox class="form-check-input" @bind-Value="Produto.MaisVendido" />
+            <label class="form-check-label">Mais Vendido</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Categoria</label>
+            <InputSelect class="form-select" @bind-Value="Produto.CategoriaId">
+                @foreach (var c in categorias)
+                {
+                    <option value="@c.Id">@c.Nome</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Modo Entrega</label>
+            <InputSelect class="form-select" @bind-Value="Produto.ModoEntregaId">
+                <option value="">-- (opcional) --</option>
+                @foreach (var m in modos)
+                {
+                    <option value="@m.Id">@m.Nome</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Imagem</label>
+            <InputFile OnChange="OnFileChange" accept=".png,.jpg,.jpeg" class="form-control" />
+
+            @if (previewBase64 is not null)
+            {
+                <img class="img-thumbnail mt-2" src="@previewBase64" style="max-width:200px;max-height:200px" />
+            }
+            else if (Produto.Imagem is { Length: > 0 })
+            {
+                <img class="img-thumbnail mt-2"
+                     src="@($"data:{GuessMime(Produto.Imagem)};base64,{Convert.ToBase64String(Produto.Imagem)}")"
+                     style="max-width:200px;max-height:200px" />
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary ms-2" href="/produtos">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromQuery] private int Id { get; set; }
+
+    // IMPORTANT: prevents "reset + required errors" on enhanced POST
+    [SupplyParameterFromForm]
+    private Produto? Produto { get; set; } = new();
+
+    private bool loaded;
+
+    private List<Categoria> categorias = new();
+    private List<ModoEntrega> modos = new();
+
+    private string? error;
+    private string? previewBase64;
+    private IBrowserFile? uploadedFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var dbProduto = await db.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == Id);
+        if (dbProduto is null)
+        {
+            Produto = null;
+            loaded = true;
+            return;
+        }
+
+        // load dropdowns
+        categorias = await db.Categorias.OrderBy(c => c.Ordem).ToListAsync();
+        modos = await db.ModosEntrega.OrderBy(m => m.Nome).ToListAsync();
+
+        // if this is the first GET, copy DB -> form model
+        if (Produto is null || Produto.Id == 0)
+            Produto = dbProduto;
+
+        loaded = true;
+    }
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        uploadedFile = e.File;
+        previewBase64 = null;
+
+        const long maxBytes = 200 * 1024;
+
+        if (uploadedFile.Size > maxBytes)
+        {
+            error = "Imagem demasiado grande (máx 200KB).";
+            uploadedFile = null;
+            return;
+        }
+
+        var ext = Path.GetExtension(uploadedFile.Name).ToLowerInvariant();
+        if (ext is not ".png" and not ".jpg" and not ".jpeg")
+        {
+            error = "Formato inválido (apenas .png/.jpg/.jpeg).";
+            uploadedFile = null;
+            return;
+        }
+
+        error = null;
+
+        await using var ms = new MemoryStream();
+        await uploadedFile.OpenReadStream(maxAllowedSize: maxBytes).CopyToAsync(ms);
+
+        Produto!.UrlImagem = uploadedFile.Name;
+        Produto.Imagem = ms.ToArray();
+
+        previewBase64 = $"data:{uploadedFile.ContentType};base64,{Convert.ToBase64String(Produto.Imagem)}";
+    }
+
+    private async Task UpdateProduto()
+    {
+        error = null;
+
+        if (Produto is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        await using var db = await DbFactory.CreateDbContextAsync();
+
+        var dbProduto = await db.Produtos.FirstOrDefaultAsync(p => p.Id == Id);
+        if (dbProduto is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        // copy allowed fields
+        dbProduto.Nome = Produto.Nome;
+        dbProduto.Detalhe = Produto.Detalhe;
+        dbProduto.Origem = Produto.Origem;
+        dbProduto.PrecoBase = Produto.PrecoBase;
+        dbProduto.MargemPercentual = Produto.MargemPercentual;
+        dbProduto.Estado = Produto.Estado;
+        dbProduto.Promocao = Produto.Promocao;
+        dbProduto.MaisVendido = Produto.MaisVendido;
+        dbProduto.EmStock = Produto.EmStock;
+        dbProduto.ParaVenda = Produto.ParaVenda;
+        dbProduto.CategoriaId = Produto.CategoriaId;
+        dbProduto.ModoEntregaId = Produto.ModoEntregaId;
+
+        dbProduto.PrecoFinal = dbProduto.MargemPercentual is null
+            ? null
+            : Math.Round(dbProduto.PrecoBase * (1 + (dbProduto.MargemPercentual.Value / 100m)), 2);
+
+        // if user selected a new image, Produto.Imagem will already be set
+        if (Produto.Imagem is { Length: > 0 })
+        {
+            dbProduto.Imagem = Produto.Imagem;
+            dbProduto.UrlImagem = Produto.UrlImagem;
+        }
+
+        await db.SaveChangesAsync();
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+    private static string GuessMime(byte[] bytes)
+    {
+        if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xD8) return "image/jpeg";
+        if (bytes.Length >= 4 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47) return "image/png";
+        return "application/octet-stream";
+    }
+}

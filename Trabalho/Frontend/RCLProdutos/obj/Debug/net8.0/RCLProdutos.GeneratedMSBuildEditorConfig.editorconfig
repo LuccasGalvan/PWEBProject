@@ -1,0 +1,53 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = 
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows,browser
+build_property.RootNamespace = RCLProdutos
+build_property.RootNamespace = RCLProdutos
+build_property.ProjectDir = C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLProdutos\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLProdutos
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/CardProduto/SlideProdutoComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENhcmRQcm9kdXRvXFNsaWRlUHJvZHV0b0NvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-jwn5dwyggc
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/Cards/CardComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENhcmRzXENhcmRDb21wb25lbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-4q4vh1k4mr
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/Cards/CardsCarousel.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENhcmRzXENhcmRzQ2Fyb3VzZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-c56h67kpvc
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/Slider/IndicadoresComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFNsaWRlclxJbmRpY2Fkb3Jlc0NvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-v9vtnihrml
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/Slider/SlideComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFNsaWRlclxTbGlkZUNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-cfxtn966e1
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLProdutos/Shared/Slider/SliderComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFNsaWRlclxTbGlkZXJDb21wb25lbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-1kn7vnvb89

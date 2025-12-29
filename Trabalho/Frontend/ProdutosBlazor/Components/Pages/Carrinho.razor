@@ -1,0 +1,207 @@
+﻿@page "/carrinho"
+@using RCLAPI.Services
+@using RCLAPI.DTO
+@inject IJSRuntime JSRuntime
+@inject IApiServices _apiServices
+
+<h3>Carrinho de Compras</h3>
+
+@if (itensCarrinho == null)
+{
+    <p>Carregando itens do carrinho...</p>
+}
+else if (!itensCarrinho.Any())
+{
+    <p>O carrinho está vazio.</p>
+}
+else
+{
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in itensCarrinho)
+            {
+                <tr>
+                    <td>
+                        <img src="data:image/png;base64,@Convert.ToBase64String(item.Produto.Imagem)" alt="@item.Produto.Nome" width="100" height="100" />
+                    </td>
+                    <td>@item.Produto.Nome</td>
+                    <td>@item.Quantidade</td>
+                    <td>@(item.Produto.Preco * item.Quantidade)</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => RemoverItemCarrinho(item.ProdutoId, item.Quantidade)" style="padding: 10px 20px; border-radius: 5px; cursor: pointer; background-color: red; color: white;">
+                            Remover
+                        </button>
+                        <button class="btn btn-success" @onclick="() => AbrirPopUpCartao(item)" style="padding: 10px 20px; border-radius: 5px; cursor: pointer; background-color: green; color: white;">
+                            Comprar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (exibirPopUpCartao)
+{
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
+        <div style="background-color: white; padding: 20px; border-radius: 10px; width: 400px;">
+            <h4>Dados do Cartão</h4>
+            <div>
+                <label>Número do Cartão</label>
+                <input type="text" @bind="numeroCartao" style="width: 100%; padding: 8px;" />
+            </div>
+            <div>
+                <label>Validade (MM/AA)</label>
+                <input type="text" @bind="validadeCartao" style="width: 100%; padding: 8px;" />
+            </div>
+            <div>
+                <label>CVV</label>
+                <input type="text" @bind="cvvCartao" style="width: 100%; padding: 8px;" />
+            </div>
+            <div style="margin-top: 10px;">
+                <button class="btn btn-primary" @onclick="ConfirmarCompra" style="margin-right: 10px;">Confirmar</button>
+                <button class="btn btn-secondary" @onclick="CancelarPopUpCartao">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<CarOrder>? itensCarrinho;
+    private bool exibirPopUpCartao = false;
+    private CarOrder? itemSelecionado;
+    private string numeroCartao = string.Empty;
+    private string validadeCartao = string.Empty;
+    private string cvvCartao = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarCarrinho();
+    }
+
+    private async Task CarregarCarrinho()
+    {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            Console.WriteLine("Utilizador não encontrado no Local Storage.");
+            itensCarrinho = new List<CarOrder>();
+            return;
+        }
+
+        itensCarrinho = await _apiServices.ObterCarrinho(userId);
+    }
+
+    private async Task RemoverItemCarrinho(int itemId, int quantidade)
+    {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            Console.WriteLine("Utilizador não encontrado no Local Storage.");
+            return;
+        }
+
+        Console.WriteLine($"Removendo item {itemId} do carrinho...");
+
+        var (success, message) = await _apiServices.AtualizarCarrinho(userId, itemId, "remover", quantidade);
+
+        if (success)
+        {
+            // Recarrega o carrinho após remoção
+            await CarregarCarrinho();
+        }
+        else
+        {
+            Console.WriteLine($"Erro ao remover item do carrinho: {message}");
+        }
+    }
+
+    private void AbrirPopUpCartao(CarOrder item)
+    {
+        itemSelecionado = item;
+        exibirPopUpCartao = true;
+    }
+
+    private void CancelarPopUpCartao()
+    {
+        exibirPopUpCartao = false;
+        LimparDadosCartao();
+    }
+
+    private async Task ConfirmarCompra()
+    {
+        if (!ValidarCartao())
+        {
+            Console.WriteLine("Dados do cartão inválidos.");
+            return;
+        }
+
+        exibirPopUpCartao = false;
+
+        if (itemSelecionado != null)
+        {
+            await ComprarProduto(itemSelecionado);
+        }
+
+        LimparDadosCartao();
+    }
+
+    private bool ValidarCartao()
+    {
+        return numeroCartao.Length == 16 &&
+               DateTime.TryParseExact(validadeCartao, "MM/yy", null, System.Globalization.DateTimeStyles.None, out _) &&
+               cvvCartao.Length == 3;
+    }
+
+    private async Task ComprarProduto(CarOrder item)
+    {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            Console.WriteLine("utilizador não encontrado no Local Storage.");
+            return;
+        }
+
+        var venda = new Vendas
+            {
+                ProdutoId = item.ProdutoId,
+                Produto = item.Produto,
+                Quantidade = item.Quantidade,
+                UserId = userId,
+                Preco = (double)(item.Produto.Preco * item.Quantidade),
+                DataAdicionado = DateTime.UtcNow
+            };
+
+        var sucessoVenda = await _apiServices.CriarVenda(venda);
+
+        if (sucessoVenda)
+        {
+            Console.WriteLine($"Compra do produto {item.Produto.Nome} realizada com sucesso!");
+            // Remove o item comprado do carrinho
+            await RemoverItemCarrinho(item.ProdutoId, item.Quantidade);
+        }
+        else
+        {
+            Console.WriteLine($"Erro ao criar venda para o produto {item.Produto.Nome}.");
+        }
+    }
+
+    private void LimparDadosCartao()
+    {
+        numeroCartao = string.Empty;
+        validadeCartao = string.Empty;
+        cvvCartao = string.Empty;
+    }
+}
