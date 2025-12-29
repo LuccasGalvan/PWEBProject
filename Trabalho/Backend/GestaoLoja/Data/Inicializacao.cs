@@ -13,6 +13,7 @@ namespace GestaoLoja.Data
             IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             await using var context = await dbContextFactory.CreateDbContextAsync();
+            await context.Database.MigrateAsync();
 
             // Roles
             string[] roles = { "Admin", "Gestor", "Cliente", "Fornecedor" };

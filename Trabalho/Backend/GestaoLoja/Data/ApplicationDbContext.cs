@@ -26,7 +26,7 @@ namespace GestaoLoja.Data
                 .HasOne(c => c.Parent)
                 .WithMany(c => c.Children)
                 .HasForeignKey(c => c.ParentId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Categoria>().HasData(
                 new Categoria { Id = 1, Nome = "Eletrónicos", Ordem = 1 },

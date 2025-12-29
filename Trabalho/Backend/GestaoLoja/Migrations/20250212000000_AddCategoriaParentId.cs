@@ -28,8 +28,7 @@ namespace GestaoLoja.Migrations
                 table: "Categorias",
                 column: "ParentId",
                 principalTable: "Categorias",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
