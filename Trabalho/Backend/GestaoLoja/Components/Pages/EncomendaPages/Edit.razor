@@ -40,8 +40,8 @@ else
             </div>
 
             <div class="mb-3">
-                <label class="form-label">ClienteId</label>
-                <input class="form-control" value="@encomenda.ClienteId.ToString()" disabled />
+                <label class="form-label">Cliente</label>
+                <input class="form-control" value="@clienteDisplay" disabled />
             </div>
 
             <div class="mb-3">
@@ -93,6 +93,7 @@ else
     private bool isUpdating;
     private bool loaded;
     private bool notFound;
+    private string clienteDisplay = "—";
 
     private bool CanConfirm => Encomenda is not null
         && WorkflowService.CanTransition(Encomenda.Estado, EncomendaEstado.Confirmada);
@@ -121,6 +122,12 @@ else
             return;
         }
 
+        var cliente = await db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == Encomenda.ClienteId);
+
+        clienteDisplay = BuildUserDisplay(cliente, Encomenda.ClienteId);
+
         loaded = true;
     }
 
@@ -146,5 +153,20 @@ else
 
         await LoadEncomendaAsync();
         isUpdating = false;
+    }
+
+    private static string BuildUserDisplay(ApplicationUser? user, string? fallbackId)
+    {
+        if (user is not null)
+        {
+            var fullName = $"{user.Nome} {user.Apelido}".Trim();
+            if (!string.IsNullOrWhiteSpace(fullName))
+                return fullName;
+
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                return user.Email;
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
 }
