@@ -163,7 +163,16 @@
         // Build the data URL after materializing (keeps query clean)
         foreach (var row in items)
         {
-            if (row.Imagem is { Length: > 0 })
+            if (row.Imagem is { Length: > 0 } && !IsPlaceholderImage(row.Imagem))
+            {
+                var mime = GuessMime(row.Imagem);
+                row.ImagemDataUrl = $"data:{mime};base64,{Convert.ToBase64String(row.Imagem)}";
+            }
+            else if (BuildImageUrl(row.UrlImagem) is { } imageUrl)
+            {
+                row.ImagemDataUrl = imageUrl;
+            }
+            else if (row.Imagem is { Length: > 0 })
             {
                 var mime = GuessMime(row.Imagem);
                 row.ImagemDataUrl = $"data:{mime};base64,{Convert.ToBase64String(row.Imagem)}";
@@ -247,4 +256,24 @@
 
         return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
+
+    private static string? BuildImageUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return null;
+
+        if (Uri.TryCreate(url, UriKind.Absolute, out _))
+            return url;
+
+        if (url.StartsWith("/"))
+            return url;
+
+        return $"/imgs/{Uri.EscapeDataString(url)}";
+    }
+
+    private static readonly byte[] PlaceholderImage = Convert.FromBase64String(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
+
+    private static bool IsPlaceholderImage(byte[] bytes)
+        => bytes.Length == PlaceholderImage.Length && bytes.AsSpan().SequenceEqual(PlaceholderImage);
 }

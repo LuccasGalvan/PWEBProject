@@ -36,9 +36,9 @@
                  class="img-thumbnail mt-2"
                  style="width:100px; height:100px; object-fit:cover;" />
         }
-        else if (!string.IsNullOrWhiteSpace(categoria.UrlImagem))
+        else if (BuildImageUrl(categoria.UrlImagem) is { } imageUrl)
         {
-            <img src="@categoria.UrlImagem"
+            <img src="@imageUrl"
                  alt="@categoria.Nome"
                  class="img-thumbnail mt-2"
                  style="width:100px; height:100px; object-fit:cover;" />
@@ -97,5 +97,19 @@
 
         // fallback
         return "application/octet-stream";
+    }
+
+    private static string? BuildImageUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return null;
+
+        if (Uri.TryCreate(url, UriKind.Absolute, out _))
+            return url;
+
+        if (url.StartsWith("/"))
+            return url;
+
+        return $"/imgs/{Uri.EscapeDataString(url)}";
     }
 }

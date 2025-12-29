@@ -33,14 +33,17 @@
                 @{
                     string? src = null;
 
-                    if (produto.Imagem is { Length: > 0 })
+                    if (produto.Imagem is { Length: > 0 } && !IsPlaceholderImage(produto.Imagem))
                     {
                         var mime = GuessMime(produto.Imagem);
                         src = $"data:{mime};base64,{Convert.ToBase64String(produto.Imagem)}";
                     }
-                    else if (!string.IsNullOrWhiteSpace(produto.UrlImagem))
+                    else if (BuildImageUrl(produto.UrlImagem) is { } imageUrl)
+                        src = imageUrl;
+                    else if (produto.Imagem is { Length: > 0 })
                     {
-                        src = produto.UrlImagem;
+                        var mime = GuessMime(produto.Imagem);
+                        src = $"data:{mime};base64,{Convert.ToBase64String(produto.Imagem)}";
                     }
                 }
 
@@ -162,4 +165,24 @@
 
         return "application/octet-stream";
     }
+
+    private static string? BuildImageUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return null;
+
+        if (Uri.TryCreate(url, UriKind.Absolute, out _))
+            return url;
+
+        if (url.StartsWith("/"))
+            return url;
+
+        return $"/imgs/{Uri.EscapeDataString(url)}";
+    }
+
+    private static readonly byte[] PlaceholderImage = Convert.FromBase64String(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
+
+    private static bool IsPlaceholderImage(byte[] bytes)
+        => bytes.Length == PlaceholderImage.Length && bytes.AsSpan().SequenceEqual(PlaceholderImage);
 }
