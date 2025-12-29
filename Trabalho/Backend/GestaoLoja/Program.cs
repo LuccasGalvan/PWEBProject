@@ -58,8 +58,9 @@ using (var scope = app.Services.CreateScope())
     {
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var dbContextFactory = services.GetRequiredService<IDbContextFactory<ApplicationDbContext>>();
 
-        await Inicializacao.CriaDadosIniciais(userManager, roleManager);
+        await Inicializacao.CriaDadosIniciais(userManager, roleManager, dbContextFactory);
     }
     catch (Exception)
     {
