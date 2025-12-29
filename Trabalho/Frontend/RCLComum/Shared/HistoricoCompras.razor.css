@@ -1,0 +1,140 @@
+﻿h3 {
+    margin-bottom: 1rem;
+}
+
+.orders {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.order-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-id {
+    font-weight: 600;
+}
+
+.order-meta {
+    color: #6b6b6b;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.order-status {
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 140px;
+}
+
+.status-pendente {
+    background: #fff4cc;
+    color: #8a6d00;
+}
+
+.status-paga {
+    background: #e6f7e9;
+    color: #1c7c3f;
+}
+
+.status-confirmada {
+    background: #e6f0ff;
+    color: #1a4fb0;
+}
+
+.status-rejeitada {
+    background: #fde7e7;
+    color: #b42318;
+}
+
+.status-expedida {
+    background: #ede9fe;
+    color: #4c1d95;
+}
+
+.order-total {
+    font-weight: 600;
+}
+
+.order-items table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-items th,
+.order-items td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.order-items th {
+    font-size: 0.85rem;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.product-cell img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+    .order-header {
+        grid-template-columns: 1fr;
+        align-items: flex-start;
+    }
+
+    .order-status {
+        min-width: auto;
+    }
+
+    .order-items table,
+    .order-items thead,
+    .order-items tbody,
+    .order-items th,
+    .order-items td,
+    .order-items tr {
+        display: block;
+    }
+
+    .order-items thead {
+        display: none;
+    }
+
+    .order-items tr {
+        border-bottom: 1px solid #eee;
+        padding: 0.5rem 0;
+    }
+
+    .order-items td {
+        border: none;
+        padding: 0.25rem 0;
+    }
+}
