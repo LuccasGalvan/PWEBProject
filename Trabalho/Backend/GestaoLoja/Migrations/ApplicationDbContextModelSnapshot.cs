@@ -161,12 +161,53 @@ namespace GestaoLoja.Migrations
                     b.Property<int?>("Ordem")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UrlImagem")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("Categorias");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nome = "Eletrónicos",
+                            Ordem = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nome = "Computadores",
+                            Ordem = 1,
+                            ParentId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nome = "Portáteis",
+                            Ordem = 1,
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nome = "Telemóveis",
+                            Ordem = 2,
+                            ParentId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nome = "Acessórios",
+                            Ordem = 3,
+                            ParentId = 1
+                        });
                 });
 
             modelBuilder.Entity("GestaoLoja.Entity.Encomenda", b =>
@@ -516,6 +557,18 @@ namespace GestaoLoja.Migrations
                         .IsRequired();
 
                     b.Navigation("Produto");
+                });
+
+            modelBuilder.Entity("GestaoLoja.Entity.Categoria", b =>
+                {
+                    b.HasOne("GestaoLoja.Entity.Categoria", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Children");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("GestaoLoja.Entity.Produto", b =>

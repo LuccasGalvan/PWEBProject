@@ -15,10 +15,34 @@ namespace RESTfulAPIPWEB.Repositories
 
         public async Task<IEnumerable<Categoria>> GetCategorias()
         {
-            return await _context.Categorias
+            var categorias = await _context.Categorias
+                .AsNoTracking()
+                .Where(c => c.ParentId == null)
+                .Include(c => c.Children)
+                .ThenInclude(c => c.Children)
                 .OrderBy(c => c.Ordem)
                 .ThenBy(c => c.Nome)
                 .ToListAsync();
+
+            foreach (var categoria in categorias)
+            {
+                OrderChildren(categoria);
+            }
+
+            return categorias;
+        }
+
+        private static void OrderChildren(Categoria categoria)
+        {
+            categoria.Children = categoria.Children
+                .OrderBy(c => c.Ordem)
+                .ThenBy(c => c.Nome)
+                .ToList();
+
+            foreach (var child in categoria.Children)
+            {
+                OrderChildren(child);
+            }
         }
     }
 }
