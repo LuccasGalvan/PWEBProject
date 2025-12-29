@@ -245,9 +245,9 @@ else
         dbProduto.CategoriaId = Produto.CategoriaId;
         dbProduto.ModoEntregaId = Produto.ModoEntregaId;
 
-        dbProduto.PrecoFinal = dbProduto.MargemPercentual is null
-            ? null
-            : Math.Round(dbProduto.PrecoBase * (1 + (dbProduto.MargemPercentual.Value / 100m)), 2);
+        dbProduto.PrecoFinal = dbProduto.Estado == ProdutoEstado.Activo && dbProduto.MargemPercentual is not null
+            ? Math.Round(dbProduto.PrecoBase * (1 + (dbProduto.MargemPercentual.Value / 100m)), 2)
+            : null;
 
         // if user selected a new image, Produto.Imagem will already be set
         if (Produto.Imagem is { Length: > 0 })

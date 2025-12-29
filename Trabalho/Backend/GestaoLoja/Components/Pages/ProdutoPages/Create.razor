@@ -225,9 +225,9 @@
             return;
         }
 
-        Produto.PrecoFinal = Produto.MargemPercentual is null
-            ? null
-            : Math.Round(Produto.PrecoBase * (1 + (Produto.MargemPercentual.Value / 100m)), 2);
+        Produto.PrecoFinal = Produto.Estado == ProdutoEstado.Activo && Produto.MargemPercentual is not null
+            ? Math.Round(Produto.PrecoBase * (1 + (Produto.MargemPercentual.Value / 100m)), 2)
+            : null;
 
         await using var db = await DbFactory.CreateDbContextAsync();
         db.Produtos.Add(Produto);
