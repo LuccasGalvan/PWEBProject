@@ -10,6 +10,7 @@ using Microsoft.JSInterop;
 using RCLAPI.DTO;
 using RCLAPI.Services;
 using RCLProdutos.Services.Interfaces;
+using System;
 using System.Net.NetworkInformation;
 using System.Xml.Linq;
 using Xamarin.Essentials;
@@ -157,12 +158,8 @@ public partial class SlideComponent
 
             if (quantidade > 0)
             {
-                var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", new object?[] { "userID" });
-                if (userId == null)
-                {
-                    Console.WriteLine("User não está autenticado ainda");
-                }
-                var response = await _apiServices.AtualizarCarrinho(userId, produto.Id, "adicionar", quantidade);
+                var cartUserId = await GetCartUserIdAsync();
+                var response = await _apiServices.AtualizarCarrinho(cartUserId, produto.Id, "adicionar", quantidade);
 
                 if (response.Success)
                 {
@@ -192,6 +189,26 @@ public partial class SlideComponent
             abreModal2 = false;
             quantidade = 0;
         }
+    }
+
+    private async Task<string> GetCartUserIdAsync()
+    {
+        var cartUserId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", new object?[] { "cartUserId" });
+        if (!string.IsNullOrEmpty(cartUserId))
+        {
+            return cartUserId;
+        }
+
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", new object?[] { "userID" });
+        if (!string.IsNullOrEmpty(userId))
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", new object?[] { "cartUserId", userId });
+            return userId;
+        }
+
+        var guestId = $"guest_{Guid.NewGuid()}";
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", new object?[] { "cartUserId", guestId });
+        return guestId;
     }
     public async void Favoritos(string acao, int pId)
     {
