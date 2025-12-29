@@ -1,4 +1,5 @@
 ﻿@page "/habituais"
+@using System
 @using RCLAPI.Services
 @using RCLAPI.DTO
 @inject IJSRuntime JSRuntime
@@ -100,22 +101,21 @@ else
 
                 if (userId == null)
                 {
-                    Console.WriteLine("utilizador não está autenticado ainda");
+                    Console.WriteLine("Utilizador não autenticado. Usando carrinho de convidado.");
+                }
+
+                var cartUserId = await GetCartUserIdAsync();
+                // Atualizar o carrinho
+                var response = await _apiServices.AtualizarCarrinho(cartUserId, produtoId, "adicionar", quantidade);
+
+                if (response.Success)
+                {
+                    Console.WriteLine("Item adicionado ao carrinho com sucesso!");
+                    quantidade_item = 1;
                 }
                 else
                 {
-                    // Atualizar o carrinho
-                    var response = await _apiServices.AtualizarCarrinho(userId, produtoId, "adicionar", quantidade);
-
-                    if (response.Success)
-                    {
-                        Console.WriteLine("Item adicionado ao carrinho com sucesso!");
-                        quantidade_item = 1;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Erro ao adicionar item ao carrinho: {response.Message}");
-                    }
+                    Console.WriteLine($"Erro ao adicionar item ao carrinho: {response.Message}");
                 }
             }
             else
@@ -148,5 +148,25 @@ else
         {
             Console.WriteLine($"Erro inesperado ao remover favorito: {ex.Message}");
         }
+    }
+
+    private async Task<string> GetCartUserIdAsync()
+    {
+        var cartUserId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "cartUserId");
+        if (!string.IsNullOrEmpty(cartUserId))
+        {
+            return cartUserId;
+        }
+
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        if (!string.IsNullOrEmpty(userId))
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "cartUserId", userId);
+            return userId;
+        }
+
+        var guestId = $"guest_{Guid.NewGuid()}";
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "cartUserId", guestId);
+        return guestId;
     }
 }

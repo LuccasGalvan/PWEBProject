@@ -6,6 +6,7 @@
  @using RCLAPI.Services 
 
  @inject NavigationManager NavigationManager 
+ @inject IJSRuntime JSRuntime 
  <!-- The Modal --> 
  <div id="myModal" class="modal" style="display:@estado"> 
      <!-- Modal content --> 
@@ -37,6 +38,8 @@
  @code { 
      [SupplyParameterFromForm] 
      public LoginModel LoginModel { get; set; } = new(); 
+     [SupplyParameterFromQuery(Name = "returnUrl")]
+     public string? ReturnUrl { get; set; }
      [Inject] 
      public IApiServices? _apiServices { get; set; } 
      private string estado = "block"; 
@@ -59,6 +62,12 @@
          { 
              return; 
          } 
-         NavigationManager.NavigateTo("/", true); 
+         var pendingCheckout = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "pendingCheckout");
+         var redirectUrl = !string.IsNullOrEmpty(ReturnUrl)
+             ? ReturnUrl
+             : string.IsNullOrEmpty(pendingCheckout)
+                 ? "/"
+                 : "/carrinho";
+         NavigationManager.NavigateTo(redirectUrl, true); 
      } 
  }
