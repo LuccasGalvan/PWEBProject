@@ -9,7 +9,33 @@
 @using RCLProdutos.Shared.Cards
 @using RCLProdutos.Shared.CardProduto
 
-    
+@inject IApiServices ApiServices
+
+<section class="featured-product">
+    <h2>Produto em destaque</h2>
+    @if (featuredProduto is null)
+    {
+        <p>Sem produto em destaque disponível no momento.</p>
+    }
+    else
+    {
+        <SlideProdutoComponent sugestProduto="@featuredProduto" />
+    }
+</section>
+
 <CardsCarousel/>
 <SliderComponent initProd="-1" />
 
+@code {
+    private ProdutoDTO? featuredProduto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var (data, error) = await ApiServices.GetAsync<ProdutoDTO>("api/Produto/featured");
+
+        if (error is null && data is not null && data.Id > 0)
+        {
+            featuredProduto = data;
+        }
+    }
+}
