@@ -31,7 +31,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContextFactory<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString));
 
-    
+builder.Services.AddScoped<GestaoLoja.Services.EncomendaWorkflowService>();
+
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

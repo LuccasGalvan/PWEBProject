@@ -7,15 +7,21 @@
 @using GestaoLoja.Data
 @using GestaoLoja.Entity
 @using GestaoLoja.Entity.Enums
+@using GestaoLoja.Services
 
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject EncomendaWorkflowService WorkflowService
 
 <PageTitle>Editar Encomenda</PageTitle>
 
 <h1>Editar Encomenda</h1>
 
-@if (Encomenda is null)
+@if (notFound)
+{
+    <p><em>Not found.</em></p>
+}
+else if (!loaded)
 {
     <p><em>Loading...</em></p>
 }
@@ -27,12 +33,15 @@ else
     <div class="row">
         <div class="col-md-4">
             <EditForm method="post"
-                      Model="Encomenda"
-                      OnValidSubmit="UpdateEncomenda"
+                      Model="@Action"
+                      OnValidSubmit="@UpdateEncomenda"
                       FormName="editEncomenda"
                       Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary class="text-danger" role="alert" />
+                <ValidationSummary class="text-danger" />
+
+                <@InputHidden @bind-Value="Action.EncomendaId" />
+                <@InputHidden @bind-Value="Action.TargetEstado" />
 
                 <div class="mb-3">
                     <label class="form-label">Id</label>
@@ -47,13 +56,7 @@ else
 
                 <div class="mb-3">
                     <label class="form-label">Estado</label>
-                    <InputSelect class="form-select" @bind-Value="Encomenda.Estado">
-                        @foreach (var v in Enum.GetValues<EncomendaEstado>())
-                        {
-                            <option value="@v">@v</option>
-                        }
-                    </InputSelect>
-                    <ValidationMessage For="() => Encomenda.Estado" class="text-danger" />
+                    <InputText class="form-control" Value="@Encomenda.Estado" disabled />
                 </div>
 
                 <div class="mb-3">
@@ -61,8 +64,32 @@ else
                     <InputNumber class="form-control" Value="@Encomenda.Total" disabled />
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-secondary ms-2" href="/encomenda">Back to List</a>
+                @if (!string.IsNullOrWhiteSpace(actionError))
+                {
+                    <div class="alert alert-danger" role="alert">@actionError</div>
+                }
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="submit"
+                            class="btn btn-success"
+                            @onclick="() => Action.TargetEstado = EncomendaEstado.Confirmada"
+                            disabled="@(!CanConfirm || isUpdating)">
+                        Confirmar
+                    </button>
+                    <button type="submit"
+                            class="btn btn-danger"
+                            @onclick="() => Action.TargetEstado = EncomendaEstado.Rejeitada"
+                            disabled="@(!CanReject || isUpdating)">
+                        Rejeitar
+                    </button>
+                    <button type="submit"
+                            class="btn btn-primary"
+                            @onclick="() => Action.TargetEstado = EncomendaEstado.Expedida"
+                            disabled="@(!CanShip || isUpdating)">
+                        Expedir
+                    </button>
+                    <a class="btn btn-secondary ms-2" href="/encomenda">Back to List</a>
+                </div>
             </EditForm>
         </div>
     </div>
@@ -72,22 +99,53 @@ else
     [SupplyParameterFromQuery]
     private Guid Id { get; set; }
 
-    // IMPORTANT: prevents the "resets + required even filled" issue with Enhance
     [SupplyParameterFromForm]
+    private EncomendaAction Action { get; set; } = new();
+
     private Encomenda? Encomenda { get; set; }
+    private string? actionError;
+    private bool isUpdating;
+    private bool loaded;
+    private bool notFound;
+
+    private bool CanConfirm => Encomenda is not null
+        && WorkflowService.CanTransition(Encomenda.Estado, EncomendaEstado.Confirmada);
+    private bool CanReject => Encomenda is not null
+        && WorkflowService.CanTransition(Encomenda.Estado, EncomendaEstado.Rejeitada);
+    private bool CanShip => Encomenda is not null
+        && WorkflowService.CanTransition(Encomenda.Estado, EncomendaEstado.Expedida);
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadEncomendaAsync();
+    }
+
+    private async Task LoadEncomendaAsync()
+    {
         await using var db = await DbFactory.CreateDbContextAsync();
 
-        // If this is the first GET, Encomenda is null -> load from DB.
-        // If this is the POST (enhanced), Encomenda comes from the form.
-        Encomenda ??= await db.Encomendas
+        Encomenda = await db.Encomendas
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == Id);
 
         if (Encomenda is null)
-            NavigationManager.NavigateTo("/encomenda");
+        {
+            notFound = true;
+            loaded = true;
+            return;
+        }
+
+        if (Action.EncomendaId == Guid.Empty)
+        {
+            Action.EncomendaId = Encomenda.Id;
+        }
+
+        if (!Enum.IsDefined(typeof(EncomendaEstado), Action.TargetEstado))
+        {
+            Action.TargetEstado = Encomenda.Estado;
+        }
+
+        loaded = true;
     }
 
     private async Task UpdateEncomenda()
@@ -95,19 +153,22 @@ else
         if (Encomenda is null)
             return;
 
-        await using var db = await DbFactory.CreateDbContextAsync();
+        isUpdating = true;
+        actionError = null;
 
-        var existing = await db.Encomendas.FirstOrDefaultAsync(e => e.Id == Id);
-        if (existing is null)
+        var result = await WorkflowService.TryTransitionAsync(Id, Action.TargetEstado);
+        if (!result.Success)
         {
-            NavigationManager.NavigateTo("/encomenda");
-            return;
+            actionError = result.ErrorMessage ?? "Transição inválida.";
         }
 
-        // Keep it simple: only update Estado.
-        existing.Estado = Encomenda.Estado;
+        await LoadEncomendaAsync();
+        isUpdating = false;
+    }
 
-        await db.SaveChangesAsync();
-        NavigationManager.NavigateTo("/encomenda");
+    private sealed class EncomendaAction
+    {
+        public Guid EncomendaId { get; set; }
+        public EncomendaEstado TargetEstado { get; set; }
     }
 }
