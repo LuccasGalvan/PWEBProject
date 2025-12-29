@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RESTfulAPIPWEB.Entity;
 using RESTfulAPIPWEB.Repositories;
 
@@ -7,7 +8,7 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProdutoController : Controller
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -18,6 +19,7 @@ namespace RESTfulAPIPWEB.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProdutos(string? tipoProduto, int? categoriaId = null)
         {
             tipoProduto = string.IsNullOrWhiteSpace(tipoProduto) ? "todos" : tipoProduto;
@@ -39,6 +41,7 @@ namespace RESTfulAPIPWEB.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetDetalheProduto(int id)
         {
             var produto = await _produtoRepository.ObterDetalheProdutoAsync(id);
