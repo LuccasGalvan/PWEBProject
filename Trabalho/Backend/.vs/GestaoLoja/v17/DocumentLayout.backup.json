@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\components\\pages\\encomendapages\\edit.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\components\\pages\\gereuser.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\components\\pages\\gereuser.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,19 +30,24 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "GereUser.razor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\Components\\Pages\\GereUser.razor",
+              "RelativeDocumentMoniker": "GestaoLoja\\Components\\Pages\\GereUser.razor",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\Components\\Pages\\GereUser.razor",
+              "RelativeToolTip": "GestaoLoja\\Components\\Pages\\GereUser.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-29T05:08:33.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\appsettings.json",
               "RelativeDocumentMoniker": "GestaoLoja\\appsettings.json",
@@ -46,8 +55,7 @@
               "RelativeToolTip": "GestaoLoja\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-29T05:01:01.366Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T05:01:01.366Z"
             },
             {
               "$type": "Document",
@@ -57,7 +65,7 @@
               "RelativeDocumentMoniker": "GestaoLoja\\Components\\Pages\\EncomendaPages\\Edit.razor",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\Components\\Pages\\EncomendaPages\\Edit.razor",
               "RelativeToolTip": "GestaoLoja\\Components\\Pages\\EncomendaPages\\Edit.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH8AAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-12-29T04:44:49.001Z",
               "EditorCaption": ""
