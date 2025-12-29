@@ -55,7 +55,6 @@ namespace RESTfulAPIPWEB.Controllers
 
         // PUT: api/CarrinhoCompras/{produtoId}/{acao}?userId=...&quantidade=...
         [HttpPut("{produtoId}/{acao}")]
-        [AllowAnonymous]
         public async Task<IActionResult> AtualizaCarrinho(int produtoId, string acao, [FromQuery] string userId, [FromQuery] int quantidade)
         {
             try
