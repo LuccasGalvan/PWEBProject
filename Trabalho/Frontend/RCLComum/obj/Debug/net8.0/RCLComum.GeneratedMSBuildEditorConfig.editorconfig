@@ -28,6 +28,14 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkNvbXByYXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnFornecedorProdutos.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkZvcm5lY2Vkb3JQcm9kdXRvcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnFornecedorVendas.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0bkZvcm5lY2Vkb3JWZW5kYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/BtnSobre.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJ0blNvYnJlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -55,6 +63,10 @@ build_metadata.AdditionalFiles.CssScope = b-6l6hj97lse
 [C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/HeaderComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEhlYWRlckNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-f1uj7lwwfx
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/HistoricoCompras.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEhpc3Rvcmljb0NvbXByYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-vib39rwdmx
 
 [C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/RCLComum/Shared/LocationComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvY2F0aW9uQ29tcG9uZW50LnJhem9y
