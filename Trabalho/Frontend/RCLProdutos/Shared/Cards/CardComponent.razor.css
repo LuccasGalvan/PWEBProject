@@ -18,9 +18,21 @@
 
 }
 
+.card.selected {
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
 .footer-button {
     display: flex;
     justify-content: end;
+}
+
+.card-action {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .button-description {

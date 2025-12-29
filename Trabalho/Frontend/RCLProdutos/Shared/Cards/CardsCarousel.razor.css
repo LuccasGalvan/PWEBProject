@@ -4,9 +4,13 @@
     width: 100%;
     height: auto;
     overflow: hidden;
-    position: absolute;
-    top: 75px;
-    left: 0;
+    position: relative;
+}
+
+.carousel-title {
+    color: white;
+    font-size: 16px;
+    margin: 10px 0 0 10px;
 }
 
 .cards-container {
