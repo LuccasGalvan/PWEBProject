@@ -141,7 +141,8 @@
                 CategoriaNome = p.categoria != null ? p.categoria.Nome : ("#" + p.CategoriaId),
 
                 // raw bytes (only for building the data-url below)
-                Imagem = p.Imagem
+                Imagem = p.Imagem,
+                UrlImagem = p.UrlImagem
             })
             .ToListAsync();
 
@@ -165,6 +166,10 @@
             {
                 var mime = GuessMime(row.Imagem);
                 row.ImagemDataUrl = $"data:{mime};base64,{Convert.ToBase64String(row.Imagem)}";
+            }
+            else if (!string.IsNullOrWhiteSpace(row.UrlImagem))
+            {
+                row.ImagemDataUrl = row.UrlImagem;
             }
 
             row.FornecedorNome = row.FornecedorId is not null && fornecedorLookup.TryGetValue(row.FornecedorId, out var nome)
@@ -221,6 +226,7 @@
 
         // internal-only for building the preview
         public byte[]? Imagem { get; set; }
+        public string? UrlImagem { get; set; }
 
         // what the UI uses
         public string? ImagemDataUrl { get; set; }
