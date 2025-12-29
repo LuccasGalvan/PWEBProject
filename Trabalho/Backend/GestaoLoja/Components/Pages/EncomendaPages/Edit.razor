@@ -2,7 +2,6 @@
 @attribute [Authorize(Roles = "Admin,Gestor")]
 
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.EntityFrameworkCore
 @using GestaoLoja.Data
 @using GestaoLoja.Entity
@@ -34,64 +33,52 @@ else
 
     <div class="row">
         <div class="col-md-4">
-            <EditForm method="post"
-                      Model="@Action"
-                      OnValidSubmit="@UpdateEncomenda"
-                      FormName="editEncomenda"
-                      Enhance>
-                <DataAnnotationsValidator />
-                <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input class="form-control" value="@encomenda.Id.ToString()" disabled />
+            </div>
 
-                <@InputHidden @bind-Value="Action.EncomendaId" />
-                <@InputHidden @bind-Value="Action.TargetEstado" />
+            <div class="mb-3">
+                <label class="form-label">ClienteId</label>
+                <input class="form-control" value="@encomenda.ClienteId.ToString()" disabled />
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Id</label>
-                    <InputText class="form-control" Value="@encomenda.Id.ToString()" disabled />
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <input class="form-control" value="@encomenda.Estado.ToString()" disabled />
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label">ClienteId</label>
-                    <InputText class="form-control" Value="@encomenda.ClienteId.ToString()" disabled />
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Total</label>
+                <input class="form-control" value="@encomenda.Total.ToString("F2")" disabled />
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <InputText class="form-control" Value="@encomenda.Estado.ToString()" disabled />
-                </div>
+            @if (!string.IsNullOrWhiteSpace(actionError))
+            {
+                <div class="alert alert-danger" role="alert">@actionError</div>
+            }
 
-                <div class="mb-3">
-                    <label class="form-label">Total</label>
-                    <InputNumber TValue="decimal" class="form-control" Value="@encomenda.Total" disabled />
-                </div>
-
-                @if (!string.IsNullOrWhiteSpace(actionError))
-                {
-                    <div class="alert alert-danger" role="alert">@actionError</div>
-                }
-
-                <div class="d-flex flex-wrap gap-2">
-                    <button type="submit"
-                            class="btn btn-success"
-                            @onclick="() => Action.TargetEstado = EncomendaEstado.Confirmada"
-                            disabled="@(!CanConfirm || isUpdating)">
-                        Confirmar
-                    </button>
-                    <button type="submit"
-                            class="btn btn-danger"
-                            @onclick="() => Action.TargetEstado = EncomendaEstado.Rejeitada"
-                            disabled="@(!CanReject || isUpdating)">
-                        Rejeitar
-                    </button>
-                    <button type="submit"
-                            class="btn btn-primary"
-                            @onclick="() => Action.TargetEstado = EncomendaEstado.Expedida"
-                            disabled="@(!CanShip || isUpdating)">
-                        Expedir
-                    </button>
-                    <a class="btn btn-secondary ms-2" href="/encomenda">Back to List</a>
-                </div>
-            </EditForm>
+            <div class="d-flex flex-wrap gap-2">
+                <button type="button"
+                        class="btn btn-success"
+                        @onclick="() => UpdateEncomenda(EncomendaEstado.Confirmada)"
+                        disabled="@(!CanConfirm || isUpdating)">
+                    Confirmar
+                </button>
+                <button type="button"
+                        class="btn btn-danger"
+                        @onclick="() => UpdateEncomenda(EncomendaEstado.Rejeitada)"
+                        disabled="@(!CanReject || isUpdating)">
+                    Rejeitar
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        @onclick="() => UpdateEncomenda(EncomendaEstado.Expedida)"
+                        disabled="@(!CanShip || isUpdating)">
+                    Expedir
+                </button>
+                <a class="btn btn-secondary ms-2" href="/encomenda">Back to List</a>
+            </div>
         </div>
     </div>
 }
@@ -99,9 +86,6 @@ else
 @code {
     [SupplyParameterFromQuery]
     private Guid Id { get; set; }
-
-    [SupplyParameterFromForm]
-    private EncomendaAction Action { get; set; } = new();
 
     private Encomenda? Encomenda { get; set; }
     private string? actionError;
@@ -136,18 +120,10 @@ else
             return;
         }
 
-        if (Action.EncomendaId == Guid.Empty)
-            Action.EncomendaId = Encomenda.Id;
-
-        // Action.TargetEstado is an enum (non-nullable), Enum.IsDefined will always be true here
-        // unless it was bound from invalid form data. Keep it if you want a guard.
-        if (!Enum.IsDefined(typeof(EncomendaEstado), Action.TargetEstado))
-            Action.TargetEstado = Encomenda.Estado;
-
         loaded = true;
     }
 
-    private async Task UpdateEncomenda()
+    private async Task UpdateEncomenda(EncomendaEstado targetEstado)
     {
         if (Encomenda is null || Action is null)
             return;
@@ -155,17 +131,19 @@ else
         isUpdating = true;
         actionError = null;
 
-        var result = await WorkflowService.TryTransitionAsync(Id, Action.TargetEstado);
+        if (!WorkflowService.CanTransition(Encomenda.Estado, targetEstado))
+        {
+            actionError = "Transição de estado não permitida.";
+            await LoadEncomendaAsync();
+            isUpdating = false;
+            return;
+        }
+
+        var result = await WorkflowService.TryTransitionAsync(Id, targetEstado);
         if (!result.Success)
             actionError = result.ErrorMessage ?? "Transição inválida.";
 
         await LoadEncomendaAsync();
         isUpdating = false;
-    }
-
-    private sealed class EncomendaAction
-    {
-        public Guid EncomendaId { get; set; }
-        public EncomendaEstado TargetEstado { get; set; }
     }
 }
