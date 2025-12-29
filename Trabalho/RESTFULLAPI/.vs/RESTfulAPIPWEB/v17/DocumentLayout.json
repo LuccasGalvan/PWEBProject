@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\encomendascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\encomendascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\carrinhocomprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\carrinhocomprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\favoritoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\favoritoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\encomendascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\encomendascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\repositories\\produtorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,11 +42,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -67,13 +71,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "ProdutoController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
               "RelativeToolTip": "RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAwwDoAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T00:51:57.267Z",
               "EditorCaption": ""
@@ -88,12 +92,11 @@
               "RelativeToolTip": "RESTfulAPIPWEB\\Repositories\\ProdutoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T00:41:14.389Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T00:41:14.389Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "EncomendasController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\EncomendasController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\EncomendasController.cs",
@@ -106,13 +109,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "CarrinhoComprasController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
               "RelativeToolTip": "RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T00:40:36.753Z",
               "EditorCaption": ""
@@ -127,8 +130,7 @@
               "RelativeToolTip": "RESTfulAPIPWEB\\Repositories\\CategoriaRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T00:40:30.19Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T00:40:30.19Z"
             },
             {
               "$type": "Document",
@@ -140,8 +142,7 @@
               "RelativeToolTip": "RESTfulAPIPWEB\\Entity\\CarrinhoCompras.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T00:40:28.162Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T00:40:28.162Z"
             },
             {
               "$type": "Document",
@@ -153,8 +154,7 @@
               "RelativeToolTip": "RESTfulAPIPWEB\\Entity\\Categoria.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T00:40:25.127Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T00:40:25.127Z"
             }
           ]
         }

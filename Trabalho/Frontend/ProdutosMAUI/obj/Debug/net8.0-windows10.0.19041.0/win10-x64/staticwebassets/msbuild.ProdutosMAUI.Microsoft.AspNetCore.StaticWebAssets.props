@@ -1012,12 +1012,12 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>nwoxhf3oux</Fingerprint>
-      <Integrity>qYZ/iV4sidOzrep3MHeHt45qPtvpUHMoCTeZ65xYhJE=</Integrity>
+      <Fingerprint>mkobkairrk</Fingerprint>
+      <Integrity>Ji1+a//5DiMR2WJ/9Ye7iXx7sraxidwkhrmlKK0Y0oI=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <FileLength>1102</FileLength>
-      <LastWriteTime>Fri, 13 Dec 2024 10:45:58 GMT</LastWriteTime>
+      <FileLength>1180</FileLength>
+      <LastWriteTime>Mon, 29 Dec 2025 07:25:32 GMT</LastWriteTime>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ProdutosMAUI.styles.css'))">
@@ -1032,12 +1032,12 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>ScopedCss</AssetTraitName>
       <AssetTraitValue>ApplicationBundle</AssetTraitValue>
-      <Fingerprint>u9mc6duyqg</Fingerprint>
-      <Integrity>wnWvOXc46ygSd+11/AfylQFt8DogVolSTPa9O4gw47U=</Integrity>
+      <Fingerprint>5xn6hhnql5</Fingerprint>
+      <Integrity>mUMjSJsnT6dUS5zsuIGozB/B5QW7QVWJ7VL6iJfoZS8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <FileLength>4186</FileLength>
-      <LastWriteTime>Mon, 22 Dec 2025 19:23:28 GMT</LastWriteTime>
+      <FileLength>2305</FileLength>
+      <LastWriteTime>Mon, 29 Dec 2025 07:25:34 GMT</LastWriteTime>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ProdutosMAUI.styles.css'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>

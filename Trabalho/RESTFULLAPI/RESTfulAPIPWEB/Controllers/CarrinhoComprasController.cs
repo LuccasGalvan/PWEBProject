@@ -9,7 +9,6 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Cliente")]
     public class CarrinhoComprasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

@@ -1,0 +1,44 @@
+p[b-4q4vh1k4mr] {
+    color: white;
+    font-size:20px;
+}
+
+.card[b-4q4vh1k4mr] {
+    width: 230px;
+    height: 120px;
+    border-radius: 8px;
+    border: 1px solid white;
+    margin: 10px;
+    padding: 5px;
+    background-color: #0aa6f5;
+    display: flex;
+    justify-content: space-between;
+    transition: 700ms;
+    position: center;
+
+}
+
+.card.selected[b-4q4vh1k4mr] {
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.footer-button[b-4q4vh1k4mr] {
+    display: flex;
+    justify-content: end;
+}
+
+.card-action[b-4q4vh1k4mr] {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.button-description[b-4q4vh1k4mr] {
+    background-color: #07BF0E;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:7pt;
+}

@@ -1,0 +1,31 @@
+.btn-favoritos[b-t1acya91s6] {
+    display: flex;
+    padding: 5px;
+}
+
+a[b-t1acya91s6] {
+    text-decoration: none;
+    favoritos font-size: 10pt;
+}
+
+img[b-t1acya91s6] {
+    margin:2px;
+    height: 25px;
+}
+
+p[b-t1acya91s6]{
+    margin:2px;
+    color: white;
+}
+
+@media (max-width: 641px) {
+    .btn-favoritos[b-t1acya91s6] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 55px;
+        z-index: 100;
+    }
+}

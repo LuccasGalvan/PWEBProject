@@ -1,0 +1,233 @@
+/* _content/RCLComum/Shared/BtnCarrinho.razor.rz.scp.css */
+.btn-favoritos[b-gx1sm3g3cb] {
+    display: flex;
+    padding: 5px;
+}
+
+a[b-gx1sm3g3cb] {
+    text-decoration: none;
+    favoritos font-size: 10pt;
+}
+
+img[b-gx1sm3g3cb] {
+    margin:5px;
+    height: 15px;
+}
+
+p[b-gx1sm3g3cb]{
+    margin:2px;
+    color: white;
+}
+
+@media (max-width: 641px) {
+    .btn-favoritos[b-gx1sm3g3cb] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 55px;
+        z-index: 100;
+    }
+}
+/* _content/RCLComum/Shared/BtnHabituais.razor.rz.scp.css */
+.btn-favoritos[b-ktiz3qnizd] {
+    display: flex;
+    padding: 5px;
+}
+
+a[b-ktiz3qnizd] {
+    text-decoration: none;
+    favoritos font-size: 10pt;
+}
+
+img[b-ktiz3qnizd] {
+    margin:5px;
+    height: 15px;
+}
+
+p[b-ktiz3qnizd]{
+    margin:2px;
+    color: white;
+}
+
+@media (max-width: 641px) {
+    .btn-favoritos[b-ktiz3qnizd] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 55px;
+        z-index: 100;
+    }
+}
+/* _content/RCLComum/Shared/BtnLogin.razor.rz.scp.css */
+.btn-favoritos[b-t1acya91s6] {
+    display: flex;
+    padding: 5px;
+}
+
+a[b-t1acya91s6] {
+    text-decoration: none;
+    favoritos font-size: 10pt;
+}
+
+img[b-t1acya91s6] {
+    margin:2px;
+    height: 25px;
+}
+
+p[b-t1acya91s6]{
+    margin:2px;
+    color: white;
+}
+
+@media (max-width: 641px) {
+    .btn-favoritos[b-t1acya91s6] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 55px;
+        z-index: 100;
+    }
+}
+/* _content/RCLComum/Shared/BtnRegister.razor.rz.scp.css */
+.btn-favoritos[b-6l6hj97lse] {
+    display: flex;
+    padding: 5px;
+}
+
+a[b-6l6hj97lse] {
+    text-decoration: none;
+    favoritos font-size: 10pt;
+}
+
+img[b-6l6hj97lse] {
+    margin:2px;
+    height: 25px;
+}
+
+p[b-6l6hj97lse]{
+    margin:2px;
+    color: white;
+}
+
+@media (max-width: 641px) {
+    .btn-favoritos[b-6l6hj97lse] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 55px;
+        z-index: 100;
+    }
+}
+/* _content/RCLComum/Shared/HeaderComponent.razor.rz.scp.css */
+a[b-f1uj7lwwfx] {
+    text-decoration: none;
+    color: #D5B403;
+    font-size: 25px;
+}
+
+.header-container[b-f1uj7lwwfx] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 150px;
+}
+
+.header-main[b-f1uj7lwwfx] {
+    /*background-color: #36a0b3;*/
+    background-color: #36a0b3;
+    width: 100%;
+    min-height: 70px;
+    color: brown;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.logo-span[b-f1uj7lwwfx] {
+    color: #D5B403;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.header-secundary[b-f1uj7lwwfx] {
+    background-color: transparent;
+    width: 100%;
+    min-height: 34px;
+    color: white;
+    border-top: 1px solid #000000;
+}
+
+.nav-main[b-f1uj7lwwfx] {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 641px) {
+    .header-main[b-f1uj7lwwfx] {
+        background-color: transparent;
+    }
+
+    .header-secundary[b-f1uj7lwwfx]{
+        position:absolute;
+        bottom:0;
+        height:20px;
+        z-index:90;
+    }
+
+    .logo-span[b-f1uj7lwwfx]{
+        font-size: 15pt;
+
+    }
+}
+/* _content/RCLComum/Shared/LocationComponent.razor.rz.scp.css */
+.container-location[b-s6fbsqhdck] {
+    display: flex;
+    width: 150px;
+}
+
+img[b-s6fbsqhdck] {
+    height: 25px;
+}
+
+p[b-s6fbsqhdck] {
+    font-size: 8pt;
+}
+
+@media(max-width:641px){
+   p[b-s6fbsqhdck] {
+       font-size: 8pt;
+   }
+}
+/* _content/RCLComum/Shared/NavLoginComponent.razor.rz.scp.css */
+a[b-498gqg2nlc] {
+    text-decoration: none;
+    color: #fff;
+    font-size: 8pt;
+}
+
+.nav-login[b-498gqg2nlc] {
+    height:53px;
+}
+
+    .nav-login img[b-498gqg2nlc] {
+        height: 15px;
+    }
+
+@media (max-width: 641px) {
+    .nav-login[b-498gqg2nlc]{
+        display:none;
+    }
+}

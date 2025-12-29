@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\RCLComum.bundle.scp.css",
+      "PackagePath": "staticwebassets\\RCLComum.4iycysavgz.bundle.scp.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RCLComum.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RCLComum.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.RCLComum.props",
+      "PackagePath": "build\\RCLComum.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.RCLComum.props",
+      "PackagePath": "buildMultiTargeting\\RCLComum.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.RCLComum.props",
+      "PackagePath": "buildTransitive\\RCLComum.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

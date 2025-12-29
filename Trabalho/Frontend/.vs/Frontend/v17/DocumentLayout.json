@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C373D6FF-3F1A-4015-A0C2-66EFDEC75819}|RCLComum\\RCLComum.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclcomum\\shared\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C373D6FF-3F1A-4015-A0C2-66EFDEC75819}|RCLComum\\RCLComum.csproj|solutionrelative:rclcomum\\shared\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\produtosblazor\\components\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|solutionrelative:produtosblazor\\components\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -17,7 +26,37 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\Shared\\MainLayout.razor",
+              "RelativeDocumentMoniker": "RCLComum\\Shared\\MainLayout.razor",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\Shared\\MainLayout.razor",
+              "RelativeToolTip": "RCLComum\\Shared\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-29T07:26:12.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.razor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Index.razor",
+              "RelativeDocumentMoniker": "ProdutosBlazor\\Components\\Pages\\Index.razor",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Index.razor",
+              "RelativeToolTip": "ProdutosBlazor\\Components\\Pages\\Index.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-29T07:17:23.875Z",
+              "EditorCaption": ""
             }
           ]
         }

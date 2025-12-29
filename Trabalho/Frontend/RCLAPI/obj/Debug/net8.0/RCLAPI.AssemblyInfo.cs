@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RCLAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+613eff3ada71f281732a802098641e3cd404c0d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd7134648f5b32902f26594f67f47687478a6554")]
 [assembly: System.Reflection.AssemblyProductAttribute("RCLAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RCLAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
