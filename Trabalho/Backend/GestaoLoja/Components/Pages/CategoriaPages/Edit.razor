@@ -10,6 +10,7 @@
 
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject IWebHostEnvironment Env
 
 <PageTitle>Editar Categoria</PageTitle>
 
@@ -148,7 +149,13 @@ else
         await using var ms = new MemoryStream();
         await file.OpenReadStream(maxBytes).CopyToAsync(ms);
 
+        var fileName = BuildTimestampedFileName(file.Name);
+        var filePath = GetImagesPath(fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+        await File.WriteAllBytesAsync(filePath, ms.ToArray());
+
         Categoria.Imagem = ms.ToArray();
+        Categoria.UrlImagem = fileName;
         previewSrc = $"data:{file.ContentType};base64,{Convert.ToBase64String(Categoria.Imagem)}";
     }
 
@@ -173,5 +180,16 @@ else
 
         await db.SaveChangesAsync();
         NavigationManager.NavigateTo("/categoria");
+    }
+
+    private string GetImagesPath(string fileName)
+        => Path.GetFullPath(Path.Combine(Env.ContentRootPath, "..", "..", "imgs", fileName));
+
+    private static string BuildTimestampedFileName(string originalName)
+    {
+        var ext = Path.GetExtension(originalName);
+        var name = Path.GetFileNameWithoutExtension(originalName);
+        var timestamp = DateTimeOffset.UtcNow.ToString("yyyyMMddHHmmssfff");
+        return $"{name}_{timestamp}{ext}";
     }
 }

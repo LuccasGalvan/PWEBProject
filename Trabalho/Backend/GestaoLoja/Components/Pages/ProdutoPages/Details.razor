@@ -33,8 +33,18 @@
                 @{
                     string? src = null;
 
-                    if (produto.Imagem is { Length: > 0 })
-                        src = $"data:image/png;base64,{Convert.ToBase64String(produto.Imagem)}";
+                    if (produto.Imagem is { Length: > 0 } && !IsPlaceholderImage(produto.Imagem))
+                    {
+                        var mime = GuessMime(produto.Imagem);
+                        src = $"data:{mime};base64,{Convert.ToBase64String(produto.Imagem)}";
+                    }
+                    else if (BuildImageUrl(produto.UrlImagem) is { } imageUrl)
+                        src = imageUrl;
+                    else if (produto.Imagem is { Length: > 0 })
+                    {
+                        var mime = GuessMime(produto.Imagem);
+                        src = $"data:{mime};base64,{Convert.ToBase64String(produto.Imagem)}";
+                    }
                 }
 
                 @if (src is null)
@@ -138,4 +148,41 @@
 
         return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
+
+    private static string GuessMime(byte[] bytes)
+    {
+        // JPEG: FF D8
+        if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xD8)
+            return "image/jpeg";
+
+        // PNG: 89 50 4E 47
+        if (bytes.Length >= 4 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47)
+            return "image/png";
+
+        // GIF: 47 49 46
+        if (bytes.Length >= 3 && bytes[0] == 0x47 && bytes[1] == 0x49 && bytes[2] == 0x46)
+            return "image/gif";
+
+        return "application/octet-stream";
+    }
+
+    private static string? BuildImageUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return null;
+
+        if (Uri.TryCreate(url, UriKind.Absolute, out _))
+            return url;
+
+        if (url.StartsWith("/"))
+            return url;
+
+        return $"/imgs/{Uri.EscapeDataString(url)}";
+    }
+
+    private static readonly byte[] PlaceholderImage = Convert.FromBase64String(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
+
+    private static bool IsPlaceholderImage(byte[] bytes)
+        => bytes.Length == PlaceholderImage.Length && bytes.AsSpan().SequenceEqual(PlaceholderImage);
 }
