@@ -73,7 +73,7 @@
     <PropertyColumn Property="p => p.EmStock" />
 
     <PropertyColumn Property="p => p.CategoriaNome" Title="Categoria" />
-    <PropertyColumn Property="p => p.FornecedorId" Title="Fornecedor" />
+    <PropertyColumn Property="p => p.FornecedorNome" Title="Fornecedor" />
 
     <TemplateColumn Title="Ações" Context="p">
         <a href="@($"/produtos/edit?id={p.Id}")">Edit</a> |
@@ -145,6 +145,19 @@
             })
             .ToListAsync();
 
+        var fornecedorIds = items
+            .Select(p => p.FornecedorId)
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Distinct()
+            .ToList();
+
+        var fornecedores = await db.Users
+            .AsNoTracking()
+            .Where(u => fornecedorIds.Contains(u.Id))
+            .ToListAsync();
+
+        var fornecedorLookup = fornecedores.ToDictionary(u => u.Id, u => BuildUserDisplay(u, u.Id));
+
         // Build the data URL after materializing (keeps query clean)
         foreach (var row in items)
         {
@@ -153,6 +166,10 @@
                 var mime = GuessMime(row.Imagem);
                 row.ImagemDataUrl = $"data:{mime};base64,{Convert.ToBase64String(row.Imagem)}";
             }
+
+            row.FornecedorNome = row.FornecedorId is not null && fornecedorLookup.TryGetValue(row.FornecedorId, out var nome)
+                ? nome
+                : BuildUserDisplay(null, row.FornecedorId);
         }
 
         return GridItemsProviderResult.From(items, total);
@@ -197,6 +214,7 @@
         public ProdutoEstado Estado { get; set; }
         public int EmStock { get; set; }
         public string? FornecedorId { get; set; }
+        public string? FornecedorNome { get; set; }
 
         public int CategoriaId { get; set; }
         public string? CategoriaNome { get; set; }
@@ -206,5 +224,20 @@
 
         // what the UI uses
         public string? ImagemDataUrl { get; set; }
+    }
+
+    private static string BuildUserDisplay(ApplicationUser? user, string? fallbackId)
+    {
+        if (user is not null)
+        {
+            var fullName = $"{user.Nome} {user.Apelido}".Trim();
+            if (!string.IsNullOrWhiteSpace(fullName))
+                return fullName;
+
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                return user.Email;
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
 }

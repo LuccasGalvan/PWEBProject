@@ -25,8 +25,8 @@
             <dt class="col-sm-2">Id</dt>
             <dd class="col-sm-10">@encomenda.Id</dd>
 
-            <dt class="col-sm-2">ClienteId</dt>
-            <dd class="col-sm-10">@encomenda.ClienteId</dd>
+            <dt class="col-sm-2">Cliente</dt>
+            <dd class="col-sm-10">@clienteDisplay</dd>
 
             <dt class="col-sm-2">CriadaEmUtc</dt>
             <dd class="col-sm-10">@encomenda.CriadaEmUtc</dd>
@@ -78,6 +78,7 @@
 
 @code {
     private Encomenda? encomenda;
+    private string clienteDisplay = "—";
 
     [SupplyParameterFromQuery]
     private Guid Id { get; set; }
@@ -93,6 +94,30 @@
             .FirstOrDefaultAsync(m => m.Id == Id);
 
         if (encomenda is null)
+        {
             NavigationManager.NavigateTo("/encomenda");
+            return;
+        }
+
+        var cliente = await context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == encomenda!.ClienteId);
+
+        clienteDisplay = BuildUserDisplay(cliente, encomenda.ClienteId);
+    }
+
+    private static string BuildUserDisplay(ApplicationUser? user, string? fallbackId)
+    {
+        if (user is not null)
+        {
+            var fullName = $"{user.Nome} {user.Apelido}".Trim();
+            if (!string.IsNullOrWhiteSpace(fullName))
+                return fullName;
+
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                return user.Email;
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
 }

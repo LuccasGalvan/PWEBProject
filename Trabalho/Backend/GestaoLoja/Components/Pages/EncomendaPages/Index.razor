@@ -31,7 +31,7 @@
     </div>
 
     <div>
-        <label class="form-label">ClienteId (contém)</label>
+        <label class="form-label">Cliente (contém)</label>
         <input class="form-control" @bind="filtroClienteId" />
     </div>
 
@@ -47,7 +47,7 @@
            Pagination="pagination">
 
     <PropertyColumn Property="e => e.Id" Title="Id" />
-    <PropertyColumn Property="e => e.ClienteId" Title="Cliente" />
+    <PropertyColumn Property="e => e.ClienteNome" Title="Cliente" />
     <PropertyColumn Property="e => e.Estado" Title="Estado" />
     <PropertyColumn Property="e => e.CriadaEmUtc" Title="Criada" />
     <PropertyColumn Property="e => e.Total" Title="Total" />
@@ -98,6 +98,26 @@
             })
             .ToListAsync();
 
+        var clienteIds = items
+            .Select(e => e.ClienteId)
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Distinct()
+            .ToList();
+
+        var clientes = await db.Users
+            .AsNoTracking()
+            .Where(u => clienteIds.Contains(u.Id))
+            .ToListAsync();
+
+        var clienteLookup = clientes.ToDictionary(u => u.Id, u => BuildUserDisplay(u, u.Id));
+
+        foreach (var row in items)
+        {
+            row.ClienteNome = row.ClienteId is not null && clienteLookup.TryGetValue(row.ClienteId, out var nome)
+                ? nome
+                : BuildUserDisplay(null, row.ClienteId);
+        }
+
         return GridItemsProviderResult.From(items, total);
     }
 
@@ -117,8 +137,24 @@
     {
         public Guid Id { get; set; }
         public string? ClienteId { get; set; }
+        public string? ClienteNome { get; set; }
         public EncomendaEstado Estado { get; set; }
         public DateTime CriadaEmUtc { get; set; }
         public decimal Total { get; set; }
+    }
+
+    private static string BuildUserDisplay(ApplicationUser? user, string? fallbackId)
+    {
+        if (user is not null)
+        {
+            var fullName = $"{user.Nome} {user.Apelido}".Trim();
+            if (!string.IsNullOrWhiteSpace(fullName))
+                return fullName;
+
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                return user.Email;
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
 }

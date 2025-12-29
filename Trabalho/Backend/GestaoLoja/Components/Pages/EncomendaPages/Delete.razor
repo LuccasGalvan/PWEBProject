@@ -27,8 +27,8 @@
             <dt class="col-sm-2">Id</dt>
             <dd class="col-sm-10">@encomenda.Id</dd>
 
-            <dt class="col-sm-2">ClienteId</dt>
-            <dd class="col-sm-10">@encomenda.ClienteId</dd>
+            <dt class="col-sm-2">Cliente</dt>
+            <dd class="col-sm-10">@clienteDisplay</dd>
 
             <dt class="col-sm-2">CriadaEmUtc</dt>
             <dd class="col-sm-10">@encomenda.CriadaEmUtc</dd>
@@ -57,6 +57,7 @@
 @code {
     private Encomenda? encomenda;
     private bool canDelete;
+    private string clienteDisplay = "—";
 
     [SupplyParameterFromQuery]
     private Guid Id { get; set; }
@@ -74,6 +75,12 @@
             NavigationManager.NavigateTo("/encomenda");
             return;
         }
+
+        var cliente = await context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == encomenda.ClienteId);
+
+        clienteDisplay = BuildUserDisplay(cliente, encomenda.ClienteId);
 
         canDelete = encomenda.Estado == EncomendaEstado.PendentePagamento
                     && (encomenda.Itens is null || encomenda.Itens.Count == 0);
@@ -107,5 +114,20 @@
         await context.SaveChangesAsync();
 
         NavigationManager.NavigateTo("/encomenda");
+    }
+
+    private static string BuildUserDisplay(ApplicationUser? user, string? fallbackId)
+    {
+        if (user is not null)
+        {
+            var fullName = $"{user.Nome} {user.Apelido}".Trim();
+            if (!string.IsNullOrWhiteSpace(fullName))
+                return fullName;
+
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                return user.Email;
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackId) ? "—" : fallbackId;
     }
 }
