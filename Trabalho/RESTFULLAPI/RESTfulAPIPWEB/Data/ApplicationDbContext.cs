@@ -24,6 +24,20 @@ namespace RESTfulAPIPWEB.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Categoria>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Children)
+                .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Categoria>().HasData(
+                new Categoria { Id = 1, Nome = "Eletrónicos", Ordem = 1 },
+                new Categoria { Id = 2, Nome = "Computadores", Ordem = 1, ParentId = 1 },
+                new Categoria { Id = 3, Nome = "Portáteis", Ordem = 1, ParentId = 2 },
+                new Categoria { Id = 4, Nome = "Telemóveis", Ordem = 2, ParentId = 1 },
+                new Categoria { Id = 5, Nome = "Acessórios", Ordem = 3, ParentId = 1 }
+            );
+
             // --- Produto ownership: don't allow deleting a supplier to cascade-delete products
             builder.Entity<Produto>()
                 .HasOne(p => p.Fornecedor)
