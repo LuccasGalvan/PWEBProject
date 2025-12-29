@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RESTfulAPIPWEB.Data;
+using RESTfulAPIPWEB.DTO.Encomendas;
 using RESTfulAPIPWEB.Entity;
 using RESTfulAPIPWEB.Entity.Enums;
 
@@ -126,6 +127,34 @@ namespace RESTfulAPIPWEB.Controllers
             await tx.CommitAsync();
 
             return CreatedAtAction(nameof(GetEncomendaDetalhes), new { id = encomenda.Id }, encomenda);
+        }
+
+        // POST: api/Encomendas/{id}/pagar
+        [HttpPost("{id:guid}/pagar")]
+        [ProducesResponseType(typeof(EncomendaPagamentoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<EncomendaPagamentoResponse>> Pagar(Guid id)
+        {
+            var encomenda = await _context.Encomendas.FirstOrDefaultAsync(e => e.Id == id);
+
+            if (encomenda == null)
+                return NotFound();
+
+            if (encomenda.Estado != EncomendaEstado.PendentePagamento)
+                return BadRequest("Encomenda não está pendente de pagamento.");
+
+            encomenda.Estado = EncomendaEstado.Paga;
+            await _context.SaveChangesAsync();
+
+            var response = new EncomendaPagamentoResponse
+            {
+                EncomendaId = encomenda.Id,
+                Estado = encomenda.Estado,
+                PagoEmUtc = DateTime.UtcNow
+            };
+
+            return Ok(response);
         }
     }
 }
