@@ -164,14 +164,40 @@ namespace GestaoLoja.Data
 
             if (!await context.Produtos.AnyAsync())
             {
-                var fornecedorId = fornecedorUser?.Id ?? throw new InvalidOperationException("Fornecedor não encontrado.");
+                if (fornecedorUser is null)
+                    return;
+
+                var fornecedorId = fornecedorUser.Id;
                 var categorias = await context.Categorias.AsNoTracking().ToListAsync();
                 var modos = await context.ModosEntrega.AsNoTracking().ToListAsync();
 
-                var categoriaPorNome = categorias.ToDictionary(c => c.Nome, c => c);
-                var entregaLocal = modos.First(m => m.Nome == "Entrega Local");
-                var envioExpresso = modos.First(m => m.Nome == "Envio Expresso");
-                var levantamento = modos.First(m => m.Nome == "Levantamento em Loja");
+                var categoriaPorNome = categorias.ToDictionary(c => c.Nome, c => c, StringComparer.OrdinalIgnoreCase);
+                var entregaLocal = modos.FirstOrDefault(m => m.Nome == "Entrega Local");
+                var envioExpresso = modos.FirstOrDefault(m => m.Nome == "Envio Expresso");
+                var levantamento = modos.FirstOrDefault(m => m.Nome == "Levantamento em Loja");
+
+                if (entregaLocal is null || envioExpresso is null || levantamento is null)
+                    return;
+
+                bool TryGetCategoria(string nome, out Categoria categoria)
+                    => categoriaPorNome.TryGetValue(nome, out categoria!);
+
+                var categoriasNecessarias = new[]
+                {
+                    "Portáteis",
+                    "Computadores",
+                    "Telemóveis",
+                    "Eletrónicos",
+                    "Acessórios",
+                    "Moda Homem",
+                    "Moda Mulher",
+                    "Moda Calçado",
+                    "Casa",
+                    "Moda"
+                };
+
+                if (categoriasNecessarias.Any(nome => !TryGetCategoria(nome, out _)))
+                    return;
 
                 byte[] imagemPadrao = Convert.FromBase64String(
                     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
@@ -240,9 +266,17 @@ namespace GestaoLoja.Data
 
             if (!await context.Encomendas.AnyAsync())
             {
-                var clienteId = clienteUser?.Id ?? throw new InvalidOperationException("Cliente não encontrado.");
+                if (clienteUser is null)
+                    return;
+
+                var clienteId = clienteUser.Id;
                 var produtos = await context.Produtos.AsNoTracking().ToListAsync();
-                var produtosPorNome = produtos.ToDictionary(p => p.Nome ?? string.Empty, p => p);
+                var produtosPorNome = produtos
+                    .Where(p => !string.IsNullOrWhiteSpace(p.Nome))
+                    .ToDictionary(p => p.Nome!, p => p, StringComparer.OrdinalIgnoreCase);
+
+                bool TryGetProduto(string nome, out Produto produto)
+                    => produtosPorNome.TryGetValue(nome, out produto!);
 
                 Encomenda CriarEncomenda(EncomendaEstado estado, params (Produto produto, int quantidade)[] linhas)
                 {
@@ -271,22 +305,39 @@ namespace GestaoLoja.Data
                     return encomenda;
                 }
 
-                var encomendas = new List<Encomenda>
-                {
-                    CriarEncomenda(EncomendaEstado.Paga,
-                        (produtosPorNome["Notebook Studio"], 1),
-                        (produtosPorNome["Smartphone Aurora"], 2)),
-                    CriarEncomenda(EncomendaEstado.Confirmada,
-                        (produtosPorNome["Casaco Urbano"], 1),
-                        (produtosPorNome["Organizador Casa"], 3)),
-                    CriarEncomenda(EncomendaEstado.Expedida,
-                        (produtosPorNome["Desktop Pro"], 1),
-                        (produtosPorNome["Sapatilhas City"], 1),
-                        (produtosPorNome["Auriculares Pulse"], 2))
-                };
+                var encomendas = new List<Encomenda>();
 
-                context.Encomendas.AddRange(encomendas);
-                await context.SaveChangesAsync();
+                if (TryGetProduto("Notebook Studio", out var notebook)
+                    && TryGetProduto("Smartphone Aurora", out var smartphone))
+                {
+                    encomendas.Add(CriarEncomenda(EncomendaEstado.Paga,
+                        (notebook, 1),
+                        (smartphone, 2)));
+                }
+
+                if (TryGetProduto("Casaco Urbano", out var casaco)
+                    && TryGetProduto("Organizador Casa", out var organizador))
+                {
+                    encomendas.Add(CriarEncomenda(EncomendaEstado.Confirmada,
+                        (casaco, 1),
+                        (organizador, 3)));
+                }
+
+                if (TryGetProduto("Desktop Pro", out var desktop)
+                    && TryGetProduto("Sapatilhas City", out var sapatilhas)
+                    && TryGetProduto("Auriculares Pulse", out var auriculares))
+                {
+                    encomendas.Add(CriarEncomenda(EncomendaEstado.Expedida,
+                        (desktop, 1),
+                        (sapatilhas, 1),
+                        (auriculares, 2)));
+                }
+
+                if (encomendas.Count > 0)
+                {
+                    context.Encomendas.AddRange(encomendas);
+                    await context.SaveChangesAsync();
+                }
             }
         }
     }
