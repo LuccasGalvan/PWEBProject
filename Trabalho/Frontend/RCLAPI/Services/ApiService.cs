@@ -14,6 +14,7 @@ using System.Data.Entity.Core.Objects;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.NetworkInformation;
 using System.Net.Http.Json;
+using RCLAPI.DTO.Fornecedor;
 
 namespace RCLAPI.Services;
 public class ApiService : IApiServices
@@ -52,6 +53,22 @@ public class ApiService : IApiServices
     //        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
     //    }
     //}
+    private async Task<HttpRequestMessage> CreateAuthorizedRequest(HttpMethod method, string endpoint, HttpContent? content = null)
+    {
+        var request = new HttpRequestMessage(method, $"{AppConfig.BaseUrl}{endpoint}");
+        var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "accessToken");
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        if (content != null)
+        {
+            request.Content = content;
+        }
+
+        return request;
+    }
 
     // ********************* Categorias  **********
     public async Task<List<Categoria>> GetCategorias()
@@ -237,6 +254,47 @@ public class ApiService : IApiServices
         }
     }
 
+    public async Task<ApiResponse<bool>> RegistarFornecedor(Utilizador novoUtilizador)
+    {
+        try
+        {
+            string endpoint = "api/Utilizadores/RegistarFornecedor";
+
+            var json = JsonSerializer.Serialize(novoUtilizador, _serializerOptions);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await PostRequest($"{AppConfig.BaseUrl}{endpoint}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    _logger.LogError($"Erro de BadRequest ao registar o fornecedor: {errorResponse}");
+                    return new ApiResponse<bool>
+                    {
+                        ErrorMessage = $"Erro de BadRequest: {errorResponse}"
+                    };
+                }
+
+                _logger.LogError($"Erro ao enviar requisitos Http: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<bool>
+                {
+                    ErrorMessage = $"Erro ao enviar requisição HTTP: {response.StatusCode}. Detalhes: {errorResponse}"
+                };
+            }
+
+            return new ApiResponse<bool> { Data = true };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao registar o fornecedor: {ex.Message}");
+            return new ApiResponse<bool> { ErrorMessage = ex.Message };
+        }
+    }
+
     public async Task<ApiResponse<bool>> Login(LoginModel login)
     {
         try
@@ -267,6 +325,14 @@ public class ApiService : IApiServices
             // Salva o utilizadorid no LocalStorage
             string userID = result.utilizadorid;
             await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userID", userID);
+            if (!string.IsNullOrWhiteSpace(result.accesstoken))
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "accessToken", result.accesstoken);
+            }
+            if (!string.IsNullOrWhiteSpace(result.role))
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userRole", result.role);
+            }
 
             return new ApiResponse<bool> { Data = true };
         }
@@ -560,6 +626,118 @@ public class ApiService : IApiServices
         if (!response.IsSuccessStatusCode)
         {
             Console.WriteLine("Erro ao limpar o carrinho.");
+        }
+    }
+
+    public async Task<ApiResponse<List<FornecedorProdutoDto>>> GetFornecedorProdutos()
+    {
+        try
+        {
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Erro ao obter produtos do fornecedor: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<List<FornecedorProdutoDto>>
+                {
+                    ErrorMessage = $"Erro ao obter produtos: {response.StatusCode}"
+                };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<List<FornecedorProdutoDto>>(jsonResult, _serializerOptions);
+            return new ApiResponse<List<FornecedorProdutoDto>> { Data = result ?? new List<FornecedorProdutoDto>() };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao obter produtos do fornecedor: {ex.Message}");
+            return new ApiResponse<List<FornecedorProdutoDto>> { ErrorMessage = ex.Message };
+        }
+    }
+
+    public async Task<ApiResponse<FornecedorProdutoDto>> UpdateFornecedorProduto(int id, FornecedorProdutoUpdateDto produto)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(produto, _serializerOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var request = await CreateAuthorizedRequest(HttpMethod.Put, $"api/FornecedorProdutos/{id}", content);
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Erro ao atualizar produto do fornecedor: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<FornecedorProdutoDto>
+                {
+                    ErrorMessage = $"Erro ao atualizar produto: {response.StatusCode}"
+                };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<FornecedorProdutoDto>(jsonResult, _serializerOptions);
+            return new ApiResponse<FornecedorProdutoDto> { Data = result };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao atualizar produto do fornecedor: {ex.Message}");
+            return new ApiResponse<FornecedorProdutoDto> { ErrorMessage = ex.Message };
+        }
+    }
+
+    public async Task<ApiResponse<bool>> DeleteFornecedorProduto(int id)
+    {
+        try
+        {
+            var request = await CreateAuthorizedRequest(HttpMethod.Delete, $"api/FornecedorProdutos/{id}");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Erro ao eliminar produto do fornecedor: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<bool>
+                {
+                    ErrorMessage = $"Erro ao eliminar produto: {response.StatusCode}"
+                };
+            }
+
+            return new ApiResponse<bool> { Data = true };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao eliminar produto do fornecedor: {ex.Message}");
+            return new ApiResponse<bool> { ErrorMessage = ex.Message };
+        }
+    }
+
+    public async Task<ApiResponse<List<FornecedorVendaDto>>> GetFornecedorVendas()
+    {
+        try
+        {
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos/vendas");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Erro ao obter vendas do fornecedor: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<List<FornecedorVendaDto>>
+                {
+                    ErrorMessage = $"Erro ao obter vendas: {response.StatusCode}"
+                };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<List<FornecedorVendaDto>>(jsonResult, _serializerOptions);
+            return new ApiResponse<List<FornecedorVendaDto>> { Data = result ?? new List<FornecedorVendaDto>() };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao obter vendas do fornecedor: {ex.Message}");
+            return new ApiResponse<List<FornecedorVendaDto>> { ErrorMessage = ex.Message };
         }
     }
 

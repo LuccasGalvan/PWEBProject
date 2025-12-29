@@ -130,6 +130,25 @@ namespace RESTfulAPIPWEB.Controllers
             return Ok(MapProdutoDto(produto));
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteProduto(int id)
+        {
+            var fornecedorId = GetFornecedorId();
+            if (string.IsNullOrWhiteSpace(fornecedorId))
+                return Unauthorized();
+
+            var produto = await _context.Produtos
+                .FirstOrDefaultAsync(p => p.Id == id && p.FornecedorId == fornecedorId);
+
+            if (produto is null)
+                return NotFound();
+
+            _context.Produtos.Remove(produto);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpGet("vendas")]
         public async Task<ActionResult<IEnumerable<FornecedorVendaDto>>> GetVendas()
         {

@@ -7,5 +7,5 @@ public class Token
  //   public string? RefreshToken { get; set; }
     public string? utilizadorid { get; set; }
     public string? utilizadornome { get; set; }
+    public string? role { get; set; }
 }
-
