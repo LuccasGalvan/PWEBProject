@@ -35,6 +35,17 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">Categoria Pai</label>
+        <InputSelect class="form-select" @bind-Value="Categoria.ParentId">
+            <option value="">Sem categoria pai</option>
+            @foreach (var categoria in categorias)
+            {
+                <option value="@categoria.Id">@categoria.Nome</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">URL da imagem (opcional)</label>
         <InputText class="form-control" @bind-Value="Categoria.UrlImagem" />
     </div>
@@ -64,8 +75,18 @@
     [SupplyParameterFromForm]
     private Categoria Categoria { get; set; } = new();
 
+    private List<Categoria> categorias = new();
     private string? previewSrc;
     private string? fileError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var db = await DbFactory.CreateDbContextAsync();
+        categorias = await db.Categorias
+            .AsNoTracking()
+            .OrderBy(c => c.Nome)
+            .ToListAsync();
+    }
 
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {

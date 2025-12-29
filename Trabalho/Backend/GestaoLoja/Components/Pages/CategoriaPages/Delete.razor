@@ -71,6 +71,20 @@ else
                 return;
             }
 
+            var hasChildren = await db.Categorias.AnyAsync(c => c.ParentId == Id);
+            if (hasChildren)
+            {
+                error = "Não é possível apagar. Existem subcategorias associadas.";
+                return;
+            }
+
+            var hasProducts = await db.Produtos.AnyAsync(p => p.CategoriaId == Id);
+            if (hasProducts)
+            {
+                error = "Não é possível apagar. Existem produtos associados a esta categoria.";
+                return;
+            }
+
             db.Categorias.Remove(entity);
             await db.SaveChangesAsync();
 
