@@ -75,6 +75,7 @@ namespace RESTfulAPIPWEB.Controllers
                 PrecoBase = dto.PrecoBase,
                 MargemPercentual = dto.MargemPercentual,
                 Estado = ProdutoEstado.Pendente,
+                PrecoFinal = null,
                 FornecedorId = fornecedorId,
                 Promocao = dto.Promocao,
                 MaisVendido = dto.MaisVendido,
@@ -84,10 +85,6 @@ namespace RESTfulAPIPWEB.Controllers
                 CategoriaId = dto.CategoriaId,
                 ModoEntregaId = dto.ModoEntregaId
             };
-
-            produto.PrecoFinal = produto.MargemPercentual is null
-                ? null
-                : Math.Round(produto.PrecoBase * (1 + (produto.MargemPercentual.Value / 100m)), 2);
 
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
@@ -126,9 +123,7 @@ namespace RESTfulAPIPWEB.Controllers
             produto.CategoriaId = dto.CategoriaId;
             produto.ModoEntregaId = dto.ModoEntregaId;
             produto.Estado = ProdutoEstado.Pendente;
-            produto.PrecoFinal = produto.MargemPercentual is null
-                ? null
-                : Math.Round(produto.PrecoBase * (1 + (produto.MargemPercentual.Value / 100m)), 2);
+            produto.PrecoFinal = null;
 
             await _context.SaveChangesAsync();
 
