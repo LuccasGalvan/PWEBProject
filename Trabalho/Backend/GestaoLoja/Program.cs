@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 //using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +85,12 @@ else
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "..", "imgs"))),
+    RequestPath = "/imgs"
+});
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

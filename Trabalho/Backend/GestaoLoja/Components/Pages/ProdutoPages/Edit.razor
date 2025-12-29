@@ -11,6 +11,7 @@
 
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject IWebHostEnvironment Env
 
 <PageTitle>Editar Produto</PageTitle>
 
@@ -200,7 +201,12 @@ else
         await using var ms = new MemoryStream();
         await uploadedFile.OpenReadStream(maxAllowedSize: maxBytes).CopyToAsync(ms);
 
-        Produto!.UrlImagem = uploadedFile.Name;
+        var fileName = BuildTimestampedFileName(uploadedFile.Name);
+        var filePath = GetImagesPath(fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+        await File.WriteAllBytesAsync(filePath, ms.ToArray());
+
+        Produto!.UrlImagem = fileName;
         Produto.Imagem = ms.ToArray();
 
         previewBase64 = $"data:{uploadedFile.ContentType};base64,{Convert.ToBase64String(Produto.Imagem)}";
@@ -259,5 +265,16 @@ else
         if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xD8) return "image/jpeg";
         if (bytes.Length >= 4 && bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47) return "image/png";
         return "application/octet-stream";
+    }
+
+    private string GetImagesPath(string fileName)
+        => Path.GetFullPath(Path.Combine(Env.ContentRootPath, "..", "..", "imgs", fileName));
+
+    private static string BuildTimestampedFileName(string originalName)
+    {
+        var ext = Path.GetExtension(originalName);
+        var name = Path.GetFileNameWithoutExtension(originalName);
+        var timestamp = DateTimeOffset.UtcNow.ToString("yyyyMMddHHmmssfff");
+        return $"{name}_{timestamp}{ext}";
     }
 }
