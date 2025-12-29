@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RESTfulAPIPWEB.Data;
 using RESTfulAPIPWEB.Entity;
@@ -8,6 +9,7 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Cliente")]
     public class CarrinhoComprasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -53,6 +55,7 @@ namespace RESTfulAPIPWEB.Controllers
 
         // PUT: api/CarrinhoCompras/{produtoId}/{acao}?userId=...&quantidade=...
         [HttpPut("{produtoId}/{acao}")]
+        [AllowAnonymous]
         public async Task<IActionResult> AtualizaCarrinho(int produtoId, string acao, [FromQuery] string userId, [FromQuery] int quantidade)
         {
             try

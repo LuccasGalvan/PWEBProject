@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RESTfulAPIPWEB.Data;
 using RESTfulAPIPWEB.Entity;
@@ -7,6 +8,7 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Cliente")]
     public class FavoritosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

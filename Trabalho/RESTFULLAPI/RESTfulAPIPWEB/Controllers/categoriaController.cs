@@ -6,7 +6,7 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaRepository _categoriaRepository;

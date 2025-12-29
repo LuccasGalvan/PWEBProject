@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RESTfulAPIPWEB.Data;
 using RESTfulAPIPWEB.DTO.Encomendas;
@@ -9,6 +10,7 @@ namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Cliente")]
     public class EncomendasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
