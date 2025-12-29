@@ -36,6 +36,13 @@
                  class="img-thumbnail mt-2"
                  style="width:100px; height:100px; object-fit:cover;" />
         }
+        else if (!string.IsNullOrWhiteSpace(categoria.UrlImagem))
+        {
+            <img src="@categoria.UrlImagem"
+                 alt="@categoria.Nome"
+                 class="img-thumbnail mt-2"
+                 style="width:100px; height:100px; object-fit:cover;" />
+        }
         else
         {
             <img src="/img/noproductstrans.png"
