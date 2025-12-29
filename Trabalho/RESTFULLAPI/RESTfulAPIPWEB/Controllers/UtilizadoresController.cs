@@ -134,7 +134,7 @@ public class UtilizadoresController : ControllerBase
     }
 
     [HttpGet("userID")]
-    [Authorize]
+    [Authorize(Roles = "Cliente,Fornecedor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUserInformation(string userID)
@@ -156,7 +156,7 @@ public class UtilizadoresController : ControllerBase
     }
 
     [HttpPut("UpdateUser")]
-    [Authorize]
+    [Authorize(Roles = "Cliente,Fornecedor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest dto)
