@@ -1,0 +1,73 @@
+﻿@page "/fornecedor/vendas"
+
+@using RCLAPI.DTO.Fornecedor
+@using RCLAPI.Services
+@inject IApiServices ApiServices
+
+<PageTitle>Histórico de Vendas do Fornecedor</PageTitle>
+
+<h1>Histórico de Vendas</h1>
+
+@if (isLoading)
+{
+    <p>A carregar vendas...</p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (vendas.Count == 0)
+{
+    <p>Sem vendas registadas.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Encomenda</th>
+            <th>Data</th>
+            <th>Estado</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var venda in vendas)
+        {
+            <tr>
+                <td>@venda.EncomendaId</td>
+                <td>@venda.EncomendaCriadaEmUtc.ToLocalTime().ToString("g")</td>
+                <td>@venda.EncomendaEstado</td>
+                <td>@venda.ProdutoNome (@venda.ProdutoId)</td>
+                <td>@venda.Quantidade</td>
+                <td>@venda.PrecoUnitario.ToString("C")</td>
+                <td>@venda.Subtotal.ToString("C")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FornecedorVendaDto> vendas = new();
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await ApiServices.GetFornecedorVendas();
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+        }
+        else if (response.Data != null)
+        {
+            vendas = response.Data;
+        }
+
+        isLoading = false;
+    }
+}

@@ -1,0 +1,177 @@
+﻿@page "/registarfornecedor"
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using RCLAPI.DTO
+@using RCLAPI.Services
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Criar Registo de Fornecedor</PageTitle>
+
+<h1>Criar Registo de Fornecedor</h1>
+
+<h4>Fornecedor</h4>
+<hr />
+<EditForm method="post" Model="Utilizador" OnValidSubmit="AddFornecedor"
+          enctype="multipart/form-data" FormName="create" Enhance>
+    <DataAnnotationsValidator />
+    <ValidationSummary class="text-danger" />
+
+    <div>
+        <label>A Password de conter:</label>
+        <ul>
+            <li>Pelo menos 8 caracteres</li>
+            <li>Pelo menos 1 letra maiúscula</li>
+            <li>Pelo menos 1 letra minúscula</li>
+            <li>Pelo menos 1 número</li>
+            <li>Pelo menos 1 caracter especial</li>
+        </ul>
+    </div>
+    <div class="md-2">
+        <label for="nome" class="form-label">Nome:</label>
+        <InputText id="nome" @bind-Value="Utilizador.Nome" class="form-control" />
+        <ValidationMessage For="() => Utilizador.Nome" class="text-danger" />
+
+        <label for="apelido" class="form-label">Apelido:</label>
+        <InputText id="apelido" @bind-Value="Utilizador.Apelido" class="form-control" />
+        <ValidationMessage For="() => Utilizador.Apelido" class="text-danger" />
+    </div>
+
+    <label for="email" class="form-label">EMail:</label>
+    <InputText id="email" @bind-Value="Utilizador.EMail" class="form-control" />
+    <ValidationMessage For="() => Utilizador.EMail" class="text-danger" />
+
+    <label for="password" class="form-label">Password:</label>
+    <InputText type="password" id="password" @bind-Value="Utilizador.Password" class="form-control" />
+    <ValidationMessage For="() => Utilizador.Password" class="text-danger" />
+
+    <label for="confirmepassword" class="form-label">Confirme a Password:</label>
+    <InputText type="password" id="confirmepassword"
+               @bind-Value="Utilizador.ConfirmPassword" class="form-control" />
+    <ValidationMessage For="() => Utilizador.ConfirmPassword" class="text-danger" />
+
+    <label for="nif" class="form-label">NIF:</label>
+    <InputNumber id="nif" @bind-Value="Utilizador.NIF" class="form-control" />
+    <ValidationMessage For="() => Utilizador.NIF" class="text-danger" />
+
+    <button type="submit" class="btn btn-primary">
+        <img title="Registar" src="/images/login.png" style="height:30px" />
+    </button>
+    <a href="/registaruser" type="button" class="btn btn-outline-secondary">
+        <img title="Registo de Cliente" src="/images/register.png" style="height:30px" />
+    </a>
+    <a href="/" type="button" class="btn btn-outline-secondary">
+        <img title="Recuar" src="/images/backicon.png" style="height:30px" />
+    </a>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Utilizador Utilizador { get; set; } = new();
+    [Inject]
+    public IApiServices? _apiServices { get; set; }
+
+    public async Task AddFornecedor()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(Utilizador.Nome))
+            {
+                Utilizador.Nome = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Apelido))
+            {
+                Utilizador.Apelido = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.EMail))
+            {
+                Utilizador.EMail = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Password))
+            {
+                Utilizador.Password = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.ConfirmPassword))
+            {
+                Utilizador.ConfirmPassword = string.Empty;
+            }
+
+            if (!Utilizador.NIF.HasValue)
+            {
+                Utilizador.NIF = 0;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Rua))
+            {
+                Utilizador.Rua = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Localidade1))
+            {
+                Utilizador.Localidade1 = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Localidade2))
+            {
+                Utilizador.Localidade2 = string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(Utilizador.Pais))
+            {
+                Utilizador.Pais = string.Empty;
+            }
+
+            if (Utilizador.ImageFile != null)
+            {
+                if (Utilizador.ImageFile.Length > (200 * 1024))
+                {
+                    NavigationManager.NavigateTo("/registarfornecedor");
+                }
+
+                if (!isValidFileType(Utilizador.ImageFile.FileName))
+                {
+                    NavigationManager.NavigateTo("/registarfornecedor");
+                }
+                else
+                {
+                    Utilizador.UrlImagem = Utilizador.ImageFile.FileName;
+                }
+
+                using (var dataStream = new MemoryStream())
+                {
+                    await Utilizador.ImageFile.CopyToAsync(dataStream);
+                    Utilizador.Fotografia = dataStream.ToArray();
+                }
+            }
+
+            var result = await _apiServices.RegistarFornecedor(Utilizador);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            NavigationManager.NavigateTo("/error");
+        }
+
+        NavigationManager.NavigateTo("/");
+    }
+
+    bool isValidFileType(string fileName)
+    {
+        string ext = Path.GetExtension(fileName);
+        switch (ext.ToLower())
+        {
+            case ".jpg":
+                return true;
+            case ".jpeg":
+                return true;
+            case ".png":
+                return true;
+            default:
+                return false;
+        }
+    }
+}

@@ -18,7 +18,15 @@
 
         @if (!isLoading && !string.IsNullOrEmpty(userID)) 
         {
-            <BtnCompras />
+            if (string.Equals(userRole, "Fornecedor", StringComparison.OrdinalIgnoreCase))
+            {
+                <BtnFornecedorProdutos />
+                <BtnFornecedorVendas />
+            }
+            else
+            {
+                <BtnCompras />
+            }
             <BtnSobre />
         }
         else if (!isLoading)
@@ -31,6 +39,7 @@
 
 @code {
     private string? userID;
+    private string? userRole;
     private bool isLoading = true;  // Flag para controlar o carregamento do estado
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -39,6 +48,7 @@
         {
             // Carrega o userID do localStorage quando a página for renderizada no cliente
             userID = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+            userRole = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userRole");
 
             // Atribui false após o carregamento ser concluído
             isLoading = false;

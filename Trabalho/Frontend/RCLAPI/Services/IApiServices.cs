@@ -1,4 +1,5 @@
 ﻿using RCLAPI.DTO;
+using RCLAPI.DTO.Fornecedor;
 using System.Net.Http;
 
 namespace RCLAPI.Services;
@@ -11,6 +12,7 @@ public interface IApiServices
     public Task<(bool Data, string? ErrorMessage)> ActualizaFavorito(string acao,int produtoId);
     public Task<List<ProdutoFavorito>> GetFavoritos(string utilizadorId);
     public Task<ApiResponse<bool>> RegistarUtilizador(Utilizador novoUtilizador);
+    public Task<ApiResponse<bool>> RegistarFornecedor(Utilizador novoUtilizador);
     public Task<ApiResponse<bool>> Login(LoginModel login);
     public Task<ApiResponse<bool>> AdicionaItemNoCarrinho(ItemCarrinhoCompra carrinhoCompra);
     public Task<ApiResponse<Utilizador>> GetUserInformation(string userID);
@@ -21,4 +23,8 @@ public interface IApiServices
     public Task<List<Encomenda>> ObterEncomendas(string userId);
     public Task<bool> CriarVenda(Vendas venda);
     public Task LimparCarrinho(string userId);
+    public Task<ApiResponse<List<FornecedorProdutoDto>>> GetFornecedorProdutos();
+    public Task<ApiResponse<FornecedorProdutoDto>> UpdateFornecedorProduto(int id, FornecedorProdutoUpdateDto produto);
+    public Task<ApiResponse<bool>> DeleteFornecedorProduto(int id);
+    public Task<ApiResponse<List<FornecedorVendaDto>>> GetFornecedorVendas();
 }

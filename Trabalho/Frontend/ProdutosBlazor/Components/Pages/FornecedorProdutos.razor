@@ -1,0 +1,242 @@
+﻿@page "/fornecedor/produtos"
+
+@using RCLAPI.DTO
+@using RCLAPI.DTO.Fornecedor
+@using RCLAPI.Services
+@inject IApiServices ApiServices
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Gestão de Produtos do Fornecedor</PageTitle>
+
+<h1>Produtos do Fornecedor</h1>
+
+@if (isLoading)
+{
+    <p>A carregar produtos...</p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço Base</th>
+            <th>Margem</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Para Venda</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var produto in produtos)
+        {
+            <tr>
+                <td>@produto.Nome</td>
+                <td>@produto.PrecoBase.ToString("C")</td>
+                <td>@(produto.MargemPercentual?.ToString("P") ?? "-")</td>
+                <td>@produto.EmStock</td>
+                <td>@produto.Estado</td>
+                <td>@(produto.ParaVenda ? "Sim" : "Não")</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" @onclick="() => StartEdit(produto)">
+                        <img src="/images/icoedit.png" alt="Editar" style="height:18px" />
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteProduto(produto)">
+                        <img src="/images/icodelete.png" alt="Eliminar" style="height:18px" />
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (editProduto is not null)
+{
+    <h3>Editar Produto</h3>
+    <p class="text-muted">Ao editar, o produto fica pendente de validação.</p>
+    <EditForm Model="editProduto" OnValidSubmit="SubmitEdit">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+
+        <div class="mb-2">
+            <label class="form-label">Nome</label>
+            <InputText class="form-control" @bind-Value="editProduto.Nome" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Detalhe</label>
+            <InputText class="form-control" @bind-Value="editProduto.Detalhe" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">URL Imagem</label>
+            <InputText class="form-control" @bind-Value="editProduto.UrlImagem" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Preço Base</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.PrecoBase" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Margem Percentual</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.MargemPercentual" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Stock</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.EmStock" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Categoria</label>
+            <InputSelect class="form-select" @bind-Value="editProduto.CategoriaId">
+                @foreach (var categoria in categorias)
+                {
+                    <option value="@categoria.Id">@categoria.Nome</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Modo de Entrega (ID)</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.ModoEntregaId" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Origem</label>
+            <InputText class="form-control" @bind-Value="editProduto.Origem" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Promoção</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.Promocao" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Mais Vendido</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.MaisVendido" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Para Venda</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.ParaVenda" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-outline-secondary" @onclick="CancelEdit">Cancelar</button>
+    </EditForm>
+}
+
+@if (!string.IsNullOrWhiteSpace(statusMessage))
+{
+    <div class="alert alert-success mt-3">@statusMessage</div>
+}
+
+@code {
+    private List<FornecedorProdutoDto> produtos = new();
+    private List<Categoria> categorias = new();
+    private FornecedorProdutoUpdateDto? editProduto;
+    private int? editProdutoId;
+    private bool isLoading = true;
+    private string? errorMessage;
+    private string? statusMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categoriasResult = await ApiServices.GetCategorias();
+        if (categoriasResult != null)
+        {
+            categorias = categoriasResult;
+        }
+
+        await LoadProdutos();
+    }
+
+    private async Task LoadProdutos()
+    {
+        isLoading = true;
+        errorMessage = null;
+        statusMessage = null;
+
+        var response = await ApiServices.GetFornecedorProdutos();
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+        }
+        else if (response.Data != null)
+        {
+            produtos = response.Data;
+        }
+
+        isLoading = false;
+    }
+
+    private void StartEdit(FornecedorProdutoDto produto)
+    {
+        editProdutoId = produto.Id;
+        editProduto = new FornecedorProdutoUpdateDto
+        {
+            Nome = produto.Nome,
+            Detalhe = produto.Detalhe,
+            UrlImagem = produto.UrlImagem,
+            Imagem = produto.Imagem,
+            PrecoBase = produto.PrecoBase,
+            MargemPercentual = produto.MargemPercentual,
+            Promocao = produto.Promocao,
+            MaisVendido = produto.MaisVendido,
+            EmStock = produto.EmStock,
+            ParaVenda = produto.ParaVenda,
+            Origem = produto.Origem,
+            CategoriaId = produto.CategoriaId,
+            ModoEntregaId = produto.ModoEntregaId
+        };
+    }
+
+    private void CancelEdit()
+    {
+        editProduto = null;
+        editProdutoId = null;
+    }
+
+    private async Task SubmitEdit()
+    {
+        if (editProduto is null || editProdutoId is null)
+        {
+            return;
+        }
+
+        var response = await ApiServices.UpdateFornecedorProduto(editProdutoId.Value, editProduto);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+            return;
+        }
+
+        if (response.Data != null)
+        {
+            var index = produtos.FindIndex(p => p.Id == response.Data.Id);
+            if (index >= 0)
+            {
+                produtos[index] = response.Data;
+            }
+        }
+
+        statusMessage = "Produto atualizado e marcado como pendente.";
+        CancelEdit();
+    }
+
+    private async Task DeleteProduto(FornecedorProdutoDto produto)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"Eliminar '{produto.Nome}'?");
+        if (!confirm)
+        {
+            return;
+        }
+
+        var response = await ApiServices.DeleteFornecedorProduto(produto.Id);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+            return;
+        }
+
+        produtos = produtos.Where(p => p.Id != produto.Id).ToList();
+        statusMessage = "Produto eliminado com sucesso.";
+    }
+}
