@@ -26,8 +26,21 @@ namespace RCLProdutos.Shared.Slider
 
         [Inject]
         public ISliderUtilsServices sliderUtilsService { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
+
         private List<ProdutoDTO>? produtos { get; set; }
         private List<ProdutoFavorito>? userFavoritos { get; set; }
+
+        private List<Categoria> categorias = new();
+        private Dictionary<int, Categoria> categoriaLookup = new();
+        private List<Categoria> categoriaNivel1 = new();
+        private List<Categoria> categoriaNivel2 = new();
+        private List<Categoria> categoriaNivel3 = new();
+        private int? selectedNivel1Id;
+        private int? selectedNivel2Id;
+        private int? selectedNivel3Id;
 
         public ProdutoDTO sugestaoProduto = new ProdutoDTO();
         private int witdthPerc { get; set; } = 0;
@@ -36,42 +49,115 @@ namespace RCLProdutos.Shared.Slider
 
         public static int? actualProd = 0;
 
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            int? categoriasenviadaID;
-            string? produtosEspecificos;
+            await LoadCategoriasAsync();
+            await LoadProdutosAsync();
 
-            if (Id == 0 && actualProd == 0 || nomeCat == "Todos")
+            sliderUtilsService.OnChange += StateHasChanged;
+        }
+
+        private async Task LoadCategoriasAsync()
+        {
+            categorias = await _apiServices!.GetCategorias() ?? new();
+            categoriaLookup = new Dictionary<int, Categoria>();
+            foreach (var categoria in categorias)
             {
-                produtosEspecificos = "todos";
-                categoriasenviadaID = null;
+                MapCategoriaTree(categoria);
             }
-            else if (actualProd == Id)
+
+            UpdateCategoriaNiveis(GetCurrentCategoriaId());
+        }
+
+        private void MapCategoriaTree(Categoria categoria)
+        {
+            categoriaLookup[categoria.Id] = categoria;
+            foreach (var child in categoria.Children)
             {
-                categoriasenviadaID = Id;
-                produtosEspecificos = "categoria";
+                MapCategoriaTree(child);
             }
-            else
+        }
+
+        private int? GetCurrentCategoriaId()
+        {
+            if (Id > 0)
             {
-                if (Id > 0)
+                return Id;
+            }
+
+            if (actualProd.HasValue && actualProd.Value > 0)
+            {
+                return actualProd.Value;
+            }
+
+            return null;
+        }
+
+        private void UpdateCategoriaNiveis(int? selectedCategoriaId)
+        {
+            categoriaNivel1 = categorias;
+            categoriaNivel2 = new List<Categoria>();
+            categoriaNivel3 = new List<Categoria>();
+            selectedNivel1Id = null;
+            selectedNivel2Id = null;
+            selectedNivel3Id = null;
+
+            if (selectedCategoriaId == null || !categoriaLookup.TryGetValue(selectedCategoriaId.Value, out var selecionada))
+            {
+                return;
+            }
+
+            var path = new List<Categoria>();
+            var current = selecionada;
+            while (current != null)
+            {
+                path.Add(current);
+                if (current.ParentId == null)
                 {
-                    categoriasenviadaID = Id;
-                    actualProd = Id;
-                    produtosEspecificos = "categoria";
+                    break;
                 }
-                else
+
+                if (!categoriaLookup.TryGetValue(current.ParentId.Value, out current))
                 {
-                    categoriasenviadaID = actualProd;
-                    produtosEspecificos = "categoria";
+                    break;
                 }
             }
+
+            path.Reverse();
+            if (path.Count > 0)
+            {
+                selectedNivel1Id = path[0].Id;
+                categoriaNivel2 = path[0].Children?.ToList() ?? new();
+            }
+
+            if (path.Count > 1)
+            {
+                selectedNivel2Id = path[1].Id;
+                categoriaNivel3 = path[1].Children?.ToList() ?? new();
+            }
+
+            if (path.Count > 2)
+            {
+                selectedNivel3Id = path[2].Id;
+            }
+        }
+
+        private async Task HandleCategoriaSelecionada(Categoria categoria)
+        {
+            Id = categoria.Id;
+            nomeCat = categoria.Nome ?? nomeCat;
+            actualProd = categoria.Id;
+            UpdateCategoriaNiveis(categoria.Id);
+            await LoadProdutosAsync();
+        }
+
+        private async Task LoadProdutosAsync()
+        {
+            int? categoriasenviadaID = GetCurrentCategoriaId();
+            string produtosEspecificos = categoriasenviadaID.HasValue ? "categoria" : "todos";
 
             try
             {
-                // Tentando obter os produtos da API
                 produtos = await _apiServices!.GetProdutosEspecificos(produtosEspecificos, categoriasenviadaID);
 
                 if (produtos == null || !produtos.Any())
@@ -79,36 +165,24 @@ namespace RCLProdutos.Shared.Slider
                     throw new Exception("Nenhum produto foi recuperado.");
                 }
 
-                if (produtos == null)
-                {
-                    Console.WriteLine("Erro: produtos é null.");
-                    return;
-                }
-
-                if (!produtos.Any())
-                {
-                    throw new Exception("Nenhum produto foi recuperado.");
-                }
-
-                // Obtem o id do utilizador do local storage
                 var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", new object[] { "userID" });
 
                 if (userId != null)
                 {
                     userFavoritos = await _apiServices!.GetFavoritos(userId);
 
-                    // Atualizando os produtos com os favoritos
                     for (int i = 0; i < userFavoritos.Count; i++)
                     {
                         for (int j = 0; j < produtos.Count; j++)
                         {
                             if (produtos[j].Id == userFavoritos[i].ProdutoId)
+                            {
                                 produtos[j].Favorito = userFavoritos[i].Efavorito;
+                            }
                         }
                     }
                 }
 
-                // Gerando uma sugestão de produto aleatória
                 Random random = new Random();
                 int[]? indices = produtos
                                    .Where(item => item is not null)
@@ -127,7 +201,6 @@ namespace RCLProdutos.Shared.Slider
                 Console.WriteLine($"Erro ao obter produtos: {ex.Message}");
             }
 
-            // Carregando a margem à esquerda dos slides
             await LoadMarginsLeft();
 
             if (produtos == null)
@@ -140,11 +213,8 @@ namespace RCLProdutos.Shared.Slider
             witdthPerc = qtdProd * 100;
 
             sliderUtilsService.WidthSlide2 = 100f / qtdProd;
-
-            sliderUtilsService.OnChange += StateHasChanged;
         }
 
-        // Método para carregar as margens à esquerda dos slides
         async Task LoadMarginsLeft()
         {
             if (produtos == null)
@@ -153,13 +223,16 @@ namespace RCLProdutos.Shared.Slider
                 return;
             }
 
+            sliderUtilsService.MarginLeftSlide.Clear();
+            sliderUtilsService.CountSlide = 0;
+            sliderUtilsService.Index = 0;
+
             foreach (var produto in produtos)
             {
                 sliderUtilsService.MarginLeftSlide.Add("margin-left:0%");
             }
         }
 
-        // Método para mover o slide para a esquerda
         void PreviousSlide()
         {
             if (sliderUtilsService.CountSlide != 0)
@@ -177,7 +250,6 @@ namespace RCLProdutos.Shared.Slider
             sliderUtilsService.Index = sliderUtilsService.CountSlide;
         }
 
-        // Método para mover o slide para a direita
         void NextSlide()
         {
             sliderUtilsService.CountSlide++;

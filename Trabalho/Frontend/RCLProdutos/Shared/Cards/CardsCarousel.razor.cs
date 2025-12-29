@@ -1,41 +1,42 @@
 ﻿using Microsoft.AspNetCore.Components;
 using RCLAPI.DTO;
 using RCLAPI.Services;
-using RCLProdutos.Services.Interfaces;
 
 namespace RCLProdutos.Shared.Cards
 {
     public partial class CardsCarousel
     {
-
-        [Parameter]
-        public int SelectedId { get; set; }
-
-        [Parameter]
-        public int catSel { get; set; }
-
         [Inject]
         public IApiServices _apiServices { get; set; }
 
-        [Inject]
-        public ICardsUtilsServices cardsUtilsServices { get; set; }
+        [Parameter]
+        public IEnumerable<Categoria>? Categories { get; set; }
+
+        [Parameter]
+        public EventCallback<Categoria> OnSelect { get; set; }
+
+        [Parameter]
+        public int? SelectedCategoryId { get; set; }
+
+        [Parameter]
+        public string? Title { get; set; }
 
         private List<Categoria>? categorias { get; set; }
-
+        private List<string> marginLeftSlide = new();
+        private int countSlide = 0;
         private bool IsDisabledNext { get; set; } = false;
         private bool IsDisbledPrevious { get; set; } = false;
 
-        private int SelectCategoria;
-
-        private int enviaCat;
-
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            enviaCat = catSel;
-            catSel = 0;
-            SelectCategoria = SelectedId;
-
-            categorias = await _apiServices.GetCategorias();
+            if (Categories is not null)
+            {
+                categorias = Categories.ToList();
+            }
+            else if (categorias == null)
+            {
+                categorias = await _apiServices.GetCategorias();
+            }
 
             if (categorias != null)
             {
@@ -44,12 +45,8 @@ namespace RCLProdutos.Shared.Cards
             }
             else
             {
-                // Handle the case when categorias is null
                 Console.WriteLine("Failed to load categories.");
             }
-
-            cardsUtilsServices.OnChange += StateHasChanged;
-
         }
 
         async Task LoadMarginsLeft()
@@ -60,36 +57,36 @@ namespace RCLProdutos.Shared.Cards
                 return;
             }
 
+            countSlide = 0;
+            marginLeftSlide.Clear();
             foreach (var categoria in categorias)
             {
-                cardsUtilsServices.MarginLeftSlide.Add("margin-left:0%");
+                marginLeftSlide.Add("margin-left:0%");
             }
         }
 
         void PreviousCard()
         {
-            if (cardsUtilsServices.CountSlide != 0)
+            if (countSlide != 0)
             {
-                cardsUtilsServices.MarginLeftSlide[cardsUtilsServices.CountSlide - 1] = "margin-left:0%";
-                cardsUtilsServices.CountSlide--;
+                marginLeftSlide[countSlide - 1] = "margin-left:0%";
+                countSlide--;
                 IsDisabledNext = false;
                 IsDisbledPrevious = false;
             }
             else
             {
-                cardsUtilsServices.MarginLeftSlide[0] = "margin-lef:0%";
+                marginLeftSlide[0] = "margin-left:0%";
                 IsDisbledPrevious = true;
             }
-            cardsUtilsServices.Index = cardsUtilsServices.CountSlide;
         }
 
         void NextCard()
         {
-            cardsUtilsServices.CountSlide++;
-            cardsUtilsServices.Index = cardsUtilsServices.CountSlide;
-            if (cardsUtilsServices.CountSlide < cardsUtilsServices.MarginLeftSlide.Count)
+            countSlide++;
+            if (countSlide < marginLeftSlide.Count)
             {
-                cardsUtilsServices.MarginLeftSlide[cardsUtilsServices.CountSlide - 1] = $"margin-left:-7%";
+                marginLeftSlide[countSlide - 1] = $"margin-left:-7%";
                 IsDisabledNext = false;
                 IsDisbledPrevious = false;
             }

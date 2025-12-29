@@ -28,8 +28,9 @@ namespace RESTfulAPIPWEB.Repositories
 
         public async Task<IEnumerable<Produto>> ObterProdutosPorCategoriaAsync(int categoriaID)
         {
+            var categoriaIds = await GetCategoriaComDescendentesAsync(categoriaID);
             return await QueryCatalogoVisivel()
-                .Where(p => p.CategoriaId == categoriaID)
+                .Where(p => categoriaIds.Contains(p.CategoriaId))
                 .OrderBy(p => p.Nome)
                 .ToListAsync();
         }
@@ -65,6 +66,41 @@ namespace RESTfulAPIPWEB.Repositories
             // Detail endpoint for catalog also must respect visibility
             return await QueryCatalogoVisivel()
                 .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        private async Task<HashSet<int>> GetCategoriaComDescendentesAsync(int categoriaId)
+        {
+            var categorias = await _context.Categorias
+                .AsNoTracking()
+                .Select(c => new { c.Id, c.ParentId })
+                .ToListAsync();
+
+            var lookup = categorias
+                .GroupBy(c => c.ParentId)
+                .ToDictionary(g => g.Key, g => g.Select(c => c.Id).ToList());
+
+            var ids = new HashSet<int> { categoriaId };
+            var stack = new Stack<int>();
+            stack.Push(categoriaId);
+
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+                if (!lookup.TryGetValue(current, out var children))
+                {
+                    continue;
+                }
+
+                foreach (var child in children)
+                {
+                    if (ids.Add(child))
+                    {
+                        stack.Push(child);
+                    }
+                }
+            }
+
+            return ids;
         }
     }
 }

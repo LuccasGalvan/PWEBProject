@@ -77,15 +77,27 @@
     transition: 1s;
 }
 
-    .select-slide:hover {
-        background-color: #ffffffc8;
-        transition: 1s;
-    }
+.select-slide:hover {
+    background-color: #ffffffc8;
+    transition: 1s;
+}
+
+.friso-filters {
+    margin-top: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+}
 
 
 @media (max-width: 640px) {
     .slider {
         top:60px;
+    }
+
+    .friso-filters {
+        margin-top: 300px;
     }
 
 }
