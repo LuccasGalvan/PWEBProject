@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace GestaoLoja.Migrations
 {
     /// <inheritdoc />
-    public partial class DBTest : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +68,7 @@ namespace GestaoLoja.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
                     Ordem = table.Column<int>(type: "int", nullable: true),
                     UrlImagem = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Imagem = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
@@ -73,6 +76,11 @@ namespace GestaoLoja.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categorias_Categorias_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Categorias",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -325,6 +333,18 @@ namespace GestaoLoja.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Categorias",
+                columns: new[] { "Id", "Imagem", "Nome", "Ordem", "ParentId", "UrlImagem" },
+                values: new object[,]
+                {
+                    { 1, null, "Eletrónicos", 1, null, null },
+                    { 2, null, "Computadores", 1, 1, null },
+                    { 4, null, "Telemóveis", 2, 1, null },
+                    { 5, null, "Acessórios", 3, 1, null },
+                    { 3, null, "Portáteis", 1, 2, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -374,6 +394,11 @@ namespace GestaoLoja.Migrations
                 table: "CarrinhoCompras",
                 columns: new[] { "UserId", "ProdutoId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categorias_ParentId",
+                table: "Categorias",
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EncomendaItens_EncomendaId",

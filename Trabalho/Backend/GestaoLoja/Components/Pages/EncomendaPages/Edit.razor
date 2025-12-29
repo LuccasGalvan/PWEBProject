@@ -125,7 +125,7 @@ else
 
     private async Task UpdateEncomenda(EncomendaEstado targetEstado)
     {
-        if (Encomenda is null || Action is null)
+        if (Encomenda is null)
             return;
 
         isUpdating = true;
