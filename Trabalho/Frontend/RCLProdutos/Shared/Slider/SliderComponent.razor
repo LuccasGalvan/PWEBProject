@@ -25,13 +25,33 @@
     </div>
 </section>
 
- @if(Id > 0)
- {
-    <CardsCarousel catSel ="Id"/>
- }
+<div class="friso-filters">
+    @if (categoriaNivel1?.Any() == true)
+    {
+        <CardsCarousel Title="Categorias"
+                       Categories="categoriaNivel1"
+                       SelectedCategoryId="selectedNivel1Id"
+                       OnSelect="HandleCategoriaSelecionada" />
+    }
+
+    @if (categoriaNivel2?.Any() == true)
+    {
+        <CardsCarousel Title="Subcategorias"
+                       Categories="categoriaNivel2"
+                       SelectedCategoryId="selectedNivel2Id"
+                       OnSelect="HandleCategoriaSelecionada" />
+    }
+
+    @if (categoriaNivel3?.Any() == true)
+    {
+        <CardsCarousel Title="Detalhes"
+                       Categories="categoriaNivel3"
+                       SelectedCategoryId="selectedNivel3Id"
+                       OnSelect="HandleCategoriaSelecionada" />
+    }
+</div>
 
 <SlideProdutoComponent sugestProduto="@sugestaoProduto" />
-
 
 
 
