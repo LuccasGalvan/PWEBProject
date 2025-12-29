@@ -176,6 +176,10 @@
                 var mime = GuessMime(row.Imagem);
                 row.ImagemDataUrl = $"data:{mime};base64,{Convert.ToBase64String(row.Imagem)}";
             }
+            else if (!string.IsNullOrWhiteSpace(row.UrlImagem))
+            {
+                row.ImagemDataUrl = row.UrlImagem;
+            }
 
             row.FornecedorNome = row.FornecedorId is not null && fornecedorLookup.TryGetValue(row.FornecedorId, out var nome)
                 ? nome
