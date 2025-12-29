@@ -149,7 +149,7 @@ else
 
     private async Task UpdateEncomenda()
     {
-        if (Encomenda is null)
+        if (Encomenda is null || Action is null)
             return;
 
         isUpdating = true;
