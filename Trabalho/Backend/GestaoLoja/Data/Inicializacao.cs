@@ -13,7 +13,10 @@ namespace GestaoLoja.Data
             IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             await using var context = await dbContextFactory.CreateDbContextAsync();
-            await context.Database.MigrateAsync();
+            if (!await ShouldSkipMigrationsAsync(context))
+            {
+                await context.Database.MigrateAsync();
+            }
             var imagensRoot = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "imgs"));
 
             // Roles
@@ -440,6 +443,54 @@ namespace GestaoLoja.Data
         {
             var path = Path.Combine(imagensRoot, fileName);
             return File.Exists(path) ? File.ReadAllBytes(path) : null;
+        }
+
+        private static async Task<bool> ShouldSkipMigrationsAsync(ApplicationDbContext context)
+        {
+            var connection = context.Database.GetDbConnection();
+            var wasClosed = connection.State == System.Data.ConnectionState.Closed;
+            if (wasClosed)
+            {
+                await connection.OpenAsync();
+            }
+
+            try
+            {
+                var aspNetRolesExists = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM sys.tables WHERE name = 'AspNetRoles'");
+                var migrationsTableExists = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM sys.tables WHERE name = '__EFMigrationsHistory'");
+
+                if (aspNetRolesExists == 0)
+                {
+                    return false;
+                }
+
+                if (migrationsTableExists == 0)
+                {
+                    return true;
+                }
+
+                var migrationsCount = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM [__EFMigrationsHistory]");
+
+                return migrationsCount == 0;
+            }
+            finally
+            {
+                if (wasClosed)
+                {
+                    await connection.CloseAsync();
+                }
+            }
+        }
+
+        private static async Task<int> ExecuteScalarAsync(System.Data.Common.DbConnection connection, string sql)
+        {
+            await using var command = connection.CreateCommand();
+            command.CommandText = sql;
+            var result = await command.ExecuteScalarAsync();
+            return Convert.ToInt32(result);
         }
 
         private static byte[] GetProdutoImagem(
