@@ -1,18 +1,17 @@
 ﻿using RCLAPI.DTO;
-using Microsoft.JSInterop;
 
 namespace RCLAPI.Services
 {
     public class AuthService
     {
         private readonly IApiServices _apiServices;
-        private readonly IJSRuntime _jsRuntime;
+        private readonly IAuthStorage _authStorage;
         public string? LastErrorMessage { get; private set; }
 
-        public AuthService(IApiServices apiServices, IJSRuntime jsRuntime)
+        public AuthService(IApiServices apiServices, IAuthStorage authStorage)
         {
             _apiServices = apiServices;
-            _jsRuntime = jsRuntime;
+            _authStorage = authStorage;
         }
 
         // Obtém as informações do utilizador diretamente da API
@@ -84,11 +83,75 @@ namespace RCLAPI.Services
             }
         }
 
+        public async Task<UserProfileState> LoadUserProfileStateAsync()
+        {
+            LastErrorMessage = null;
+
+            var accessToken = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+            var role = await _authStorage.GetItemAsync(AuthStorageKeys.UserRole);
+
+            if (string.IsNullOrWhiteSpace(accessToken))
+            {
+                return new UserProfileState
+                {
+                    IsAuthenticated = false,
+                    Role = role,
+                    ErrorMessage = "Sessão não encontrada no armazenamento local. Faça login novamente."
+                };
+            }
+
+            var user = await GetUserInformation();
+            if (user != null)
+            {
+                return new UserProfileState
+                {
+                    IsAuthenticated = true,
+                    Role = role,
+                    User = user
+                };
+            }
+
+            var errorMessage = NormalizeProfileErrorMessage(LastErrorMessage);
+            return new UserProfileState
+            {
+                IsAuthenticated = false,
+                Role = role,
+                ErrorMessage = errorMessage ?? "Não foi possível carregar as informações do utilizador."
+            };
+        }
+
         public async Task ClearUserAsync()
         {
-            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
-            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userID");
-            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userRole");
+            await _authStorage.RemoveItemAsync(AuthStorageKeys.AccessToken);
+            await _authStorage.RemoveItemAsync(AuthStorageKeys.UserId);
+            await _authStorage.RemoveItemAsync(AuthStorageKeys.UserRole);
+        }
+
+        private static string? NormalizeProfileErrorMessage(string? message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return null;
+            }
+
+            if (message.Contains("NotFound", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Sessão inválida. Faça login novamente.";
+            }
+
+            if (message.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
+                || message.Contains("sem permissões", StringComparison.OrdinalIgnoreCase))
+            {
+                return message;
+            }
+
+            if (message.Contains("Unauthorized", StringComparison.OrdinalIgnoreCase)
+                || message.Contains("Forbidden", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Sessão expirada ou sem permissões. Faça login novamente.";
+            }
+
+            return $"Não foi possível carregar as informações do utilizador: {message}";
         }
     }
 }

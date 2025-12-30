@@ -3,8 +3,6 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Microsoft.JSInterop; 
-
 using RCLAPI.DTO;
 using System;
 using System.Net.Http;
@@ -21,7 +19,7 @@ public class ApiService : IApiServices
 {
     private readonly ILogger<ApiService> _logger;
     private readonly HttpClient _httpClient = new();
-    private readonly IJSRuntime _jsRuntime;  
+    private readonly IAuthStorage _authStorage;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -32,12 +30,12 @@ public class ApiService : IApiServices
     private List<Categoria> categorias;
 
     private ProdutoDTO _detalhesProduto;
-    public ApiService(ILogger<ApiService> logger, IHttpContextAccessor httpContextAccessor, IJSRuntime jsRuntime)
+    public ApiService(ILogger<ApiService> logger, IHttpContextAccessor httpContextAccessor, IAuthStorage authStorage)
     {
         _httpContextAccessor = httpContextAccessor;
 
         _logger = logger;
-        _jsRuntime = jsRuntime;
+        _authStorage = authStorage;
         _serializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -56,7 +54,7 @@ public class ApiService : IApiServices
     private async Task<HttpRequestMessage> CreateAuthorizedRequest(HttpMethod method, string endpoint, HttpContent? content = null)
     {
         var request = new HttpRequestMessage(method, $"{AppConfig.BaseUrl}{endpoint}");
-        var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "accessToken");
+        var token = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
         if (!string.IsNullOrWhiteSpace(token))
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -72,9 +70,9 @@ public class ApiService : IApiServices
 
     private async Task ClearAuthTokensAsync()
     {
-        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
-        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userID");
-        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userRole");
+        await _authStorage.RemoveItemAsync(AuthStorageKeys.AccessToken);
+        await _authStorage.RemoveItemAsync(AuthStorageKeys.UserId);
+        await _authStorage.RemoveItemAsync(AuthStorageKeys.UserRole);
     }
 
     // ********************* Categorias  **********
@@ -347,14 +345,14 @@ public class ApiService : IApiServices
 
             // Salva o utilizadorid no LocalStorage
             string userID = result.utilizadorid;
-            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userID", userID);
+            await _authStorage.SetItemAsync(AuthStorageKeys.UserId, userID);
             if (!string.IsNullOrWhiteSpace(result.accesstoken))
             {
-                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "accessToken", result.accesstoken);
+                await _authStorage.SetItemAsync(AuthStorageKeys.AccessToken, result.accesstoken);
             }
             if (!string.IsNullOrWhiteSpace(result.role))
             {
-                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userRole", result.role);
+                await _authStorage.SetItemAsync(AuthStorageKeys.UserRole, result.role);
             }
 
             return new ApiResponse<bool> { Data = true };
@@ -411,7 +409,7 @@ public class ApiService : IApiServices
             };
 
             // Recupera o userId do local storage
-            var userId = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", new object?[] { "userID" });
+            var userId = await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
             if (string.IsNullOrEmpty(userId))
             {
                 string errorMessage = "UserID não encontrado no local storage.";
