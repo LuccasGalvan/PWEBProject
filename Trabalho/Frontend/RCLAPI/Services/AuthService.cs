@@ -68,7 +68,9 @@ namespace RCLAPI.Services
 
         public async Task ClearUserAsync()
         {
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
             await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userID");
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userRole");
         }
     }
 }
