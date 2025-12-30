@@ -159,12 +159,27 @@ else
                 }
                 else
                 {
-                    loadError = "Sessão inválida ou expirada. Faça login novamente.";
+                    if (!string.IsNullOrWhiteSpace(_authService.LastErrorMessage))
+                    {
+                        if (_authService.LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
+                            || _authService.LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase))
+                        {
+                            loadError = _authService.LastErrorMessage;
+                        }
+                        else
+                        {
+                            loadError = $"Não foi possível carregar as informações do utilizador: {_authService.LastErrorMessage}";
+                        }
+                    }
+                    else
+                    {
+                        loadError = "Não foi possível carregar as informações do utilizador.";
+                    }
                 }
             }
             else
             {
-                loadError = "Sessão inválida ou expirada. Faça login novamente.";
+                loadError = "Sessão não encontrada no armazenamento local. Isto pode ocorrer após mudança de origem ou limpeza do browser. Faça login novamente.";
             }
 
             isLoading = false;
