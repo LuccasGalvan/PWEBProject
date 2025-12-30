@@ -314,8 +314,10 @@ public class ApiService : IApiServices
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"Erro ao enviar requisição Http: {response.StatusCode}");
-
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorMessage = $"Erro ao enviar requisição Http: {response.StatusCode} - {errorContent}";
+                _logger.LogError(errorMessage);
+                return new ApiResponse<bool> { ErrorMessage = errorMessage };
             }
             var jsonResult = await response.Content.ReadAsStringAsync();
             _logger.LogInformation($"Resposta do servidor: {jsonResult}");
