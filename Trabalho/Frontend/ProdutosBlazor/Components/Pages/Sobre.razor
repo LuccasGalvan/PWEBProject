@@ -8,7 +8,15 @@
 
 <h3>Informações do Utilizador</h3>
 
-@if (user != null)
+@if (isLoading)
+{
+    <p>A carregar informações do utilizador...</p>
+}
+else if (!string.IsNullOrWhiteSpace(loadError))
+{
+    <p>@loadError</p>
+}
+else if (user != null)
 {
     <div>
         @if(erro == true){
@@ -130,6 +138,8 @@ else
     private bool _isInitialized = false;
     private bool _isEditing = false;
     private bool erro = false;
+    private bool isLoading = true;
+    private string? loadError;
     private string? photoPreview;
     private InputFile? fileInput;
 
@@ -138,22 +148,28 @@ else
         if (firstRender)
         {
             var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+            var accessToken = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "accessToken");
 
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(accessToken))
             {
                 var authenticatedUser = await _authService.GetUserInformation(userId);
                 if (authenticatedUser != null)
                 {
                     user = authenticatedUser;  
-                    StateHasChanged();
+                }
+                else
+                {
+                    loadError = "Sessão inválida ou expirada. Faça login novamente.";
                 }
             }
             else
             {
-                NavigationManager.NavigateTo("/modalogin");
+                loadError = "Sessão inválida ou expirada. Faça login novamente.";
             }
 
+            isLoading = false;
             _isInitialized = true;
+            StateHasChanged();
         }
     }
 

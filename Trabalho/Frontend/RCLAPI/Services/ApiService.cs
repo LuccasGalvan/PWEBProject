@@ -322,10 +322,26 @@ public class ApiService : IApiServices
             var jsonResult = await response.Content.ReadAsStringAsync();
             _logger.LogInformation($"Resposta do servidor: {jsonResult}");
 
-            var result = JsonSerializer.Deserialize<Token>(jsonResult, _serializerOptions);
-            if (result == null)
+            try
             {
-                _logger.LogError("Erro ao fazer login: resultado da desserialização é nulo.");
+                using var document = JsonDocument.Parse(jsonResult);
+                if (document.RootElement.TryGetProperty("hasError", out var hasErrorElement) && hasErrorElement.GetBoolean())
+                {
+                    var errorMessage = document.RootElement.TryGetProperty("errorMessage", out var messageElement)
+                        ? messageElement.GetString()
+                        : "Erro ao fazer login.";
+                    return new ApiResponse<bool> { ErrorMessage = errorMessage };
+                }
+            }
+            catch (JsonException)
+            {
+                _logger.LogWarning("Resposta inesperada ao fazer login. Tentando desserializar token.");
+            }
+
+            var result = JsonSerializer.Deserialize<Token>(jsonResult, _serializerOptions);
+            if (result == null || string.IsNullOrWhiteSpace(result.accesstoken) || string.IsNullOrWhiteSpace(result.utilizadorid))
+            {
+                _logger.LogError("Erro ao fazer login: token ou utilizador inválido.");
                 return new ApiResponse<bool> { ErrorMessage = "Erro ao fazer login" };
             }
 
