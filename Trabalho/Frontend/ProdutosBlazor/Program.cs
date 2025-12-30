@@ -4,10 +4,13 @@ using ProdutosBlazor.Components;
 
 using RCLProdutos.Services.Interfaces;
 using RCLProdutos.Services;
+using RCLAPI;
 using RCLAPI.Services;
 using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
+
+AppConfig.Configure(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -18,7 +21,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<ISliderUtilsServices, SliderUtilsServices>();
 builder.Services.AddScoped<ICardsUtilsServices, CardsUtilsServices>();
 
-// Registra o serviço IHttpContextAccessor
+// Registra o serviÃ§o IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IApiServices, ApiService>();

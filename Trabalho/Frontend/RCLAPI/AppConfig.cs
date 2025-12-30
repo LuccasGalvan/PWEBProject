@@ -1,13 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace RCLAPI;
 public static class AppConfig
 {
-    public static readonly string BaseUrl = "https://qvw90nn8-7144.uks1.devtunnels.ms/";
+    public const string ApiBaseUrlConfigKey = "Api:BaseUrl";
+
+    public static string BaseUrl { get; private set; } = string.Empty;
+
+    public static void Configure(IConfiguration configuration)
+    {
+        if (configuration == null)
+        {
+            throw new ArgumentNullException(nameof(configuration));
+        }
+
+        var baseUrl = configuration[ApiBaseUrlConfigKey];
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            throw new InvalidOperationException($"Missing configuration value for '{ApiBaseUrlConfigKey}'.");
+        }
+
+        BaseUrl = baseUrl.EndsWith("/") ? baseUrl : $"{baseUrl}/";
+    }
 
     public static readonly string tituloHomePage = "PediTiscos";
 
