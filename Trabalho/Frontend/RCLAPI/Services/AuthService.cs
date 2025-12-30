@@ -16,11 +16,11 @@ namespace RCLAPI.Services
         }
 
         // Obtém as informações do utilizador diretamente da API
-        public async Task<Utilizador?> GetUserInformation(string userID)
+        public async Task<Utilizador?> GetUserInformation()
         {
             LastErrorMessage = null;
             // Chama o método que obtém as informações do utilizador da API
-            var response = await _apiServices.GetUserInformation(userID);
+            var response = await _apiServices.GetUserInformation();
 
             // Verifica se a resposta da API foi bem-sucedida
             if (response != null && response.Data != null)

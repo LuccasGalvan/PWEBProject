@@ -155,6 +155,32 @@ public class UtilizadoresController : ControllerBase
         });
     }
 
+    [HttpGet("me")]
+    [Authorize(Roles = "Cliente,Fornecedor")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> GetCurrentUserInformation()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrWhiteSpace(userId))
+            return Unauthorized("Token inválido.");
+
+        var utilizador = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (utilizador == null)
+            return NotFound("Utilizador não encontrado.");
+
+        return Ok(new
+        {
+            utilizador.Id,
+            utilizador.Email,
+            utilizador.Nome,
+            utilizador.Apelido,
+            utilizador.NIF,
+            utilizador.Estado
+        });
+    }
+
     [HttpPut("UpdateUser")]
     [Authorize(Roles = "Cliente,Fornecedor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
