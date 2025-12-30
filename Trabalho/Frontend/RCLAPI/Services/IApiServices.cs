@@ -24,6 +24,7 @@ public interface IApiServices
     public Task<bool> CriarVenda(Vendas venda);
     public Task LimparCarrinho(string userId);
     public Task<ApiResponse<List<FornecedorProdutoDto>>> GetFornecedorProdutos();
+    public Task<ApiResponse<FornecedorProdutoDto>> CreateFornecedorProduto(FornecedorProdutoCreateDto produto);
     public Task<ApiResponse<FornecedorProdutoDto>> UpdateFornecedorProduto(int id, FornecedorProdutoUpdateDto produto);
     public Task<ApiResponse<bool>> DeleteFornecedorProduto(int id);
     public Task<ApiResponse<List<FornecedorVendaDto>>> GetFornecedorVendas();

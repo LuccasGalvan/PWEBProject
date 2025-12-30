@@ -127,6 +127,11 @@ else if (user != null)
             <button @onclick="ToggleEditing">Editar</button>
         }
     </div>
+
+    @if (string.Equals(userRole, "Fornecedor", StringComparison.OrdinalIgnoreCase))
+    {
+        <FornecedorProdutosEditor />
+    }
 }
 else
 {
@@ -139,6 +144,7 @@ else
     private bool erro;
     private bool isLoading = true;
     private string? loadError;
+    private string? userRole;
 
     protected override async Task OnInitializedAsync()
     {
@@ -147,6 +153,7 @@ else
         if (state.IsAuthenticated && state.User != null)
         {
             user = state.User;
+            userRole = state.Role;
         }
         else
         {
