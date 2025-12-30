@@ -160,7 +160,13 @@ else
                 {
                     if (!string.IsNullOrWhiteSpace(_authService.LastErrorMessage))
                     {
-                        if (_authService.LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
+                        if (_authService.LastErrorMessage.Contains("NotFound", StringComparison.OrdinalIgnoreCase))
+                        {
+                            await _authService.ClearUserAsync();
+                            loadError = "Sessão inválida. Faça login novamente.";
+                            NavigationManager.NavigateTo("/modalogin?returnUrl=/sobre", true);
+                        }
+                        else if (_authService.LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
                             || _authService.LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase))
                         {
                             await _authService.ClearUserAsync();
