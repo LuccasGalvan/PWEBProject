@@ -70,6 +70,13 @@ public class ApiService : IApiServices
         return request;
     }
 
+    private async Task ClearAuthTokensAsync()
+    {
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userID");
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userRole");
+    }
+
     // ********************* Categorias  **********
     public async Task<List<Categoria>> GetCategorias()
     {
@@ -446,6 +453,16 @@ public class ApiService : IApiServices
         }
     }
 
+    private sealed class UserInfoResponse
+    {
+        public string? Id { get; set; }
+        public string? Email { get; set; }
+        public string? Nome { get; set; }
+        public string? Apelido { get; set; }
+        public long? NIF { get; set; }
+        public string? Estado { get; set; }
+    }
+
     public async Task<ApiResponse<Utilizador>> GetUserInformation(string userId)
     {
         try
@@ -454,11 +471,22 @@ public class ApiService : IApiServices
             string endpoint = $"api/Utilizadores/userID?userID={userId}";
 
             // Realiza a requisição HTTP GET
-            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}{endpoint}");
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);
+            var response = await _httpClient.SendAsync(request);
 
             // Verifica se a resposta foi bem-sucedida
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    _logger.LogWarning("Sessão expirada ou sem permissões. Faça login novamente.");
+                    return new ApiResponse<Utilizador>
+                    {
+                        ErrorMessage = "Sessão expirada ou sem permissões. Faça login novamente."
+                    };
+                }
+
                 _logger.LogError($"Erro ao enviar requisição Http: {response.StatusCode}");
                 return new ApiResponse<Utilizador> { ErrorMessage = $"Erro ao enviar requisição: {response.StatusCode}" };
             }
@@ -466,8 +494,8 @@ public class ApiService : IApiServices
             // Lê o conteúdo da resposta HTTP
             var jsonResult = await response.Content.ReadAsStringAsync();
 
-            // Deserializa a resposta para o objeto Utilizador
-            var result = JsonSerializer.Deserialize<Utilizador>(jsonResult, _serializerOptions);
+            // Deserializa a resposta para o objeto DTO
+            var result = JsonSerializer.Deserialize<UserInfoResponse>(jsonResult, _serializerOptions);
 
             // Verifica se a deserialização falhou
             if (result == null)
@@ -476,8 +504,18 @@ public class ApiService : IApiServices
                 return new ApiResponse<Utilizador> { ErrorMessage = "Erro ao fazer login" };
             }
 
+            var utilizador = new Utilizador
+            {
+                Nome = result.Nome,
+                Apelido = result.Apelido,
+                EMail = result.Email,
+                NIF = result.NIF,
+                Password = string.Empty,
+                ConfirmPassword = string.Empty
+            };
+
             // Retorna a resposta com os dados do utilizador
-            return new ApiResponse<Utilizador> { Data = result };
+            return new ApiResponse<Utilizador> { Data = utilizador };
         }
         catch (Exception ex)
         {

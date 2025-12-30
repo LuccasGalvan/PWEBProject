@@ -197,9 +197,6 @@ else
         await _authService.ClearUserAsync();
         user = null;
 
-        // Remove o userID do localStorage ao fazer logout
-        await JSRuntime.InvokeAsync<object>("localStorage.removeItem", "userID");
-
         StateHasChanged();
 
         NavigationManager.NavigateTo("/", true);

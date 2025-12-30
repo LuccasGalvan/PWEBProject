@@ -1,0 +1,16 @@
+﻿@using RCLAPI.Services
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
+<button type="button" class="btn-favoritos" @onclick="LogoutUser">
+    <img src="/images/exit.png" alt="Logout" />
+    <p style="color:Red">Logout</p>
+</button>
+
+@code {
+    private async Task LogoutUser()
+    {
+        await AuthService.ClearUserAsync();
+        NavigationManager.NavigateTo("/", true);
+    }
+}
