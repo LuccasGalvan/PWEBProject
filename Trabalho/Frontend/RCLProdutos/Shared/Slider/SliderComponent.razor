@@ -6,7 +6,7 @@
 
 <section class="slider">
     <div class="slider-container" style="width:@(witdthPerc)%">
-        <button @onclick="PreviousSlide" disabled="@IsDisbledPrevious" class="btn-slides-left"><img src="images/back.png" /></button>
+        <button @onclick="PreviousSlide" disabled="@IsDisbledPrevious" class="btn-slides-left"><img src="/images/back.png" /></button>
 
         @if (produtos == null)
         {
@@ -21,7 +21,7 @@
             <IndicadoresComponent Produtos="@produtos" />
         }
 
-        <button @onclick="NextSlide" disabled="@IsDisabledNext" class="btn-slides-right"><img src="images/next.png" /></button>
+        <button @onclick="NextSlide" disabled="@IsDisabledNext" class="btn-slides-right"><img src="/images/next.png" /></button>
     </div>
 </section>
 

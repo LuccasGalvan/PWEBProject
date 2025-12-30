@@ -5,7 +5,7 @@
         <h3 class="carousel-title">@Title</h3>
     }
     <div class="cards-container">
-        <button @onclick="PreviousCard" disabled="@IsDisbledPrevious" class="btn-cards-left"><img src="images/back.png" /></button>
+        <button @onclick="PreviousCard" disabled="@IsDisbledPrevious" class="btn-cards-left"><img src="/images/back.png" /></button>
         @if (categorias == null)
 
         {
@@ -21,7 +21,7 @@
                           OnSelect="OnSelect" />
         }
     }
-        <button @onclick="NextCard" disabled="@IsDisabledNext" class="btn-cards-right"><img src="images/next.png" /></button>
+        <button @onclick="NextCard" disabled="@IsDisabledNext" class="btn-cards-right"><img src="/images/next.png" /></button>
     </div>
 </section>
 

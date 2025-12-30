@@ -15,10 +15,10 @@
 					A nossa sugestão <span class="font-valor2">@sugestProduto.Nome @sugestProduto.Preco €/@sugestProduto.modoentrega.Nome</span>
 				</p>
 				<div class="slide-description-botton">
-					<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="images/infoicontransp50x50.png" width="30" /></a>
+					<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="/images/infoicontransp50x50.png" width="30" /></a>
 					@if (sugestProduto.Disponivel)
 					{
-						<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="images/cart.png" width="30" /></a>
+						<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="/images/cart.png" width="30" /></a>
 					}
 				</div>
 			}
@@ -26,10 +26,10 @@
 		</div>
 
 		<div class="slide-description-botton">
-			<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="images/infoicontransp50x50.png" width="30" /></a>
+			<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="/images/infoicontransp50x50.png" width="30" /></a>
 			@if (sugestProduto.Disponivel)
 			{
-				<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="images/cart.png" width="30" /></a>
+				<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="/images/cart.png" width="30" /></a>
 			}
 		</div>
 
@@ -113,9 +113,9 @@
 						@if (sugestProduto.Disponivel)
 
 						{
-							<a href="" @onclick='(() => AbreFecha("fecha","abre"))'> <img alt="Comprar" src="images/cart.png" width="30" /></a>
+							<a href="" @onclick='(() => AbreFecha("fecha","abre"))'> <img alt="Comprar" src="/images/cart.png" width="30" /></a>
 						}
-						<a href="" @onclick='(() => AbreFecha("fecha",""))'> <img alt="Sair" src="images/exit.png" width="30" /></a>
+						<a href="" @onclick='(() => AbreFecha("fecha",""))'> <img alt="Sair" src="/images/exit.png" width="30" /></a>
 					</div>
 
 					@{
@@ -178,9 +178,9 @@
 
 							<div class="row justify-content-md-around" style="height: 80px;">
 								<div class="col-md-10 ">
-									<a href="" @onclick='(() => Incrementa("desincrementa",""))'> <img alt="Desincrementar" src="images/minus.png" width="30" /></a>
+									<a href="" @onclick='(() => Incrementa("desincrementa",""))'> <img alt="Desincrementar" src="/images/minus.png" width="30" /></a>
 									&nbsp;@quantidade&nbsp;
-									<a href="" @onclick='(() => Incrementa("incrementa",""))'> <img alt="Incrementar" src="images/plus.png" width="30" /></a>
+									<a href="" @onclick='(() => Incrementa("incrementa",""))'> <img alt="Incrementar" src="/images/plus.png" width="30" /></a>
 								</div>
 							</div>
 
@@ -199,8 +199,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<a href="" @onclick='(() => AbreFecha("grava","fecha"))'> <img alt="Gravar" src="images/iconsave.ico" width="30" /></a>
-						<a href="" @onclick='(() => AbreFecha("","fecha"))'> <img alt="Sair" src="images/exit.png" width="30" /></a>
+						<a href="" @onclick='(() => AbreFecha("grava","fecha"))'> <img alt="Gravar" src="/images/iconsave.ico" width="30" /></a>
+						<a href="" @onclick='(() => AbreFecha("","fecha"))'> <img alt="Sair" src="/images/exit.png" width="30" /></a>
 					</div>
 				</div>
 			</div>
