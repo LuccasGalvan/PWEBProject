@@ -163,6 +163,7 @@ else
                         if (_authService.LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
                             || _authService.LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase))
                         {
+                            await _authService.ClearUserAsync();
                             loadError = _authService.LastErrorMessage;
                         }
                         else
