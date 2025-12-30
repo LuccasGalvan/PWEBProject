@@ -1,0 +1,441 @@
+@using RCLAPI.DTO.Fornecedor
+@using System.Globalization
+@inject RCLAPI.Services.IApiServices ApiServices
+
+<h4>Produtos do Fornecedor</h4>
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <p class="text-danger">@errorMessage</p>
+}
+
+<div>
+    <h5>Adicionar produto</h5>
+    <div>
+        <label>Nome</label>
+        <InputText class="form-control" @bind-Value="newProduto.Nome" />
+    </div>
+    <div>
+        <label>Detalhe</label>
+        <InputText class="form-control" @bind-Value="newProduto.Detalhe" />
+    </div>
+    <div>
+        <label>Preço base</label>
+        <InputNumber class="form-control" @bind-Value="newProduto.PrecoBase" />
+    </div>
+    <div>
+        <label>Margem (%)</label>
+        <InputNumber class="form-control" @bind-Value="newProduto.MargemPercentual" />
+    </div>
+    <div>
+        <label>Em stock</label>
+        <InputNumber class="form-control" @bind-Value="newProduto.EmStock" />
+    </div>
+    <div>
+        <label>Origem</label>
+        <InputText class="form-control" @bind-Value="newProduto.Origem" />
+    </div>
+    <div>
+        <label>Categoria</label>
+        <InputNumber class="form-control" @bind-Value="newProduto.CategoriaId" />
+    </div>
+    <div>
+        <label>Modo de entrega</label>
+        <InputNumber class="form-control" @bind-Value="newProduto.ModoEntregaId" />
+    </div>
+    <div>
+        <label>
+            <InputCheckbox @bind-Value="newProduto.ParaVenda" /> Para venda
+        </label>
+    </div>
+    <div>
+        <label>
+            <InputCheckbox @bind-Value="newProduto.Promocao" /> Promoção
+        </label>
+    </div>
+    <div>
+        <label>
+            <InputCheckbox @bind-Value="newProduto.MaisVendido" /> Mais vendido
+        </label>
+    </div>
+    <button class="btn btn-primary" @onclick="AddProdutoAsync" disabled="@isAdding">
+        @(isAdding ? "A guardar..." : "Adicionar")
+    </button>
+</div>
+
+@if (isLoading)
+{
+    <p>A carregar produtos...</p>
+}
+else if (produtos.Count == 0)
+{
+    <p>Sem produtos registados.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Detalhe</th>
+                <th>Preço base</th>
+                <th>Margem</th>
+                <th>Em stock</th>
+                <th>Para venda</th>
+                <th>Promoção</th>
+                <th>Mais vendido</th>
+                <th>Origem</th>
+                <th>Categoria</th>
+                <th>Modo entrega</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in produtos)
+            {
+                var isEditing = editingId == produto.Id;
+                var isSaving = savingIds.Contains(produto.Id);
+                var isDeleting = deletingIds.Contains(produto.Id);
+                <tr>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputText class="form-control" @bind-Value="editProduto.Nome" />
+                        }
+                        else
+                        {
+                            @produto.Nome
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputText class="form-control" @bind-Value="editProduto.Detalhe" />
+                        }
+                        else
+                        {
+                            @produto.Detalhe
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputNumber class="form-control" @bind-Value="editProduto.PrecoBase" />
+                        }
+                        else
+                        {
+                            @produto.PrecoBase.ToString("C", CultureInfo.CurrentCulture)
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputNumber class="form-control" @bind-Value="editProduto.MargemPercentual" />
+                        }
+                        else
+                        {
+                            @produto.MargemPercentual
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputNumber class="form-control" @bind-Value="editProduto.EmStock" />
+                        }
+                        else
+                        {
+                            @produto.EmStock
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputCheckbox @bind-Value="editProduto.ParaVenda" />
+                        }
+                        else
+                        {
+                            @(produto.ParaVenda ? "Sim" : "Não")
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputCheckbox @bind-Value="editProduto.Promocao" />
+                        }
+                        else
+                        {
+                            @(produto.Promocao ? "Sim" : "Não")
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputCheckbox @bind-Value="editProduto.MaisVendido" />
+                        }
+                        else
+                        {
+                            @(produto.MaisVendido ? "Sim" : "Não")
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputText class="form-control" @bind-Value="editProduto.Origem" />
+                        }
+                        else
+                        {
+                            @produto.Origem
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputNumber class="form-control" @bind-Value="editProduto.CategoriaId" />
+                        }
+                        else
+                        {
+                            @produto.CategoriaId
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <InputNumber class="form-control" @bind-Value="editProduto.ModoEntregaId" />
+                        }
+                        else
+                        {
+                            @produto.ModoEntregaId
+                        }
+                    </td>
+                    <td>
+                        @if (isEditing)
+                        {
+                            <button class="btn btn-success" @onclick="() => SaveProdutoAsync(produto)" disabled="@isSaving">
+                                @(isSaving ? "A guardar..." : "Guardar")
+                            </button>
+                            <button class="btn btn-secondary" @onclick="CancelEdit" disabled="@isSaving">Cancelar</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-primary" @onclick="() => StartEdit(produto)" disabled="@isSaving || isDeleting">
+                                Editar
+                            </button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteProdutoAsync(produto)" disabled="@isSaving || isDeleting">
+                                @(isDeleting ? "A eliminar..." : "Eliminar")
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FornecedorProdutoDto> produtos = new();
+    private FornecedorProdutoCreateDto newProduto = new();
+    private FornecedorProdutoUpdateDto editProduto = new();
+    private int? editingId;
+    private string? errorMessage;
+    private bool isLoading = true;
+    private bool isAdding;
+    private HashSet<int> savingIds = new();
+    private HashSet<int> deletingIds = new();
+    private int tempId = -1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProdutosAsync();
+    }
+
+    private async Task LoadProdutosAsync()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        var response = await ApiServices.GetFornecedorProdutos();
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+            produtos = new List<FornecedorProdutoDto>();
+        }
+        else
+        {
+            produtos = response.Data ?? new List<FornecedorProdutoDto>();
+        }
+
+        isLoading = false;
+    }
+
+    private async Task AddProdutoAsync()
+    {
+        if (isAdding)
+        {
+            return;
+        }
+
+        errorMessage = null;
+        isAdding = true;
+
+        var tempProduto = new FornecedorProdutoDto
+        {
+            Id = tempId--,
+            Nome = newProduto.Nome,
+            Detalhe = newProduto.Detalhe,
+            PrecoBase = newProduto.PrecoBase,
+            MargemPercentual = newProduto.MargemPercentual,
+            EmStock = newProduto.EmStock,
+            ParaVenda = newProduto.ParaVenda,
+            Promocao = newProduto.Promocao,
+            MaisVendido = newProduto.MaisVendido,
+            Origem = newProduto.Origem,
+            CategoriaId = newProduto.CategoriaId,
+            ModoEntregaId = newProduto.ModoEntregaId
+        };
+
+        produtos.Insert(0, tempProduto);
+
+        var response = await ApiServices.CreateFornecedorProduto(newProduto);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            produtos.Remove(tempProduto);
+            errorMessage = response.ErrorMessage;
+        }
+        else if (response.Data != null)
+        {
+            var index = produtos.IndexOf(tempProduto);
+            if (index >= 0)
+            {
+                produtos[index] = response.Data;
+            }
+        }
+        else
+        {
+            produtos.Remove(tempProduto);
+            errorMessage = "Produto criado, mas não foi possível confirmar os detalhes.";
+        }
+
+        newProduto = new FornecedorProdutoCreateDto();
+        isAdding = false;
+    }
+
+    private void StartEdit(FornecedorProdutoDto produto)
+    {
+        editingId = produto.Id;
+        editProduto = new FornecedorProdutoUpdateDto
+        {
+            Nome = produto.Nome,
+            Detalhe = produto.Detalhe,
+            PrecoBase = produto.PrecoBase,
+            MargemPercentual = produto.MargemPercentual,
+            EmStock = produto.EmStock,
+            ParaVenda = produto.ParaVenda,
+            Promocao = produto.Promocao,
+            MaisVendido = produto.MaisVendido,
+            Origem = produto.Origem,
+            CategoriaId = produto.CategoriaId,
+            ModoEntregaId = produto.ModoEntregaId
+        };
+    }
+
+    private void CancelEdit()
+    {
+        editingId = null;
+        editProduto = new FornecedorProdutoUpdateDto();
+    }
+
+    private async Task SaveProdutoAsync(FornecedorProdutoDto produto)
+    {
+        if (editingId != produto.Id)
+        {
+            return;
+        }
+
+        errorMessage = null;
+        savingIds.Add(produto.Id);
+
+        var original = new FornecedorProdutoDto
+        {
+            Id = produto.Id,
+            Nome = produto.Nome,
+            Detalhe = produto.Detalhe,
+            PrecoBase = produto.PrecoBase,
+            MargemPercentual = produto.MargemPercentual,
+            EmStock = produto.EmStock,
+            ParaVenda = produto.ParaVenda,
+            Promocao = produto.Promocao,
+            MaisVendido = produto.MaisVendido,
+            Origem = produto.Origem,
+            CategoriaId = produto.CategoriaId,
+            ModoEntregaId = produto.ModoEntregaId
+        };
+
+        produto.Nome = editProduto.Nome;
+        produto.Detalhe = editProduto.Detalhe;
+        produto.PrecoBase = editProduto.PrecoBase;
+        produto.MargemPercentual = editProduto.MargemPercentual;
+        produto.EmStock = editProduto.EmStock;
+        produto.ParaVenda = editProduto.ParaVenda;
+        produto.Promocao = editProduto.Promocao;
+        produto.MaisVendido = editProduto.MaisVendido;
+        produto.Origem = editProduto.Origem;
+        produto.CategoriaId = editProduto.CategoriaId;
+        produto.ModoEntregaId = editProduto.ModoEntregaId;
+
+        var response = await ApiServices.UpdateFornecedorProduto(produto.Id, editProduto);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            produto.Nome = original.Nome;
+            produto.Detalhe = original.Detalhe;
+            produto.PrecoBase = original.PrecoBase;
+            produto.MargemPercentual = original.MargemPercentual;
+            produto.EmStock = original.EmStock;
+            produto.ParaVenda = original.ParaVenda;
+            produto.Promocao = original.Promocao;
+            produto.MaisVendido = original.MaisVendido;
+            produto.Origem = original.Origem;
+            produto.CategoriaId = original.CategoriaId;
+            produto.ModoEntregaId = original.ModoEntregaId;
+            errorMessage = response.ErrorMessage;
+        }
+        else if (response.Data != null)
+        {
+            var index = produtos.FindIndex(p => p.Id == produto.Id);
+            if (index >= 0)
+            {
+                produtos[index] = response.Data;
+            }
+        }
+
+        savingIds.Remove(produto.Id);
+        editingId = null;
+    }
+
+    private async Task DeleteProdutoAsync(FornecedorProdutoDto produto)
+    {
+        if (deletingIds.Contains(produto.Id))
+        {
+            return;
+        }
+
+        errorMessage = null;
+        deletingIds.Add(produto.Id);
+        var index = produtos.FindIndex(p => p.Id == produto.Id);
+        if (index < 0)
+        {
+            deletingIds.Remove(produto.Id);
+            return;
+        }
+
+        produtos.RemoveAt(index);
+
+        var response = await ApiServices.DeleteFornecedorProduto(produto.Id);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            produtos.Insert(index, produto);
+            errorMessage = response.ErrorMessage;
+        }
+
+        deletingIds.Remove(produto.Id);
+    }
+}

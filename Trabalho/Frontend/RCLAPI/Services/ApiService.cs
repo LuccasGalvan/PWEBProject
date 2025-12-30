@@ -709,6 +709,36 @@ public class ApiService : IApiServices
         }
     }
 
+    public async Task<ApiResponse<FornecedorProdutoDto>> CreateFornecedorProduto(FornecedorProdutoCreateDto produto)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(produto, _serializerOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var request = await CreateAuthorizedRequest(HttpMethod.Post, "api/FornecedorProdutos", content);
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Erro ao criar produto do fornecedor: {response.StatusCode} - {errorResponse}");
+                return new ApiResponse<FornecedorProdutoDto>
+                {
+                    ErrorMessage = $"Erro ao criar produto: {response.StatusCode}"
+                };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<FornecedorProdutoDto>(jsonResult, _serializerOptions);
+            return new ApiResponse<FornecedorProdutoDto> { Data = result };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao criar produto do fornecedor: {ex.Message}");
+            return new ApiResponse<FornecedorProdutoDto> { ErrorMessage = ex.Message };
+        }
+    }
+
     public async Task<ApiResponse<FornecedorProdutoDto>> UpdateFornecedorProduto(int id, FornecedorProdutoUpdateDto produto)
     {
         try
