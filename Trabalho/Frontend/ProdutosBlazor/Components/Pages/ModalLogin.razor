@@ -18,6 +18,10 @@
              FormName="create" Enhance> 
              <DataAnnotationsValidator /> 
              <ValidationSummary class="text-danger" /> 
+             @if (!string.IsNullOrWhiteSpace(loginError))
+             {
+                 <p class="text-danger">@loginError</p>
+             }
                
              <label for="mail" class="form-label">EMail:</label> 
              <InputText id="mail" @bind-Value="LoginModel.EMail" class="form-control" /> 
@@ -43,6 +47,7 @@
      [Inject] 
      public IApiServices? _apiServices { get; set; } 
      private string estado = "block"; 
+     private string? loginError;
      private void Modal() 
      { 
          if (estado == "block") 
@@ -56,7 +61,12 @@
      { 
          try 
          { 
-             var result = await _apiServices.Login(LoginModel); 
+             var result = await _apiServices.Login(LoginModel);
+             if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+             {
+                 loginError = result.ErrorMessage;
+                 return;
+             }
          } 
          catch (DbUpdateConcurrencyException) 
          { 
