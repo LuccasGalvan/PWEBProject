@@ -70,6 +70,13 @@ public class ApiService : IApiServices
         return request;
     }
 
+    private async Task ClearAuthTokensAsync()
+    {
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userID");
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "userRole");
+    }
+
     // ********************* Categorias  **********
     public async Task<List<Categoria>> GetCategorias()
     {
@@ -454,11 +461,22 @@ public class ApiService : IApiServices
             string endpoint = $"api/Utilizadores/userID?userID={userId}";
 
             // Realiza a requisição HTTP GET
-            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}{endpoint}");
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);
+            var response = await _httpClient.SendAsync(request);
 
             // Verifica se a resposta foi bem-sucedida
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    _logger.LogWarning("Sessão expirada ou sem permissões. Faça login novamente.");
+                    return new ApiResponse<Utilizador>
+                    {
+                        ErrorMessage = "Sessão expirada ou sem permissões. Faça login novamente."
+                    };
+                }
+
                 _logger.LogError($"Erro ao enviar requisição Http: {response.StatusCode}");
                 return new ApiResponse<Utilizador> { ErrorMessage = $"Erro ao enviar requisição: {response.StatusCode}" };
             }
