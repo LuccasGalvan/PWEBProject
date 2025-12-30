@@ -145,9 +145,17 @@ else
     private bool isLoading = true;
     private string? loadError;
     private string? userRole;
+    private bool hasLoaded;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender || hasLoaded)
+        {
+            return;
+        }
+
+        hasLoaded = true;
+
         var state = await AuthService.LoadUserProfileStateAsync();
 
         if (state.IsAuthenticated && state.User != null)
@@ -162,6 +170,7 @@ else
         }
 
         isLoading = false;
+        await InvokeAsync(StateHasChanged);
     }
 
     private Task ToggleEditing()

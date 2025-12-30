@@ -13,7 +13,14 @@ namespace RCLAPI.Services
 
         public async Task<string?> GetItemAsync(string key)
         {
-            return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
+            try
+            {
+                return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task SetItemAsync(string key, string? value)
@@ -24,12 +31,26 @@ namespace RCLAPI.Services
                 return;
             }
 
-            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, value);
+            try
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, value);
+            }
+            catch (Exception)
+            {
+                await RemoveItemAsync(key);
+            }
         }
 
         public async Task RemoveItemAsync(string key)
         {
-            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
+            try
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
+            }
+            catch (Exception)
+            {
+                // Ignore storage failures to avoid crashing during prerender.
+            }
         }
     }
 }
