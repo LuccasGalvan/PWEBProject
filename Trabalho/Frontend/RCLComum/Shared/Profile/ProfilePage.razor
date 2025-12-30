@@ -48,7 +48,7 @@ else if (user != null)
             <label for="email"><strong>Email:</strong></label>
             @if (_isEditing)
             {
-                <input id="email" @bind="user.EMail" />
+                <input id="email" @bind="user.EMail" disabled />
             }
             else
             {
@@ -176,6 +176,7 @@ else
         user.Nome = user.Nome ?? string.Empty;
         user.Apelido = user.Apelido ?? string.Empty;
         user.EMail = user.EMail ?? string.Empty;
+        user.UserId = user.UserId ?? string.Empty;
         user.Rua = user.Rua ?? string.Empty;
         user.Localidade1 = user.Localidade1 ?? string.Empty;
         user.Localidade2 = user.Localidade2 ?? string.Empty;

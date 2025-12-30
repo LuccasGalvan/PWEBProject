@@ -519,6 +519,7 @@ public class ApiService : IApiServices
 
             var utilizador = new Utilizador
             {
+                UserId = result.Id,
                 Nome = result.Nome,
                 Apelido = result.Apelido,
                 EMail = result.Email,
