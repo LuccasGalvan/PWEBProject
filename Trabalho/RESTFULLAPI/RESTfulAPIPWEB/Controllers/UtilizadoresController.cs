@@ -96,13 +96,14 @@ public class UtilizadoresController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest dto)
     {
-        var utilizadorAtual = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        var email = dto.Email.Trim();
+        var utilizadorAtual = await _userManager.FindByEmailAsync(email);
         if (utilizadorAtual is null)
         {
             return Ok(new { errorMessage = "Utilizador não encontrado.", hasError = true });
         }
 
-        var resultado = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, false, lockoutOnFailure: false);
+        var resultado = await _signInManager.PasswordSignInAsync(email, dto.Password, false, lockoutOnFailure: false);
         if (!resultado.Succeeded)
         {
             return Ok(new { errorMessage = "Erro: Login inválido!", hasError = true });
