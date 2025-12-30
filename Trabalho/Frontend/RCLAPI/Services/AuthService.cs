@@ -7,6 +7,7 @@ namespace RCLAPI.Services
     {
         private readonly IApiServices _apiServices;
         private readonly IJSRuntime _jsRuntime;
+        public string? LastErrorMessage { get; private set; }
 
         public AuthService(IApiServices apiServices, IJSRuntime jsRuntime)
         {
@@ -17,6 +18,7 @@ namespace RCLAPI.Services
         // Obtém as informações do utilizador diretamente da API
         public async Task<Utilizador?> GetUserInformation(string userID)
         {
+            LastErrorMessage = null;
             // Chama o método que obtém as informações do utilizador da API
             var response = await _apiServices.GetUserInformation(userID);
 
@@ -37,6 +39,15 @@ namespace RCLAPI.Services
                     Fotografia = null,
                     UrlImagem = null
                 };
+            }
+
+            if (response != null && !string.IsNullOrWhiteSpace(response.ErrorMessage))
+            {
+                LastErrorMessage = response.ErrorMessage;
+            }
+            else if (response == null)
+            {
+                LastErrorMessage = "Erro ao obter resposta da API.";
             }
 
             // Se não encontrar dados, retorna null
