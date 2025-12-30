@@ -25,8 +25,9 @@ namespace RCLAPI.Services
             if (response != null && response.Data != null)
             {
                 // Mapeia os dados da API para Utilizador
-                return new Utilizador
+                var utilizador = new Utilizador
                 {
+                    UserId = response.Data.UserId,
                     EMail = response.Data.EMail,  
                     Nome = response.Data.Nome,    
                     Apelido = response.Data.Apelido,  
@@ -38,6 +39,13 @@ namespace RCLAPI.Services
                     Fotografia = null,
                     UrlImagem = null
                 };
+
+                if (!string.IsNullOrWhiteSpace(utilizador.UserId))
+                {
+                    await _authStorage.SetItemAsync(AuthStorageKeys.UserId, utilizador.UserId);
+                }
+
+                return utilizador;
             }
 
             if (response != null && !string.IsNullOrWhiteSpace(response.ErrorMessage))
@@ -64,6 +72,11 @@ namespace RCLAPI.Services
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(user.UserId))
+                {
+                    user.UserId = await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
+                }
+
                 // Chama a API para atualizar as informações do usuário
                 var response = await _apiServices.UpdateUserInformation(user);
 

@@ -187,7 +187,7 @@ public class UtilizadoresController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest dto)
     {
-        var utilizadorAtual = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        var utilizadorAtual = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == dto.UserId);
         if (utilizadorAtual == null)
             return BadRequest("Utilizador não encontrado.");
 

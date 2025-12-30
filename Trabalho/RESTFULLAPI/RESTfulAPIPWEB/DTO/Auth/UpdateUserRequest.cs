@@ -4,8 +4,11 @@ namespace RESTfulAPIPWEB.DTO.Auth;
 
 public class UpdateUserRequest
 {
-    [Required, EmailAddress]
-    public string Email { get; set; } = default!;
+    [Required]
+    public string UserId { get; set; } = default!;
+
+    [EmailAddress]
+    public string? Email { get; set; }
 
     [StringLength(100)]
     public string? Nome { get; set; }

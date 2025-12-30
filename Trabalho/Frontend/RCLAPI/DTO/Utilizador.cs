@@ -8,21 +8,22 @@ namespace RCLAPI.DTO
 {
     public class Utilizador
     {
+        public string? UserId { get; set; }
         public string? Nome { get; set; }
         public string? Apelido { get; set; }
 
-        [Required(ErrorMessage = "O email é obrigatório")]
-        [EmailAddress(ErrorMessage = "Endereço de Email Inválido")]
+        [Required(ErrorMessage = "O email Ã© obrigatÃ³rio")]
+        [EmailAddress(ErrorMessage = "EndereÃ§o de Email InvÃ¡lido")]
         public string? EMail { get; set; }
 
-        [Required(ErrorMessage = "A indicação da Password é obrigatória!")]
+        [Required(ErrorMessage = "A indicaÃ§Ã£o da Password Ã© obrigatÃ³ria!")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "A confirmação da Password é obrigatória!")]
-        [Compare("Password", ErrorMessage = "A Password e a Confirmação da Password não coincidem")]
+        [Required(ErrorMessage = "A confirmaÃ§Ã£o da Password Ã© obrigatÃ³ria!")]
+        [Compare("Password", ErrorMessage = "A Password e a ConfirmaÃ§Ã£o da Password nÃ£o coincidem")]
         public string ConfirmPassword { get; set; }
 
-        [ValidarNIF(ErrorMessage = "NIF inválido!")]
+        [ValidarNIF(ErrorMessage = "NIF invÃ¡lido!")]
         public long? NIF { get; set; }
         public string? Rua { get; set; }
         public string? Localidade1 { get; set; }
@@ -33,12 +34,12 @@ namespace RCLAPI.DTO
         public IFormFile? ImageFile { get; set; }
         public string? UrlImagem { get; set; }
 
-        // Validação customizada para o NIF
+        // ValidaÃ§Ã£o customizada para o NIF
         public class ValidarNIF : ValidationAttribute
         {
             public override bool IsValid(object value)
             {
-                // Verifica se o valor é um número e se tem 9 dígitos
+                // Verifica se o valor Ã© um nÃºmero e se tem 9 dÃ­gitos
                 if (value is long nif && nif > 100000000 && nif < 1000000000)
                 {
                     return true;
