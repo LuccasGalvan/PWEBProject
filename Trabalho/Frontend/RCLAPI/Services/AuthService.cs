@@ -44,6 +44,13 @@ namespace RCLAPI.Services
             if (response != null && !string.IsNullOrWhiteSpace(response.ErrorMessage))
             {
                 LastErrorMessage = response.ErrorMessage;
+                if (LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("Unauthorized", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("Forbidden", StringComparison.OrdinalIgnoreCase))
+                {
+                    await ClearUserAsync();
+                }
             }
             else if (response == null)
             {
