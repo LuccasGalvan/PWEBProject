@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\components\\pages\\encomendapages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\components\\pages\\encomendapages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|solutionrelative:gestaoloja\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{08424838-7FF2-4AA7-8FE8-464C2C4FFA87}|GestaoLoja\\GestaoLoja.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\backend\\gestaoloja\\components\\pages\\produtopages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,15 +38,11 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Index.razor",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\Components\\Pages\\EncomendaPages\\Index.razor",
               "RelativeDocumentMoniker": "GestaoLoja\\Components\\Pages\\EncomendaPages\\Index.razor",
@@ -83,13 +79,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\appsettings.json",
               "RelativeDocumentMoniker": "GestaoLoja\\appsettings.json",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Backend\\GestaoLoja\\appsettings.json",
               "RelativeToolTip": "GestaoLoja\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-12-29T05:01:01.366Z",
               "EditorCaption": ""

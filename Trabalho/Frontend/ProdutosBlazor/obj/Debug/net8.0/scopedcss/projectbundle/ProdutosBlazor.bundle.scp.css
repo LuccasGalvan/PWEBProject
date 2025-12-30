@@ -1,0 +1,86 @@
+/* _content/ProdutosBlazor/Components/Pages/ModalLogin.razor.rz.scp.css */
+body[b-83xqcg3cv3] {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* The Modal (background) */
+.modal[b-83xqcg3cv3] {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 250px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 80%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content[b-83xqcg3cv3] {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+/* The Close Button */
+.close[b-83xqcg3cv3] {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover[b-83xqcg3cv3],
+    .close:focus[b-83xqcg3cv3] {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+/* _content/ProdutosBlazor/Components/Pages/RegisterUser.razor.rz.scp.css */
+body[b-cim2oa7li6] {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* The Modal (background) */
+.modal[b-cim2oa7li6] {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 300px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 50%; /* Full width */
+    height: 50%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content[b-cim2oa7li6] {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+/* The Close Button */
+.close[b-cim2oa7li6] {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover[b-cim2oa7li6],
+    .close:focus[b-cim2oa7li6] {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }

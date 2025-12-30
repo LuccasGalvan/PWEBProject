@@ -1,16 +1,16 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.4iycysavgz.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.4iycysavgz.bundle.scp.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"4iycysavgz"},{"Name":"integrity","Value":"sha256-VBSJEEAgNkKXeLo3Wm02Kui0kAimGE6edzYxI9fBeL0="},{"Name":"label","Value":"_content/RCLComum/RCLComum.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4416"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022VBSJEEAgNkKXeLo3Wm02Kui0kAimGE6edzYxI9fBeL0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 29 Dec 2025 07:06:40 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.4iycysavgz.bundle.scp.css'))</AssetFile>
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.yjopl9hy41.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-VBSJEEAgNkKXeLo3Wm02Kui0kAimGE6edzYxI9fBeL0="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4416"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022VBSJEEAgNkKXeLo3Wm02Kui0kAimGE6edzYxI9fBeL0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 29 Dec 2025 07:06:40 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"9310"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 13:24:22 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.yjopl9hy41.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.yjopl9hy41.bundle.scp.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yjopl9hy41"},{"Name":"integrity","Value":"sha256-jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64="},{"Name":"label","Value":"_content/RCLComum/RCLComum.bundle.scp.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"9310"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 13:24:22 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C373D6FF-3F1A-4015-A0C2-66EFDEC75819}|RCLComum\\RCLComum.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclcomum\\shared\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C373D6FF-3F1A-4015-A0C2-66EFDEC75819}|RCLComum\\RCLComum.csproj|solutionrelative:rclcomum\\shared\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -18,15 +22,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -35,19 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AppConfig.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\AppConfig.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
+              "RelativeToolTip": "RCLAPI\\AppConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T13:44:17.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\Shared\\MainLayout.razor",
               "RelativeDocumentMoniker": "RCLComum\\Shared\\MainLayout.razor",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\Shared\\MainLayout.razor",
               "RelativeToolTip": "RCLComum\\Shared\\MainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-12-29T07:26:12.164Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Index.razor",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "ProdutosBlazor\\Components\\Pages\\Index.razor",
@@ -55,8 +68,7 @@
               "RelativeToolTip": "ProdutosBlazor\\Components\\Pages\\Index.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-29T07:17:23.875Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T07:17:23.875Z"
             }
           ]
         }

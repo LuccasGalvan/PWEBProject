@@ -346,6 +346,22 @@
   },
   {
     "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
+    "Method": "DeleteProduto",
+    "RelativePath": "api/FornecedorProdutos/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.FornecedorProdutosController",
     "Method": "GetVendas",
     "RelativePath": "api/FornecedorProdutos/vendas",
     "HttpMethod": "GET",
@@ -399,6 +415,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RESTfulAPIPWEB.Controllers.ProdutoController",
+    "Method": "GetProdutoEmDestaque",
+    "RelativePath": "api/Produto/featured",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

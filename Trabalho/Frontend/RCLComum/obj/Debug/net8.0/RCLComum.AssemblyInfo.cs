@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RCLComum")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+00e7e618920be08ac02f4d7b8b7cd66466778358")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a3e20ff775d425278abf63378aa9da50404b55b")]
 [assembly: System.Reflection.AssemblyProductAttribute("RCLComum")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RCLComum")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
