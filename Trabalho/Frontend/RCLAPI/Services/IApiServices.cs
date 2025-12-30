@@ -15,7 +15,7 @@ public interface IApiServices
     public Task<ApiResponse<bool>> RegistarFornecedor(Utilizador novoUtilizador);
     public Task<ApiResponse<bool>> Login(LoginModel login);
     public Task<ApiResponse<bool>> AdicionaItemNoCarrinho(ItemCarrinhoCompra carrinhoCompra);
-    public Task<ApiResponse<Utilizador>> GetUserInformation(string userID);
+    public Task<ApiResponse<Utilizador>> GetUserInformation();
     public Task<HttpResponseMessage> UpdateUserInformation(Utilizador user);
     public Task<List<CarOrder>?> ObterCarrinho(string userId);
     public Task<(bool Success, string? Message)> AtualizarCarrinho(string userId, int produtoId, string acao, int quantidade);

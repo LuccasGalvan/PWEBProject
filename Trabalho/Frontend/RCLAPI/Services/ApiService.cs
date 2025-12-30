@@ -479,12 +479,11 @@ public class ApiService : IApiServices
         public string? Estado { get; set; }
     }
 
-    public async Task<ApiResponse<Utilizador>> GetUserInformation(string userId)
+    public async Task<ApiResponse<Utilizador>> GetUserInformation()
     {
         try
         {
-            // Monta o endpoint da requisição, incluindo o userID como query parameter
-            string endpoint = $"api/Utilizadores/userID?userID={userId}";
+            string endpoint = "api/Utilizadores/me";
 
             // Realiza a requisição HTTP GET
             var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);

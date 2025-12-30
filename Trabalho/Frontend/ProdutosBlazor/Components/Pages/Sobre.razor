@@ -147,12 +147,11 @@ else
     {
         if (firstRender)
         {
-            var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
             var accessToken = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "accessToken");
 
-            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(accessToken))
+            if (!string.IsNullOrEmpty(accessToken))
             {
-                var authenticatedUser = await _authService.GetUserInformation(userId);
+                var authenticatedUser = await _authService.GetUserInformation();
                 if (authenticatedUser != null)
                 {
                     user = authenticatedUser;  
