@@ -453,6 +453,16 @@ public class ApiService : IApiServices
         }
     }
 
+    private sealed class UserInfoResponse
+    {
+        public string? Id { get; set; }
+        public string? Email { get; set; }
+        public string? Nome { get; set; }
+        public string? Apelido { get; set; }
+        public long? NIF { get; set; }
+        public string? Estado { get; set; }
+    }
+
     public async Task<ApiResponse<Utilizador>> GetUserInformation(string userId)
     {
         try
@@ -484,8 +494,8 @@ public class ApiService : IApiServices
             // Lê o conteúdo da resposta HTTP
             var jsonResult = await response.Content.ReadAsStringAsync();
 
-            // Deserializa a resposta para o objeto Utilizador
-            var result = JsonSerializer.Deserialize<Utilizador>(jsonResult, _serializerOptions);
+            // Deserializa a resposta para o objeto DTO
+            var result = JsonSerializer.Deserialize<UserInfoResponse>(jsonResult, _serializerOptions);
 
             // Verifica se a deserialização falhou
             if (result == null)
@@ -494,8 +504,18 @@ public class ApiService : IApiServices
                 return new ApiResponse<Utilizador> { ErrorMessage = "Erro ao fazer login" };
             }
 
+            var utilizador = new Utilizador
+            {
+                Nome = result.Nome,
+                Apelido = result.Apelido,
+                EMail = result.Email,
+                NIF = result.NIF,
+                Password = string.Empty,
+                ConfirmPassword = string.Empty
+            };
+
             // Retorna a resposta com os dados do utilizador
-            return new ApiResponse<Utilizador> { Data = result };
+            return new ApiResponse<Utilizador> { Data = utilizador };
         }
         catch (Exception ex)
         {
