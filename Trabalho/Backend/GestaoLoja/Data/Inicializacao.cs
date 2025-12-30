@@ -13,7 +13,11 @@ namespace GestaoLoja.Data
             IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             await using var context = await dbContextFactory.CreateDbContextAsync();
-            await context.Database.MigrateAsync();
+            if (!await ShouldSkipMigrationsAsync(context))
+            {
+                await context.Database.MigrateAsync();
+            }
+            var imagensRoot = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "imgs"));
 
             // Roles
             string[] roles = { "Admin", "Gestor", "Cliente", "Fornecedor" };
@@ -153,6 +157,41 @@ namespace GestaoLoja.Data
             if (context.ChangeTracker.HasChanges())
                 await context.SaveChangesAsync();
 
+            var categoriaImagens = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["Eletrónicos"] = "ChipsdeBatataDoce.jpg",
+                ["Computadores"] = "CrackersdeParmesaoeAlecrim.jpg",
+                ["Portáteis"] = "CrackersdeSementes.jpg",
+                ["Telemóveis"] = "BiscoitosIntegraisdeCacau.jpeg",
+                ["Acessórios"] = "BiscoitosdeAmendoaseMel.jpg",
+                ["Moda"] = "PetiscosGourmet.jpg",
+                ["Moda Homem"] = "SnacksdeGraodeBicoAssado.jpg",
+                ["Moda Mulher"] = "PetiscosDoces.jpg",
+                ["Moda Calçado"] = "PetiscosSaudaveis.jpg",
+                ["Casa"] = "Pipoca-gourmet.jpg"
+            };
+
+            var categoriasComImagem = await context.Categorias.ToListAsync();
+            var categoriaAtualizada = false;
+            foreach (var categoria in categoriasComImagem)
+            {
+                if (categoria.Imagem is { Length: > 0 })
+                    continue;
+
+                if (!categoriaImagens.TryGetValue(categoria.Nome, out var fileName))
+                    continue;
+
+                if (TryLoadImageBytes(imagensRoot, fileName) is { Length: > 0 } bytes)
+                {
+                    categoria.Imagem = bytes;
+                    categoria.UrlImagem = fileName;
+                    categoriaAtualizada = true;
+                }
+            }
+
+            if (categoriaAtualizada)
+                await context.SaveChangesAsync();
+
             if (!await context.ModosEntrega.AnyAsync())
             {
                 context.ModosEntrega.AddRange(
@@ -199,6 +238,24 @@ namespace GestaoLoja.Data
                 if (categoriasNecessarias.Any(nome => !TryGetCategoria(nome, out _)))
                     return;
 
+                var produtoImagens = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["Notebook Studio"] = "BarradeProteinadeChocolateeCoco.jpg",
+                    ["Desktop Pro"] = "BarrasdeGranola.png",
+                    ["Smartphone Aurora"] = "BiscoitosIntegraisdeCacau.jpeg",
+                    ["Kit Cabos USB"] = "ChipsdeBatataDoce.jpg",
+                    ["Capa Protect"] = "CrackersdeParmesaoeAlecrim.jpg",
+                    ["Casaco Urbano"] = "PetiscosSaudaveis.jpg",
+                    ["Vestido Sol"] = "PetiscosDoces.jpg",
+                    ["Sapatilhas City"] = "PetiscosGourmet.jpg",
+                    ["Organizador Casa"] = "Pipoca-gourmet.jpg",
+                    ["Moda Lookbook"] = "FrutasSecas.jpg",
+                    ["Tablet Sketch"] = "MixNuts.jpeg",
+                    ["Auriculares Pulse"] = "SnacksdeGraodeBicoAssado.jpg",
+                    ["Monitor Prime"] = "QueijoBriecomGeleiadeFrutasVermelhas.jpg",
+                    ["Pré-venda Console"] = "TamarasRecheadascomAmendoas.jpg"
+                };
+
                 byte[] imagemPadrao = Convert.FromBase64String(
                     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
 
@@ -236,8 +293,8 @@ namespace GestaoLoja.Data
                         Promocao = promocao,
                         MaisVendido = maisVendido,
                         Origem = origem,
-                        Imagem = imagemPadrao,
-                        UrlImagem = $"{nome.Replace(' ', '_')}.png"
+                        Imagem = GetProdutoImagem(nome, produtoImagens, imagemPadrao, imagensRoot),
+                        UrlImagem = GetProdutoImagemUrl(nome, produtoImagens)
                     };
                 }
 
@@ -262,6 +319,47 @@ namespace GestaoLoja.Data
 
                 context.Produtos.AddRange(produtos);
                 await context.SaveChangesAsync();
+            }
+            else
+            {
+                var produtoImagens = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["Notebook Studio"] = "BarradeProteinadeChocolateeCoco.jpg",
+                    ["Desktop Pro"] = "BarrasdeGranola.png",
+                    ["Smartphone Aurora"] = "BiscoitosIntegraisdeCacau.jpeg",
+                    ["Kit Cabos USB"] = "ChipsdeBatataDoce.jpg",
+                    ["Capa Protect"] = "CrackersdeParmesaoeAlecrim.jpg",
+                    ["Casaco Urbano"] = "PetiscosSaudaveis.jpg",
+                    ["Vestido Sol"] = "PetiscosDoces.jpg",
+                    ["Sapatilhas City"] = "PetiscosGourmet.jpg",
+                    ["Organizador Casa"] = "Pipoca-gourmet.jpg",
+                    ["Moda Lookbook"] = "FrutasSecas.jpg",
+                    ["Tablet Sketch"] = "MixNuts.jpeg",
+                    ["Auriculares Pulse"] = "SnacksdeGraodeBicoAssado.jpg",
+                    ["Monitor Prime"] = "QueijoBriecomGeleiadeFrutasVermelhas.jpg",
+                    ["Pré-venda Console"] = "TamarasRecheadascomAmendoas.jpg"
+                };
+
+                var produtosExistentes = await context.Produtos.ToListAsync();
+                var produtosAtualizados = false;
+                foreach (var produto in produtosExistentes)
+                {
+                    if (produto.Imagem is { Length: > 0 })
+                        continue;
+
+                    if (!produtoImagens.TryGetValue(produto.Nome, out var fileName))
+                        continue;
+
+                    if (TryLoadImageBytes(imagensRoot, fileName) is { Length: > 0 } bytes)
+                    {
+                        produto.Imagem = bytes;
+                        produto.UrlImagem = fileName;
+                        produtosAtualizados = true;
+                    }
+                }
+
+                if (produtosAtualizados)
+                    await context.SaveChangesAsync();
             }
 
             if (!await context.Encomendas.AnyAsync())
@@ -339,6 +437,81 @@ namespace GestaoLoja.Data
                     await context.SaveChangesAsync();
                 }
             }
+        }
+
+        private static byte[]? TryLoadImageBytes(string imagensRoot, string fileName)
+        {
+            var path = Path.Combine(imagensRoot, fileName);
+            return File.Exists(path) ? File.ReadAllBytes(path) : null;
+        }
+
+        private static async Task<bool> ShouldSkipMigrationsAsync(ApplicationDbContext context)
+        {
+            var connection = context.Database.GetDbConnection();
+            var wasClosed = connection.State == System.Data.ConnectionState.Closed;
+            if (wasClosed)
+            {
+                await connection.OpenAsync();
+            }
+
+            try
+            {
+                var aspNetRolesExists = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM sys.tables WHERE name = 'AspNetRoles'");
+                var migrationsTableExists = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM sys.tables WHERE name = '__EFMigrationsHistory'");
+
+                if (aspNetRolesExists == 0)
+                {
+                    return false;
+                }
+
+                if (migrationsTableExists == 0)
+                {
+                    return true;
+                }
+
+                var migrationsCount = await ExecuteScalarAsync(connection,
+                    "SELECT COUNT(*) FROM [__EFMigrationsHistory]");
+
+                return migrationsCount == 0;
+            }
+            finally
+            {
+                if (wasClosed)
+                {
+                    await connection.CloseAsync();
+                }
+            }
+        }
+
+        private static async Task<int> ExecuteScalarAsync(System.Data.Common.DbConnection connection, string sql)
+        {
+            await using var command = connection.CreateCommand();
+            command.CommandText = sql;
+            var result = await command.ExecuteScalarAsync();
+            return Convert.ToInt32(result);
+        }
+
+        private static byte[] GetProdutoImagem(
+            string nome,
+            IReadOnlyDictionary<string, string> produtoImagens,
+            byte[] imagemPadrao,
+            string imagensRoot)
+        {
+            if (!produtoImagens.TryGetValue(nome, out var fileName))
+                return imagemPadrao;
+
+            return TryLoadImageBytes(imagensRoot, fileName) ?? imagemPadrao;
+        }
+
+        private static string? GetProdutoImagemUrl(
+            string nome,
+            IReadOnlyDictionary<string, string> produtoImagens)
+        {
+            return produtoImagens.TryGetValue(nome, out var fileName)
+                ? fileName
+                : $"{nome.Replace(' ', '_')}.png";
         }
     }
 }
