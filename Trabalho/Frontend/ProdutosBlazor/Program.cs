@@ -6,8 +6,6 @@ using RCLProdutos.Services.Interfaces;
 using RCLProdutos.Services;
 using RCLAPI;
 using RCLAPI.Services;
-using Blazored.LocalStorage;
-
 var builder = WebApplication.CreateBuilder(args);
 
 AppConfig.Configure(builder.Configuration);
@@ -24,6 +22,7 @@ builder.Services.AddScoped<ICardsUtilsServices, CardsUtilsServices>();
 // Registra o serviço IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<IAuthStorage, BrowserAuthStorage>();
 builder.Services.AddScoped<IApiServices, ApiService>();
 
 builder.Services.AddScoped<AuthService>(); 

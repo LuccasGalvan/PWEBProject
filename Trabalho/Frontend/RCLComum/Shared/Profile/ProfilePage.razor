@@ -1,0 +1,202 @@
+@using RCLAPI.DTO
+@using RCLAPI.Services
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
+<h3>Informações do Utilizador</h3>
+
+@if (isLoading)
+{
+    <p>A carregar informações do utilizador...</p>
+}
+else if (!string.IsNullOrWhiteSpace(loadError))
+{
+    <p>@loadError</p>
+}
+else if (user != null)
+{
+    <div>
+        @if (erro)
+        {
+            <p>"Ocorreu um erro ao gravar as alterações"</p>
+        }
+        <div>
+            <label for="nome"><strong>Nome:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="nome" @bind="user.Nome" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Nome) ? "Não disponível" : user.Nome)</p>
+            }
+        </div>
+
+        <div>
+            <label for="apelido"><strong>Apelido:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="apelido" @bind="user.Apelido" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Apelido) ? "Não disponível" : user.Apelido)</p>
+            }
+        </div>
+
+        <div>
+            <label for="email"><strong>Email:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="email" @bind="user.EMail" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.EMail) ? "Não disponível" : user.EMail)</p>
+            }
+        </div>
+
+        <div>
+            <label for="nif"><strong>NIF:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="nif" @bind="user.NIF" />
+            }
+            else
+            {
+                <p>@(user.NIF == 0 ? "Não disponível" : user.NIF.ToString())</p>
+            }
+        </div>
+
+        <div>
+            <label for="rua"><strong>Rua:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="rua" @bind="user.Rua" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Rua) ? "Não disponível" : user.Rua)</p>
+            }
+        </div>
+
+        <div>
+            <label for="localidade1"><strong>Localidade 1:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="localidade1" @bind="user.Localidade1" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Localidade1) ? "Não disponível" : user.Localidade1)</p>
+            }
+        </div>
+
+        <div>
+            <label for="localidade2"><strong>Localidade 2:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="localidade2" @bind="user.Localidade2" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Localidade2) ? "Não disponível" : user.Localidade2)</p>
+            }
+        </div>
+
+        <div>
+            <label for="pais"><strong>País:</strong></label>
+            @if (_isEditing)
+            {
+                <input id="pais" @bind="user.Pais" />
+            }
+            else
+            {
+                <p>@(string.IsNullOrEmpty(user.Pais) ? "Não disponível" : user.Pais)</p>
+            }
+        </div>
+
+        @if (_isEditing)
+        {
+            <button @onclick="Gravar">Guardar</button>
+            <button @onclick="ToggleEditing">Cancelar</button>
+        }
+        else
+        {
+            <button @onclick="LogoutUser">Logout</button>
+            <button @onclick="ToggleEditing">Editar</button>
+        }
+    </div>
+}
+else
+{
+    <p>utilizador não autenticado. Faça login primeiro.</p>
+}
+
+@code {
+    private Utilizador? user;
+    private bool _isEditing;
+    private bool erro;
+    private bool isLoading = true;
+    private string? loadError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthService.LoadUserProfileStateAsync();
+
+        if (state.IsAuthenticated && state.User != null)
+        {
+            user = state.User;
+        }
+        else
+        {
+            loadError = state.ErrorMessage ?? "utilizador não autenticado. Faça login primeiro.";
+            NavigationManager.NavigateTo("/modalogin?returnUrl=/sobre", true);
+        }
+
+        isLoading = false;
+    }
+
+    private Task ToggleEditing()
+    {
+        _isEditing = !_isEditing;
+        return Task.CompletedTask;
+    }
+
+    private async Task Gravar()
+    {
+        if (user is null)
+        {
+            return;
+        }
+
+        _isEditing = false;
+
+        // Preencher valores vazios ou nulos antes de enviar
+        user.Nome = user.Nome ?? string.Empty;
+        user.Apelido = user.Apelido ?? string.Empty;
+        user.EMail = user.EMail ?? string.Empty;
+        user.Rua = user.Rua ?? string.Empty;
+        user.Localidade1 = user.Localidade1 ?? string.Empty;
+        user.Localidade2 = user.Localidade2 ?? string.Empty;
+        user.Pais = user.Pais ?? string.Empty;
+
+        // Se a senha não for fornecida, use valores vazios
+        user.Password = user.Password ?? string.Empty;
+        user.ConfirmPassword = user.ConfirmPassword ?? string.Empty;
+
+        var tf = await AuthService.UpdateUserInformation(user);
+        if (tf != true)
+        {
+            erro = true;
+        }
+    }
+
+    private async Task LogoutUser()
+    {
+        await AuthService.ClearUserAsync();
+        user = null;
+
+        NavigationManager.NavigateTo("/", true);
+    }
+}
