@@ -47,3 +47,4 @@ C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\RCL
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\ref\RCLComum.dll
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\HistoricoCompras.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnLogout.razor.rz.scp.css

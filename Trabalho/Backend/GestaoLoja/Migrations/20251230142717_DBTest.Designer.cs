@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestaoLoja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251229034021_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251230142717_DBTest")]
+    partial class DBTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

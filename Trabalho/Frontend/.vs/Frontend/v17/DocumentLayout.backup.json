@@ -3,8 +3,43 @@
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\produtosblazor\\components\\pages\\sobre.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|solutionrelative:produtosblazor\\components\\pages\\sobre.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\dto\\imagemperfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\dto\\imagemperfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\dto\\utilizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\dto\\utilizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclapi\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C9A88A3C-25AD-44EA-AEF3-71A305D86C15}|RclAPI\\RCLAPI.csproj|solutionrelative:rclapi\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\produtosblazor\\produtosblazor.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F8658856-33D2-4DE6-A07E-D1B8CC440B65}|ProdutosBlazor\\ProdutosBlazor.csproj|solutionrelative:produtosblazor\\produtosblazor.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE0F20E-03C0-4B2A-9B4D-C84E70A1D6E7}|ProdutosMAUI\\ProdutosMAUI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\produtosmaui\\produtosmaui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8AE0F20E-03C0-4B2A-9B4D-C84E70A1D6E7}|ProdutosMAUI\\ProdutosMAUI.csproj|solutionrelative:produtosmaui\\produtosmaui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE0F20E-03C0-4B2A-9B4D-C84E70A1D6E7}|ProdutosMAUI\\ProdutosMAUI.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\produtosmaui\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8AE0F20E-03C0-4B2A-9B4D-C84E70A1D6E7}|ProdutosMAUI\\ProdutosMAUI.csproj|solutionrelative:produtosmaui\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C373D6FF-3F1A-4015-A0C2-66EFDEC75819}|RCLComum\\RCLComum.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\frontend\\rclcomum\\shared\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -35,19 +70,134 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AppConfig.cs",
-              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
-              "RelativeDocumentMoniker": "RCLAPI\\AppConfig.cs",
-              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
-              "RelativeToolTip": "RCLAPI\\AppConfig.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T13:44:17.841Z",
+              "Title": "Sobre.razor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Sobre.razor",
+              "RelativeDocumentMoniker": "ProdutosBlazor\\Components\\Pages\\Sobre.razor",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Sobre.razor",
+              "RelativeToolTip": "ProdutosBlazor\\Components\\Pages\\Sobre.razor",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAAAMQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-30T15:26:34.286Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\Services\\AuthService.cs",
+              "RelativeToolTip": "RCLAPI\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T15:26:22.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ImagemPerfil.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\DTO\\ImagemPerfil.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\DTO\\ImagemPerfil.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\DTO\\ImagemPerfil.cs",
+              "RelativeToolTip": "RCLAPI\\DTO\\ImagemPerfil.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T15:26:14.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Utilizador.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\DTO\\Utilizador.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\DTO\\Utilizador.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\DTO\\Utilizador.cs",
+              "RelativeToolTip": "RCLAPI\\DTO\\Utilizador.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T15:24:41.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\Services\\ApiService.cs",
+              "RelativeToolTip": "RCLAPI\\Services\\ApiService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T15:24:24.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppConfig.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
+              "RelativeDocumentMoniker": "RCLAPI\\AppConfig.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLAPI\\AppConfig.cs",
+              "RelativeToolTip": "RCLAPI\\AppConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-30T14:05:40.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProdutosBlazor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\ProdutosBlazor.csproj",
+              "RelativeDocumentMoniker": "ProdutosBlazor\\ProdutosBlazor.csproj",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\ProdutosBlazor.csproj",
+              "RelativeToolTip": "ProdutosBlazor\\ProdutosBlazor.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-30T14:05:27.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProdutosMAUI.csproj",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\ProdutosMAUI.csproj",
+              "RelativeDocumentMoniker": "ProdutosMAUI\\ProdutosMAUI.csproj",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\ProdutosMAUI.csproj",
+              "RelativeToolTip": "ProdutosMAUI\\ProdutosMAUI.csproj",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-30T13:30:59.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Microsoft.NET.EolTargetFrameworks.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "ViewState": "AgIAABcAAAAAAAAAAAAwwCUAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-12-30T13:29:37.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\_Imports.razor",
+              "RelativeDocumentMoniker": "ProdutosMAUI\\_Imports.razor",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosMAUI\\_Imports.razor",
+              "RelativeToolTip": "ProdutosMAUI\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-30T13:29:09.367Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\Shared\\MainLayout.razor",
               "RelativeDocumentMoniker": "RCLComum\\Shared\\MainLayout.razor",
@@ -55,12 +205,11 @@
               "RelativeToolTip": "RCLComum\\Shared\\MainLayout.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-29T07:26:12.164Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T07:26:12.164Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "Index.razor",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\ProdutosBlazor\\Components\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "ProdutosBlazor\\Components\\Pages\\Index.razor",

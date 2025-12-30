@@ -1,3 +1,7 @@
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RclAPI\obj\Debug\net8.0\staticwebassets.build.json

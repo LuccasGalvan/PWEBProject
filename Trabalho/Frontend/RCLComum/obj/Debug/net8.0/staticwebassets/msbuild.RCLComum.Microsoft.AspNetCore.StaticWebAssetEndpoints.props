@@ -1,16 +1,16 @@
 ﻿<Project>
   <ItemGroup>
     <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.yjopl9hy41.bundle.scp.css'))</AssetFile>
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.tym09wwz9c.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"9310"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 13:24:22 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-u6Jmmnr/LIXKanTFbknKYcA9pvSY2LzqeZA0g7wEGJw="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"9897"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022u6Jmmnr/LIXKanTFbknKYcA9pvSY2LzqeZA0g7wEGJw=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 14:56:20 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.yjopl9hy41.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.yjopl9hy41.bundle.scp.css'))</AssetFile>
+    <StaticWebAssetEndpoint Include="_content/RCLComum/RCLComum.tym09wwz9c.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLComum.tym09wwz9c.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yjopl9hy41"},{"Name":"integrity","Value":"sha256-jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64="},{"Name":"label","Value":"_content/RCLComum/RCLComum.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"9310"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022jtHIp9KZpmxZ/MuPcEHtuOt9tal3D1tVfoeBbFYfe64=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 13:24:22 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tym09wwz9c"},{"Name":"integrity","Value":"sha256-u6Jmmnr/LIXKanTFbknKYcA9pvSY2LzqeZA0g7wEGJw="},{"Name":"label","Value":"_content/RCLComum/RCLComum.bundle.scp.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"9897"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022u6Jmmnr/LIXKanTFbknKYcA9pvSY2LzqeZA0g7wEGJw=\u0022"},{"Name":"Last-Modified","Value":"Tue, 30 Dec 2025 14:56:20 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

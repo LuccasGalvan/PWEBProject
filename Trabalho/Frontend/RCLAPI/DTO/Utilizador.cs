@@ -41,31 +41,7 @@ namespace RCLAPI.DTO
                 // Verifica se o valor é um número e se tem 9 dígitos
                 if (value is long nif && nif > 100000000 && nif < 1000000000)
                 {
-                    // Converte o número NIF para uma string para fácil manipulação
-                    string nifString = nif.ToString();
-
-                    // Se o NIF não tiver 9 dígitos, é inválido
-                    if (nifString.Length != 9)
-                        return false;
-
-                    // Pesos para o cálculo do dígito de verificação
-                    int[] pesos = { 1, 2, 3, 4, 5, 6, 7, 8 };
-
-                    // Calcula o somatório
-                    int soma = 0;
-                    for (int i = 0; i < 8; i++)
-                    {
-                        soma += (nifString[i] - '0') * pesos[i];
-                    }
-
-                    // Calcula o resto da divisão da soma por 11
-                    int resto = soma % 11;
-
-                    // Calcula o dígito de verificação
-                    int digitoVerificacao = (resto == 0 || resto == 1) ? 0 : 11 - resto;
-
-                    // Verifica se o dígito de verificação calculado é igual ao 9º dígito do NIF
-                    return digitoVerificacao == (nifString[8] - '0');
+                    return true;
                 }
 
                 return false;
