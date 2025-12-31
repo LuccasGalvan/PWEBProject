@@ -4,6 +4,7 @@ using RCLAPI.DTO;
 using RCLAPI.Services;
 using RCLProdutos.Services.Interfaces;
 using System;
+using System.Globalization;
 using System.Text.Json;
 
 namespace RCLProdutos.Shared.Slider
@@ -284,7 +285,8 @@ namespace RCLProdutos.Shared.Slider
             sliderUtilsService.Index = sliderUtilsService.CountSlide;
             if (sliderUtilsService.CountSlide < sliderUtilsService.MarginLeftSlide.Count)
             {
-                sliderUtilsService.MarginLeftSlide[sliderUtilsService.CountSlide - 1] = $"margin-left:-{sliderUtilsService.WidthSlide2}%";
+                var widthValue = sliderUtilsService.WidthSlide2.ToString(CultureInfo.InvariantCulture);
+                sliderUtilsService.MarginLeftSlide[sliderUtilsService.CountSlide - 1] = $"margin-left:-{widthValue}%";
                 IsDisabledNext = false;
                 IsDisbledPrevious = false;
             }
