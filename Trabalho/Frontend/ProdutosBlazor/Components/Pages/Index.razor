@@ -11,6 +11,9 @@
 
 @inject IApiServices ApiServices
 
+<CardsCarousel/>
+<SliderComponent initProd="-1" />
+
 <section class="featured-product">
     <h2>Produto em destaque</h2>
     @if (featuredProduto is null)
@@ -22,9 +25,6 @@
         <SlideProdutoComponent sugestProduto="@featuredProduto" />
     }
 </section>
-
-<CardsCarousel/>
-<SliderComponent initProd="-1" />
 
 @code {
     private ProdutoDTO? featuredProduto;

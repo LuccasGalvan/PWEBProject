@@ -48,9 +48,10 @@
             }
             else
             {
-                @foreach (var produto in produtos)
+                @for (var i = 0; i < produtos.Count; i++)
                 {
-                    <SlideComponent produto="@produto" width="@sliderUtilsService.WidthSlide2" marginLeft="@(sliderUtilsService.MarginLeftSlide[produtos.IndexOf(produto)])" />
+                    var produto = produtos[i];
+                    <SlideComponent produto="@produto" width="@sliderUtilsService.WidthSlide2" marginLeft="@GetSlideMargin(i)" />
                 }
                 <IndicadoresComponent Produtos="@produtos" />
             }
