@@ -658,21 +658,73 @@ public class ApiService : IApiServices
         }
     }
 
-    public async Task<bool> CriarVenda(Vendas venda)
+    public async Task<ApiResponse<Encomenda>> CheckoutEncomenda(string userId)
     {
-        Console.WriteLine($"Enviando venda: ProdutoId={venda.ProdutoId}, Quantidade={venda.Quantidade}, Preço={venda.Preco}");
-
-        var response = await _httpClient.PostAsJsonAsync($"{AppConfig.BaseUrl}api/Vendas", venda);
-
-        if (response.IsSuccessStatusCode)
+        if (string.IsNullOrWhiteSpace(userId))
         {
-            Console.WriteLine("Venda criada com sucesso.");
-            return true;
+            return new ApiResponse<Encomenda> { ErrorMessage = "UserId inválido para checkout." };
         }
-        else
+
+        try
         {
-            Console.WriteLine($"Erro ao criar venda: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
-            return false;
+            var request = await CreateAuthorizedRequest(HttpMethod.Post, $"api/Encomendas/checkout?userId={userId}");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<Encomenda> { ErrorMessage = "Sessão expirada. Faça login novamente." };
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return new ApiResponse<Encomenda> { ErrorMessage = $"Erro ao fazer checkout: {errorContent}" };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var encomenda = JsonSerializer.Deserialize<Encomenda>(jsonResult, _serializerOptions);
+            return new ApiResponse<Encomenda> { Data = encomenda };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao fazer checkout da encomenda: {ex.Message}");
+            return new ApiResponse<Encomenda> { ErrorMessage = ex.Message };
+        }
+    }
+
+    public async Task<ApiResponse<EncomendaPagamentoResponse>> PagarEncomenda(Guid encomendaId)
+    {
+        if (encomendaId == Guid.Empty)
+        {
+            return new ApiResponse<EncomendaPagamentoResponse> { ErrorMessage = "Encomenda inválida para pagamento." };
+        }
+
+        try
+        {
+            var request = await CreateAuthorizedRequest(HttpMethod.Post, $"api/Encomendas/{encomendaId}/pagar");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<EncomendaPagamentoResponse> { ErrorMessage = "Sessão expirada. Faça login novamente." };
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return new ApiResponse<EncomendaPagamentoResponse> { ErrorMessage = $"Erro ao pagar encomenda: {errorContent}" };
+            }
+
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var pagamento = JsonSerializer.Deserialize<EncomendaPagamentoResponse>(jsonResult, _serializerOptions);
+            return new ApiResponse<EncomendaPagamentoResponse> { Data = pagamento };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erro ao pagar encomenda: {ex.Message}");
+            return new ApiResponse<EncomendaPagamentoResponse> { ErrorMessage = ex.Message };
         }
     }
 
