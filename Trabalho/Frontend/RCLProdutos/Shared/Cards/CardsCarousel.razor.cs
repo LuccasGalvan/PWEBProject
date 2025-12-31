@@ -67,6 +67,13 @@ namespace RCLProdutos.Shared.Cards
 
         void PreviousCard()
         {
+            if (marginLeftSlide.Count == 0)
+            {
+                IsDisbledPrevious = true;
+                IsDisabledNext = true;
+                return;
+            }
+
             if (countSlide != 0)
             {
                 marginLeftSlide[countSlide - 1] = "margin-left:0%";
@@ -83,6 +90,13 @@ namespace RCLProdutos.Shared.Cards
 
         void NextCard()
         {
+            if (marginLeftSlide.Count == 0)
+            {
+                IsDisbledPrevious = true;
+                IsDisabledNext = true;
+                return;
+            }
+
             countSlide++;
             if (countSlide < marginLeftSlide.Count)
             {
@@ -94,6 +108,16 @@ namespace RCLProdutos.Shared.Cards
             {
                 IsDisabledNext = true;
             }
+        }
+
+        private string GetMarginLeft(int index)
+        {
+            if (index < 0 || index >= marginLeftSlide.Count)
+            {
+                return "margin-left:0%";
+            }
+
+            return marginLeftSlide[index];
         }
     }
 }
