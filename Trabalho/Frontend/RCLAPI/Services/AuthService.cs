@@ -21,51 +21,44 @@ namespace RCLAPI.Services
             // Chama o método que obtém as informações do utilizador da API
             var response = await _apiServices.GetUserInformation();
 
-            // Verifica se a resposta da API foi bem-sucedida
-            if (response != null && response.Data != null)
+            return await BuildUserFromResponseAsync(response);
+        }
+
+        public async Task<UserProfileState> GetCurrentUserAsync()
+        {
+            LastErrorMessage = null;
+
+            var accessToken = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+            if (string.IsNullOrWhiteSpace(accessToken))
             {
-                // Mapeia os dados da API para Utilizador
-                var utilizador = new Utilizador
+                return new UserProfileState
                 {
-                    UserId = response.Data.UserId,
-                    EMail = response.Data.EMail,  
-                    Nome = response.Data.Nome,    
-                    Apelido = response.Data.Apelido,  
-                    NIF = response.Data.NIF,      
-                    Rua = response.Data.Rua,
-                    Localidade1 = response.Data.Localidade1,
-                    Localidade2 = response.Data.Localidade2,
-                    Pais = response.Data.Pais,
-                    Fotografia = null,
-                    UrlImagem = null
+                    IsAuthenticated = false,
+                    ErrorMessage = "utilizador não autenticado. Faça login primeiro."
                 };
-
-                if (!string.IsNullOrWhiteSpace(utilizador.UserId))
-                {
-                    await _authStorage.SetItemAsync(AuthStorageKeys.UserId, utilizador.UserId);
-                }
-
-                return utilizador;
             }
 
-            if (response != null && !string.IsNullOrWhiteSpace(response.ErrorMessage))
+            var role = await _authStorage.GetItemAsync(AuthStorageKeys.UserRole);
+            var response = await _apiServices.GetUserInformation();
+            var user = await BuildUserFromResponseAsync(response);
+
+            if (user != null)
             {
-                LastErrorMessage = response.ErrorMessage;
-                if (LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
-                    || LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase)
-                    || LastErrorMessage.Contains("Unauthorized", StringComparison.OrdinalIgnoreCase)
-                    || LastErrorMessage.Contains("Forbidden", StringComparison.OrdinalIgnoreCase))
+                return new UserProfileState
                 {
-                    await ClearUserAsync();
-                }
-            }
-            else if (response == null)
-            {
-                LastErrorMessage = "Erro ao obter resposta da API.";
+                    IsAuthenticated = true,
+                    Role = role,
+                    User = user
+                };
             }
 
-            // Se não encontrar dados, retorna null
-            return null;
+            var errorMessage = NormalizeProfileErrorMessage(LastErrorMessage);
+            return new UserProfileState
+            {
+                IsAuthenticated = false,
+                Role = role,
+                ErrorMessage = errorMessage ?? "Não foi possível carregar as informações do utilizador."
+            };
         }
 
         public async Task<bool> UpdateUserInformation(Utilizador user)
@@ -138,6 +131,55 @@ namespace RCLAPI.Services
             await _authStorage.RemoveItemAsync(AuthStorageKeys.AccessToken);
             await _authStorage.RemoveItemAsync(AuthStorageKeys.UserId);
             await _authStorage.RemoveItemAsync(AuthStorageKeys.UserRole);
+        }
+
+        private async Task<Utilizador?> BuildUserFromResponseAsync(ApiResponse<Utilizador>? response)
+        {
+            // Verifica se a resposta da API foi bem-sucedida
+            if (response != null && response.Data != null)
+            {
+                // Mapeia os dados da API para Utilizador
+                var utilizador = new Utilizador
+                {
+                    UserId = response.Data.UserId,
+                    EMail = response.Data.EMail,
+                    Nome = response.Data.Nome,
+                    Apelido = response.Data.Apelido,
+                    NIF = response.Data.NIF,
+                    Rua = response.Data.Rua,
+                    Localidade1 = response.Data.Localidade1,
+                    Localidade2 = response.Data.Localidade2,
+                    Pais = response.Data.Pais,
+                    Fotografia = null,
+                    UrlImagem = null
+                };
+
+                if (!string.IsNullOrWhiteSpace(utilizador.UserId))
+                {
+                    await _authStorage.SetItemAsync(AuthStorageKeys.UserId, utilizador.UserId);
+                }
+
+                return utilizador;
+            }
+
+            if (response != null && !string.IsNullOrWhiteSpace(response.ErrorMessage))
+            {
+                LastErrorMessage = response.ErrorMessage;
+                if (LastErrorMessage.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("sem permissões", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("Unauthorized", StringComparison.OrdinalIgnoreCase)
+                    || LastErrorMessage.Contains("Forbidden", StringComparison.OrdinalIgnoreCase))
+                {
+                    await ClearUserAsync();
+                }
+            }
+            else if (response == null)
+            {
+                LastErrorMessage = "Erro ao obter resposta da API.";
+            }
+
+            // Se não encontrar dados, retorna null
+            return null;
         }
 
         private static string? NormalizeProfileErrorMessage(string? message)
