@@ -10,6 +10,7 @@ using RESTfulAPIPWEB.Entity.Enums;
 namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
+    [Route("api/fornecedor/produtos")]
     [ApiController]
     [Authorize(Roles = "Fornecedor")]
     public class FornecedorProdutosController : ControllerBase
