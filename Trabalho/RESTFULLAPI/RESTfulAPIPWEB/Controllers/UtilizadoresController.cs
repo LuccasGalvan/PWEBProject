@@ -135,7 +135,7 @@ public class UtilizadoresController : ControllerBase
     }
 
     [HttpGet("userID")]
-    [Authorize(Roles = "Cliente,Fornecedor")]
+    [Authorize(Roles = "Cliente,Fornecedor,Admin,Gestor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUserInformation(string userID)
@@ -157,7 +157,7 @@ public class UtilizadoresController : ControllerBase
     }
 
     [HttpGet("me")]
-    [Authorize(Roles = "Cliente,Fornecedor")]
+    [Authorize(Roles = "Cliente,Fornecedor,Admin,Gestor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -183,7 +183,7 @@ public class UtilizadoresController : ControllerBase
     }
 
     [HttpPut("UpdateUser")]
-    [Authorize(Roles = "Cliente,Fornecedor")]
+    [Authorize(Roles = "Cliente,Fornecedor,Admin,Gestor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest dto)
