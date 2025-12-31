@@ -95,6 +95,142 @@ public class ApiService : IApiServices
         await _authStorage.RemoveItemAsync(AuthStorageKeys.UserRole);
     }
 
+    public async Task<string?> GetRoleFromTokenAsync()
+    {
+        var token = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        return GetRoleFromJwt(token);
+    }
+
+    public async Task<string?> GetUserIdFromTokenAsync()
+    {
+        var token = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        return GetUserIdFromJwt(token);
+    }
+
+    private static string Base64UrlDecodeToString(string input)
+    {
+        var padded = input.Replace('-', '+').Replace('_', '/');
+        switch (padded.Length % 4)
+        {
+            case 2:
+                padded += "==";
+                break;
+            case 3:
+                padded += "=";
+                break;
+        }
+
+        var bytes = Convert.FromBase64String(padded);
+        return Encoding.UTF8.GetString(bytes);
+    }
+
+    private static string? GetRoleFromJwt(string jwt)
+    {
+        if (string.IsNullOrWhiteSpace(jwt))
+        {
+            return null;
+        }
+
+        var parts = jwt.Split('.');
+        if (parts.Length < 2)
+        {
+            return null;
+        }
+
+        try
+        {
+            var payload = Base64UrlDecodeToString(parts[1]);
+            using var document = JsonDocument.Parse(payload);
+            if (TryGetClaimValue(document.RootElement, "role", out var role))
+            {
+                return role;
+            }
+
+            if (TryGetClaimValue(document.RootElement, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", out var mappedRole))
+            {
+                return mappedRole;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao ler role do token: {ex.Message}");
+        }
+
+        return null;
+    }
+
+    private static string? GetUserIdFromJwt(string jwt)
+    {
+        if (string.IsNullOrWhiteSpace(jwt))
+        {
+            return null;
+        }
+
+        var parts = jwt.Split('.');
+        if (parts.Length < 2)
+        {
+            return null;
+        }
+
+        try
+        {
+            var payload = Base64UrlDecodeToString(parts[1]);
+            using var document = JsonDocument.Parse(payload);
+            if (TryGetClaimValue(document.RootElement, "nameid", out var nameId))
+            {
+                return nameId;
+            }
+
+            if (TryGetClaimValue(document.RootElement, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", out var claimNameId))
+            {
+                return claimNameId;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao ler userId do token: {ex.Message}");
+        }
+
+        return null;
+    }
+
+    private static bool TryGetClaimValue(JsonElement element, string claimName, out string? value)
+    {
+        value = null;
+        if (!element.TryGetProperty(claimName, out var claim))
+        {
+            return false;
+        }
+
+        if (claim.ValueKind == JsonValueKind.String)
+        {
+            value = claim.GetString();
+            return !string.IsNullOrWhiteSpace(value);
+        }
+
+        if (claim.ValueKind == JsonValueKind.Array && claim.GetArrayLength() > 0)
+        {
+            var first = claim[0];
+            if (first.ValueKind == JsonValueKind.String)
+            {
+                value = first.GetString();
+                return !string.IsNullOrWhiteSpace(value);
+            }
+        }
+
+        return false;
+    }
+
     // ********************* Categorias  **********
     public async Task<List<Categoria>> GetCategorias()
     {
@@ -359,22 +495,32 @@ public class ApiService : IApiServices
             }
 
             var result = JsonSerializer.Deserialize<Token>(jsonResult, _serializerOptions);
-            if (result == null || string.IsNullOrWhiteSpace(result.accesstoken) || string.IsNullOrWhiteSpace(result.utilizadorid))
+            if (result == null || string.IsNullOrWhiteSpace(result.accesstoken))
             {
                 _logger.LogError("Erro ao fazer login: token ou utilizador inválido.");
                 return new ApiResponse<bool> { ErrorMessage = "Erro ao fazer login" };
             }
 
             // Salva o utilizadorid no LocalStorage
-            string userID = result.utilizadorid;
-            await _authStorage.SetItemAsync(AuthStorageKeys.UserId, userID);
             if (!string.IsNullOrWhiteSpace(result.accesstoken))
             {
                 await _authStorage.SetItemAsync(AuthStorageKeys.AccessToken, result.accesstoken);
             }
-            if (!string.IsNullOrWhiteSpace(result.role))
+
+            var userID = !string.IsNullOrWhiteSpace(result.utilizadorid)
+                ? result.utilizadorid
+                : GetUserIdFromJwt(result.accesstoken);
+            if (!string.IsNullOrWhiteSpace(userID))
             {
-                await _authStorage.SetItemAsync(AuthStorageKeys.UserRole, result.role);
+                await _authStorage.SetItemAsync(AuthStorageKeys.UserId, userID);
+            }
+
+            var role = !string.IsNullOrWhiteSpace(result.role)
+                ? result.role
+                : GetRoleFromJwt(result.accesstoken);
+            if (!string.IsNullOrWhiteSpace(role))
+            {
+                await _authStorage.SetItemAsync(AuthStorageKeys.UserRole, role);
             }
 
             return new ApiResponse<bool> { Data = true };
