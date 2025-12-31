@@ -1,0 +1,74 @@
+﻿@page "/fornecedor/produtos-disponiveis"
+
+@using RCLAPI.DTO
+@using RCLAPI.DTO.Fornecedor
+@using RCLAPI.Services
+@inject IApiServices ApiServices
+
+<PageTitle>Produtos Disponíveis</PageTitle>
+
+<h1>Produtos disponíveis</h1>
+
+@if (isLoading)
+{
+    <p>A carregar produtos...</p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (produtosDisponiveis.Count == 0)
+{
+    <p>Não existem produtos disponíveis para venda.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço base</th>
+                <th>Margem</th>
+                <th>Stock</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in produtosDisponiveis)
+            {
+                <tr>
+                    <td>@produto.Nome</td>
+                    <td>@produto.PrecoBase.ToString("C")</td>
+                    <td>@(produto.MargemPercentual?.ToString("P") ?? "-")</td>
+                    <td>@produto.EmStock</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" href="/fornecedor/produtos-disponiveis/editar?produtoId=@produto.Id">
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private readonly List<FornecedorProdutoDto> produtosDisponiveis = new();
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await ApiServices.GetFornecedorProdutos();
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+        }
+        else if (response.Data != null)
+        {
+            produtosDisponiveis.AddRange(response.Data.Where(produto => produto.ParaVenda));
+        }
+
+        isLoading = false;
+    }
+}
