@@ -20,14 +20,14 @@
         {
             if (string.Equals(userRole, "Fornecedor", StringComparison.OrdinalIgnoreCase))
             {
-                <BtnFornecedorProdutos />
+                <BtnFornecedorProdutosDisponiveis />
+                <BtnFornecedorProdutosEditar />
                 <BtnFornecedorVendas />
             }
             else
             {
                 <BtnCompras />
             }
-            <BtnSobre />
             <BtnLogout />
         }
         else if (!isLoading)

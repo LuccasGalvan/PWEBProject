@@ -98,6 +98,12 @@
       <Content Update="Pages\Compras.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
+      <Content Update="Pages\FornecedorProdutosDisponiveis.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Pages\FornecedorProdutosEditar.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
       <Content Update="Pages\Habituais.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
@@ -108,9 +114,6 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
       <Content Update="Pages\RegisterUser.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
-      <Content Update="Pages\Sobre.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
       <Content Update="wwwroot\images\back.png">
