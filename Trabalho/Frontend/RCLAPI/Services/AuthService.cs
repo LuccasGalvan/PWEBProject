@@ -142,7 +142,7 @@ namespace RCLAPI.Services
                 var utilizador = new Utilizador
                 {
                     UserId = response.Data.UserId,
-                    EMail = response.Data.EMail,
+                    Email = response.Data.Email,
                     Nome = response.Data.Nome,
                     Apelido = response.Data.Apelido,
                     NIF = response.Data.NIF,
