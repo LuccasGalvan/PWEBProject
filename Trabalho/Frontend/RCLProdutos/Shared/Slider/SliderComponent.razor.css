@@ -1,4 +1,10 @@
-﻿.slider {
+﻿.slider-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.slider {
     margin: 0 0;
     padding: 0 !important;
     width: 100%;
@@ -92,12 +98,15 @@
 
 
 @media (max-width: 640px) {
+    .slider-page {
+        gap: 16px;
+    }
+
     .slider {
         top: 0;
     }
 
     .friso-filters {
-        margin-bottom: 12px;
+        margin-bottom: 0;
     }
-
 }

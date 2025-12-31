@@ -1,159 +1,62 @@
-﻿.slide-children {
-    height: auto;
-    width: 55%;
-    position: absolute;
-    right: 10px;
-    bottom: 25px;
-    text-align: center;
-    transition: 1s;
+.recommended-product {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border:solid;
-    border-color:black
-}
-
-.background-solid {
-    background-color:antiquewhite ;
-}
-
-.prod-container {
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
-    height: auto;
+    padding: 12px 16px;
+    background-color: antiquewhite;
+}
+
+.recommended-product__content {
     display: flex;
-    margin: 0 8px 0px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
 }
 
-.slide-img {
-    width: 120px;
-    margin: 0px 0px 0px;
-
+.recommended-product__image {
+    height: 60px;
+    border-radius: 8%;
 }
 
-    .slide-img img {
-        height: 80px;
-        border-radius: 8%;
-    }
-
-.slide-descr {
-    width: 220px;
-}
-
-.slide-description-top {
+.recommended-product__text {
     display: flex;
-    position: absolute;
-    top: 0px;
-    left: 10px;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
 }
 
-.slide-description-middle {
+.recommended-product__actions {
     display: flex;
-    justify-content: space-between;
-    position: absolute;
-    bottom: -1px;
-    right: 20px;
+    align-items: center;
+    gap: 12px;
 }
-
-.slide-description-bottom {
-    display: flex;
-    justify-content: space-around;
-    position: absolute;
-    background: transparent;
-    top : 100px;
-    left: 100px;
-}
-
-
 
 .font-valor1 {
-    font-size: 50px;
-    color: #fc0;
-    font-family: 'Vladimir Script';
+    font-size: clamp(22px, 3vw, 34px);
     color: darkorange;
+    font-family: 'Vladimir Script';
 }
 
 .font-valor2 {
-    font-size: 35px;
+    font-size: clamp(18px, 2.5vw, 28px);
     color: darkblue;
     font-family: 'Script MT';
+    word-break: break-word;
 }
 
 .font-valor3 {
-    font-size: 25px;
+    font-size: 20px;
     color: darkorange;
     font-family: 'Times New Roman', Times, serif;
 }
 
-
-.btn-comprar {
-    width: 55%;
-    height: 6px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: white;
-    border-radius: 8%;
-}
-
-
-
-a.button {
-    padding: 1px 6px;
-    border: 1px outset ;
-    border-radius: 3px;
-    color: buttontext;
-    background-color: buttonface;
-    text-decoration: none;
-}
-
-
-.div-sizes{
-    display:flex;
-}
-
-
-@media (max-width: 641px){
-    .slide-children {
-        height: auto;
+@media (max-width: 641px) {
+    .recommended-product {
+        padding: 10px 12px;
     }
 
-    .slide-img {
-        position: absolute;
-        top: 5px;
-        left: 15%;
-        margin: 1px;
-    }
-    .slide-descr {
-        position: absolute;
-        left: 0;
-        margin: 5px;
-        bottom: 15px;
-    }
-
-    .slide-description-middle p {
-        font-size: 7pt;
-        width: 350px;
-    }
-
-    .slide-description-botton{
-        height:60px;
-    }
-
-    .div-sizes {
-        position: absolute;
-        left: 0px;
-        margin-top: 14px;
-    }
-
-    .btn-comprar {
-        height: 30px;
-        width: 150px;
-        margin-top:33px;
-    }
-
-    .div-value-prod {
-        position: absolute;
-        right: 40%;
-        bottom: 0px;
+    .recommended-product__content {
+        align-items: flex-start;
     }
 }
