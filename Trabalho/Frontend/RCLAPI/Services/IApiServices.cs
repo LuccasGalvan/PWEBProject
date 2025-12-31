@@ -20,7 +20,6 @@ public interface IApiServices
     public Task<HttpResponseMessage> UpdateUserInformation(Utilizador user);
     public Task<List<CarOrder>?> ObterCarrinho(string userId);
     public Task<(bool Success, string? Message)> AtualizarCarrinho(string userId, int produtoId, string acao, int quantidade);
-    public Task<List<Vendas>> ObterVendas(string userId);
     public Task<List<Encomenda>> ObterEncomendas(string userId);
     public Task<ApiResponse<Encomenda>> CheckoutEncomenda(string userId);
     public Task<ApiResponse<EncomendaPagamentoResponse>> PagarEncomenda(Guid encomendaId);

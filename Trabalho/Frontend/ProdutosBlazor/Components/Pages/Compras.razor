@@ -6,56 +6,68 @@
 
 <h3>Minhas Compras</h3>
 
-@if (vendas == null)
+@if (encomendas == null)
 {
     <p>Carregando suas compras...</p>
 }
-else if (!vendas.Any())
+else if (!encomendas.Any())
 {
     <p>Você ainda não fez nenhuma compra.</p>
 }
 else
 {
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Imagem</th>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Preço Total</th>
-                <th>Data da Compra</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var venda in vendas)
-            {
-                <tr>
-                    <td>
-                        <img src="data:image/png;base64,@Convert.ToBase64String(venda.Produto.Imagem)" alt="@venda.Produto.Nome" width="100" height="100" />
-                    </td>
-                    <td>@venda.Produto.Nome</td>
-                    <td>@venda.Quantidade</td>
-                    <td>@venda.Preco.ToString("C")</td>
-                    <td>@venda.DataAdicionado.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                    <td>
-                        @if (venda.Confirmada)
-                        {
-                            <span>Confirmada</span>
-                        }
-                        else
-                        {
-                            <span style="color: red;">Pendente</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="orders">
+        @foreach (var encomenda in encomendas)
+        {
+            <section class="order-card">
+                <header class="order-header">
+                    <div>
+                        <div class="order-id">Encomenda #@encomenda.Id</div>
+                        <div class="order-meta">@FormatDate(encomenda.CriadaEmUtc)</div>
+                    </div>
+                    <div class="order-status @GetStatusClass(encomenda.Estado)">
+                        @GetStatusLabel(encomenda.Estado)
+                    </div>
+                    <div class="order-total">Total: @encomenda.Total.ToString("C")</div>
+                </header>
+                <div class="order-items">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Preço Unitário</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in encomenda.Itens)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="product-cell">
+                                            @if (!string.IsNullOrWhiteSpace(GetProdutoImagem(item.Produto)))
+                                            {
+                                                <img src="@GetProdutoImagem(item.Produto)" alt="@item.Produto?.Nome" />
+                                            }
+                                            <span>@(item.Produto?.Nome ?? $"Produto #{item.ProdutoId}")</span>
+                                        </div>
+                                    </td>
+                                    <td>@item.Quantidade</td>
+                                    <td>@item.PrecoUnitario.ToString("C")</td>
+                                    <td>@item.Subtotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        }
+    </div>
 }
 
 @code {
-    private List<Vendas>? vendas;
+    private List<Encomenda>? encomendas;
 
     // O CarregarCompras agora será chamado dentro do OnAfterRenderAsync
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -73,11 +85,53 @@ else
         if (string.IsNullOrEmpty(userId))
         {
             Console.WriteLine("utilizador não encontrado no Local Storage.");
-            vendas = new List<Vendas>();
+            encomendas = new List<Encomenda>();
             return;
         }
 
-        vendas = await _apiServices.ObterVendas(userId);
+        encomendas = await _apiServices.ObterEncomendas(userId);
         StateHasChanged(); // Força a re-renderização após as compras serem carregadas
+    }
+
+    private static string FormatDate(DateTime date)
+    {
+        var localDate = date.Kind == DateTimeKind.Utc ? date.ToLocalTime() : date;
+        return localDate.ToString("dd/MM/yyyy HH:mm");
+    }
+
+    private static string GetStatusLabel(EncomendaEstado estado)
+    {
+        return estado switch
+        {
+            EncomendaEstado.PendentePagamento => "Pendente de pagamento",
+            EncomendaEstado.Paga => "Paga",
+            EncomendaEstado.Confirmada => "Confirmada",
+            EncomendaEstado.Rejeitada => "Rejeitada",
+            EncomendaEstado.Expedida => "Expedida",
+            _ => "Desconhecida"
+        };
+    }
+
+    private static string GetStatusClass(EncomendaEstado estado)
+    {
+        return estado switch
+        {
+            EncomendaEstado.PendentePagamento => "status-pendente",
+            EncomendaEstado.Paga => "status-paga",
+            EncomendaEstado.Confirmada => "status-confirmada",
+            EncomendaEstado.Rejeitada => "status-rejeitada",
+            EncomendaEstado.Expedida => "status-expedida",
+            _ => ""
+        };
+    }
+
+    private static string? GetProdutoImagem(ProdutoDTO? produto)
+    {
+        if (produto?.Imagem is { Length: > 0 })
+        {
+            return $"data:image/png;base64,{Convert.ToBase64String(produto.Imagem)}";
+        }
+
+        return string.IsNullOrWhiteSpace(produto?.UrlImagem) ? null : produto.UrlImagem;
     }
 }

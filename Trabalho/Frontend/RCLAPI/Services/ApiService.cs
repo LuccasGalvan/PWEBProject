@@ -655,21 +655,6 @@ public class ApiService : IApiServices
         }
     }
 
-    public async Task<List<Vendas>> ObterVendas(string userId)
-    {
-        var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/Vendas/{userId}");
-        if (response.IsSuccessStatusCode)
-        {
-            var vendas = await response.Content.ReadFromJsonAsync<List<Vendas>>();
-            return vendas ?? new List<Vendas>();
-        }
-        else
-        {
-            Console.WriteLine("Erro ao buscar vendas.");
-            return new List<Vendas>();
-        }
-    }
-
     public async Task<List<Encomenda>> ObterEncomendas(string userId)
     {
         var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/Encomendas/{userId}");
