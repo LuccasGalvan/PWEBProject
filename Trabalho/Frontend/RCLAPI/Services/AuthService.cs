@@ -197,13 +197,13 @@ namespace RCLAPI.Services
             if (message.Contains("Sessão expirada", StringComparison.OrdinalIgnoreCase)
                 || message.Contains("sem permissões", StringComparison.OrdinalIgnoreCase))
             {
-                return message;
+                return "Sessão expirada. Faça login novamente.";
             }
 
             if (message.Contains("Unauthorized", StringComparison.OrdinalIgnoreCase)
                 || message.Contains("Forbidden", StringComparison.OrdinalIgnoreCase))
             {
-                return "Sessão expirada ou sem permissões. Faça login novamente.";
+                return "Sessão expirada. Faça login novamente.";
             }
 
             return $"Não foi possível carregar as informações do utilizador: {message}";
