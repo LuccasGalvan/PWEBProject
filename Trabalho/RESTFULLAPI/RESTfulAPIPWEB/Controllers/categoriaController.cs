@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace RESTfulAPIPWEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Categorias")]
     [ApiController]
     [Authorize]
     public class CategoriaController : ControllerBase
