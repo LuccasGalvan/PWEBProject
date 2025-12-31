@@ -39,8 +39,7 @@ namespace RCLAPI.Services
             }
 
             var role = await _authStorage.GetItemAsync(AuthStorageKeys.UserRole);
-            var response = await _apiServices.GetUserInformation();
-            var user = await BuildUserFromResponseAsync(response);
+            var user = await GetUserInformation();
 
             if (user != null)
             {
