@@ -1,11 +1,13 @@
 ﻿@page "/carrinho"
 @using System
+@using System.IdentityModel.Tokens.Jwt
 @using System.Text.Json
 @using RCLAPI.Services
 @using RCLAPI.DTO
 @inject IJSRuntime JSRuntime
 @inject IApiServices _apiServices
 @inject NavigationManager NavigationManager
+@inject IAuthStorage _authStorage
 
 <h3>Carrinho de Compras</h3>
 
@@ -43,7 +45,7 @@ else
                         <button class="btn btn-danger" @onclick="() => RemoverItemCarrinho(item.ProdutoId, item.Quantidade)" style="padding: 10px 20px; border-radius: 5px; cursor: pointer; background-color: red; color: white;">
                             Remover
                         </button>
-                        <button class="btn btn-success" @onclick="() => AbrirPopUpCartao(item)" style="padding: 10px 20px; border-radius: 5px; cursor: pointer; background-color: green; color: white;">
+                        <button class="btn btn-success" @onclick="async () => await AbrirPopUpCartao(item)" style="padding: 10px 20px; border-radius: 5px; cursor: pointer; background-color: green; color: white;">
                             Comprar
                         </button>
                     </td>
@@ -131,8 +133,13 @@ else
         }
     }
 
-    private void AbrirPopUpCartao(CarOrder item)
+    private async Task AbrirPopUpCartao(CarOrder item)
     {
+        if (!await EnsureAuthenticatedForCheckoutAsync(item))
+        {
+            return;
+        }
+
         itemSelecionado = item;
         exibirPopUpCartao = true;
     }
@@ -152,17 +159,10 @@ else
             return;
         }
 
-        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
-        if (string.IsNullOrEmpty(userId))
+        if (!await EnsureAuthenticatedForCheckoutAsync(itemSelecionado))
         {
-            if (itemSelecionado != null)
-            {
-                await GuardarCheckoutPendenteAsync(itemSelecionado);
-            }
-
             exibirPopUpCartao = false;
             LimparDadosCartao();
-            NavigationManager.NavigateTo("/modalogin?returnUrl=/carrinho", true);
             return;
         }
 
@@ -185,7 +185,7 @@ else
 
     private async Task ComprarProduto(CarOrder item)
     {
-        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
+        var userId = await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -259,8 +259,7 @@ else
 
     private async Task VerificarCheckoutPendenteAsync()
     {
-        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
-        if (string.IsNullOrEmpty(userId))
+        if (!await HasValidAccessTokenAsync())
         {
             return;
         }
@@ -298,5 +297,39 @@ else
     private async Task LimparCheckoutPendenteAsync()
     {
         await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "pendingCheckout");
+    }
+
+    private async Task<bool> EnsureAuthenticatedForCheckoutAsync(CarOrder? item)
+    {
+        if (await HasValidAccessTokenAsync())
+        {
+            return true;
+        }
+
+        if (item != null)
+        {
+            await GuardarCheckoutPendenteAsync(item);
+        }
+
+        NavigationManager.NavigateTo("/modalogin?returnUrl=/carrinho", true);
+        return false;
+    }
+
+    private async Task<bool> HasValidAccessTokenAsync()
+    {
+        var accessToken = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+        return !string.IsNullOrWhiteSpace(accessToken) && !IsTokenExpired(accessToken);
+    }
+
+    private static bool IsTokenExpired(string accessToken)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        if (!handler.CanReadToken(accessToken))
+        {
+            return true;
+        }
+
+        var token = handler.ReadJwtToken(accessToken);
+        return token.ValidTo <= DateTime.UtcNow;
     }
 }
