@@ -728,7 +728,7 @@ public class ApiService : IApiServices
                 UserId = result.Id,
                 Nome = result.Nome,
                 Apelido = result.Apelido,
-                EMail = result.Email,
+                Email = result.Email,
                 NIF = result.NIF,
                 Password = string.Empty,
                 ConfirmPassword = string.Empty

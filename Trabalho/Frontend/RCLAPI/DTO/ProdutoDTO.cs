@@ -33,12 +33,10 @@ public class ProdutoDTO
     public decimal EmStock { get; set; }
     public bool Disponivel { get; set; }
 
-    [JsonIgnore]
     public int? ModoEntregaId { get; set; }
-    public ModoEntrega modoentrega { get; set; }
-    [JsonIgnore]
+    public ModoEntrega? modoentrega { get; set; }
     public int CategoriaId { get; set; }
-    public Categoria categoria { get; set; }
+    public Categoria? categoria { get; set; }
 
     public byte[]? Imagem { get; set; }
 

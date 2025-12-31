@@ -39,9 +39,9 @@
                  
                 </div>     
        
-                <label for="email" class="form-label">EMail:</label>
-                <InputText id="email" @bind-Value="Utilizador.EMail" class="form-control" />
-                <ValidationMessage For="() => Utilizador.EMail" class="text-danger" />
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" @bind-Value="Utilizador.Email" class="form-control" />
+                <ValidationMessage For="() => Utilizador.Email" class="text-danger" />
  
                 <label for="password" class="form-label">Password:</label> 
                 <InputText type="password"  id="password" @bind-Value="Utilizador.Password" class="form-control" />
@@ -85,9 +85,9 @@
                 Utilizador.Apelido = string.Empty;
             }
 
-            if (string.IsNullOrWhiteSpace(Utilizador.EMail))
+            if (string.IsNullOrWhiteSpace(Utilizador.Email))
             {
-                Utilizador.EMail = string.Empty;
+                Utilizador.Email = string.Empty;
             }
 
             if (string.IsNullOrWhiteSpace(Utilizador.Password))

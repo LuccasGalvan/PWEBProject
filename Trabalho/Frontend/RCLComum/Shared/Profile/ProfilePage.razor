@@ -47,11 +47,11 @@ else if (user != null)
             <label for="email"><strong>Email:</strong></label>
             @if (_isEditing)
             {
-                <input id="email" @bind="user.EMail" disabled />
+                <input id="email" @bind="user.Email" disabled />
             }
             else
             {
-                <p>@(string.IsNullOrEmpty(user.EMail) ? "Não disponível" : user.EMail)</p>
+                <p>@(string.IsNullOrEmpty(user.Email) ? "Não disponível" : user.Email)</p>
             }
         </div>
 
@@ -207,7 +207,7 @@ else
         // Preencher valores vazios ou nulos antes de enviar
         user.Nome = user.Nome ?? string.Empty;
         user.Apelido = user.Apelido ?? string.Empty;
-        user.EMail = user.EMail ?? string.Empty;
+        user.Email = user.Email ?? string.Empty;
         user.UserId = user.UserId ?? string.Empty;
         user.Rua = user.Rua ?? string.Empty;
         user.Localidade1 = user.Localidade1 ?? string.Empty;
