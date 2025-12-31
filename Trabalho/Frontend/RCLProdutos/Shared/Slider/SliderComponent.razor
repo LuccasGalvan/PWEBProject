@@ -62,5 +62,8 @@
         </div>
     </section>
 
-    <SlideProdutoComponent sugestProduto="@sugestaoProduto" />
+    @if (ShowSuggestedProduct)
+    {
+        <SlideProdutoComponent sugestProduto="@sugestaoProduto" />
+    }
 </div>
