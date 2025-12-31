@@ -42,6 +42,7 @@ public partial class SlideComponent
     private string? uidprod { get; set; }
     private string? favoritoicon { get; set; }
     private string? pathurlimg { get; set; }
+    private string? favoritoAuthMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -212,16 +213,44 @@ public partial class SlideComponent
     }
     public async void Favoritos(string acao, int pId)
     {
+        favoritoAuthMessage = null;
         if (favoritoicon == $"images/heart.png")
         {
             favoritoicon = $"images/heartfilltransp.png";
-            var altFavorito = await _apiServices.ActualizaFavorito("heartfill", pId);
+            var (sucesso, mensagemErro) = await _apiServices.ActualizaFavorito("heartfill", pId);
+            if (!sucesso)
+            {
+                HandleFavoritoError(mensagemErro, "images/heart.png");
+            }
         }
         else
         {
             favoritoicon = $"images/heart.png";
-            var altFavorito = await _apiServices.ActualizaFavorito("heartsimples", pId);
+            var (sucesso, mensagemErro) = await _apiServices.ActualizaFavorito("heartsimples", pId);
+            if (!sucesso)
+            {
+                HandleFavoritoError(mensagemErro, "images/heartfilltransp.png");
+            }
         }
+    }
+
+    private void HandleFavoritoError(string? mensagemErro, string iconFallback)
+    {
+        if (IsAuthError(mensagemErro))
+        {
+            favoritoAuthMessage = "Inicie sessão para gerir favoritos.";
+        }
+        else
+        {
+            favoritoAuthMessage = "Não foi possível atualizar os favoritos.";
+        }
+
+        favoritoicon = iconFallback;
+    }
+
+    private static bool IsAuthError(string? errorMessage)
+    {
+        return errorMessage == "Unauthorized" || errorMessage == "Forbidden";
     }
 
     public void Incrementa(string incredec, string janela2)

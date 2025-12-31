@@ -32,6 +32,7 @@ namespace RCLProdutos.Shared.Slider
 
         private List<ProdutoDTO>? produtos { get; set; }
         private List<ProdutoFavorito>? userFavoritos { get; set; }
+        private string? favoritosAuthMessage { get; set; }
 
         private List<Categoria> categorias = new();
         private Dictionary<int, Categoria> categoriaLookup = new();
@@ -169,7 +170,16 @@ namespace RCLProdutos.Shared.Slider
 
                 if (userId != null)
                 {
-                    userFavoritos = await _apiServices!.GetFavoritos(userId);
+                    var (favoritos, errorMessage) = await _apiServices!.GetFavoritos(userId);
+                    if (IsAuthError(errorMessage))
+                    {
+                        favoritosAuthMessage = "Inicie sessão para ver os seus favoritos.";
+                        userFavoritos = new List<ProdutoFavorito>();
+                    }
+                    else
+                    {
+                        userFavoritos = favoritos ?? new List<ProdutoFavorito>();
+                    }
 
                     for (int i = 0; i < userFavoritos.Count; i++)
                     {
@@ -213,6 +223,11 @@ namespace RCLProdutos.Shared.Slider
             witdthPerc = qtdProd * 100;
 
             sliderUtilsService.WidthSlide2 = 100f / qtdProd;
+        }
+
+        private static bool IsAuthError(string? errorMessage)
+        {
+            return errorMessage == "Unauthorized" || errorMessage == "Forbidden";
         }
 
         async Task LoadMarginsLeft()

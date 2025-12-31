@@ -384,18 +384,44 @@ public class ApiService : IApiServices
 
     // *************** Gerir Favoritos ******************
 
-    public async Task<List<ProdutoFavorito>> GetFavoritos(string utilizadorId)
+    public async Task<(List<ProdutoFavorito>? Data, string? ErrorMessage)> GetFavoritos(string utilizadorId)
     {
         string endpoint = $"api/Favoritos/{utilizadorId}";
 
-        // AddAuthorizationHeader();
-        HttpResponseMessage response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}{endpoint}");
+        try
+        {
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);
+            HttpResponseMessage response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                List<ProdutoFavorito>? data = JsonSerializer.Deserialize<List<ProdutoFavorito>>(responseString, _serializerOptions);
+                return (data ?? new List<ProdutoFavorito>(), null);
+            }
 
-        var responseString = await response.Content.ReadAsStringAsync();
-        List<ProdutoFavorito> data = JsonSerializer.Deserialize<List<ProdutoFavorito>>(responseString, _serializerOptions);
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                string errorMessage = response.StatusCode == HttpStatusCode.Unauthorized ? "Unauthorized" : "Forbidden";
+                _logger.LogWarning(errorMessage);
+                return (null, errorMessage);
+            }
 
-        return data;
-
+            string generalErrorMessage = $"Erro na requisição: {response.ReasonPhrase}";
+            _logger.LogError(generalErrorMessage);
+            return (null, generalErrorMessage);
+        }
+        catch (HttpRequestException ex)
+        {
+            string errorMessage = $"Erro de requisição HTTP: {ex.Message}";
+            _logger.LogError(errorMessage);
+            return (null, errorMessage);
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = $"Erro inesperado: {ex.Message}";
+            _logger.LogError(errorMessage);
+            return (null, errorMessage);
+        }
     }
 
     public async Task<(bool Data, string? ErrorMessage)> ActualizaFavorito(string acao, int produtoId)
@@ -432,9 +458,12 @@ public class ApiService : IApiServices
             }
             else
             {
-                string generalErrorMessage = response.StatusCode == HttpStatusCode.Unauthorized
-                    ? "Unauthorized"
-                    : $"Erro na requisição: {response.ReasonPhrase}";
+                string generalErrorMessage = response.StatusCode switch
+                {
+                    HttpStatusCode.Unauthorized => "Unauthorized",
+                    HttpStatusCode.Forbidden => "Forbidden",
+                    _ => $"Erro na requisição: {response.ReasonPhrase}"
+                };
 
                 _logger.LogError(generalErrorMessage);
                 return (false, generalErrorMessage);
@@ -455,12 +484,10 @@ public class ApiService : IApiServices
     }
     private async Task<HttpResponseMessage> FavoritosPutRequest(string uri, HttpContent content)
     {
-        var enderecoUrl = AppConfig.BaseUrl + uri;
         try
         {
-            // AddAuthorizationHeader();
-            var result = await _httpClient.PutAsync(enderecoUrl, content);
-            return result;
+            var request = await CreateAuthorizedRequest(HttpMethod.Put, uri, content);
+            return await _httpClient.SendAsync(request);
         }
         catch (Exception ex)
         {
