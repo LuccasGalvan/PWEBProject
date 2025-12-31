@@ -780,10 +780,20 @@ public class ApiService : IApiServices
     {
         try
         {
-            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos");
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos");
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<List<FornecedorProdutoDto>>
+                    {
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
+                    };
+                }
+
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Erro ao obter produtos do fornecedor: {response.StatusCode} - {errorResponse}");
                 return new ApiResponse<List<FornecedorProdutoDto>>
@@ -809,10 +819,20 @@ public class ApiService : IApiServices
         {
             var json = JsonSerializer.Serialize(produto, _serializerOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos", content);
+            var request = await CreateAuthorizedRequest(HttpMethod.Post, "api/FornecedorProdutos", content);
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<FornecedorProdutoDto>
+                    {
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
+                    };
+                }
+
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Erro ao criar produto do fornecedor: {response.StatusCode} - {errorResponse}");
                 return new ApiResponse<FornecedorProdutoDto>
@@ -838,10 +858,20 @@ public class ApiService : IApiServices
         {
             var json = JsonSerializer.Serialize(produto, _serializerOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/{id}", content);
+            var request = await CreateAuthorizedRequest(HttpMethod.Put, $"api/FornecedorProdutos/{id}", content);
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<FornecedorProdutoDto>
+                    {
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
+                    };
+                }
+
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Erro ao atualizar produto do fornecedor: {response.StatusCode} - {errorResponse}");
                 return new ApiResponse<FornecedorProdutoDto>
@@ -865,10 +895,20 @@ public class ApiService : IApiServices
     {
         try
         {
-            var response = await _httpClient.DeleteAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/{id}");
+            var request = await CreateAuthorizedRequest(HttpMethod.Delete, $"api/FornecedorProdutos/{id}");
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<bool>
+                    {
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
+                    };
+                }
+
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Erro ao eliminar produto do fornecedor: {response.StatusCode} - {errorResponse}");
                 return new ApiResponse<bool>
@@ -890,10 +930,20 @@ public class ApiService : IApiServices
     {
         try
         {
-            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/vendas");
+            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos/vendas");
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await ClearAuthTokensAsync();
+                    return new ApiResponse<List<FornecedorVendaDto>>
+                    {
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
+                    };
+                }
+
                 var errorResponse = await response.Content.ReadAsStringAsync();
                 _logger.LogError($"Erro ao obter vendas do fornecedor: {response.StatusCode} - {errorResponse}");
                 return new ApiResponse<List<FornecedorVendaDto>>
