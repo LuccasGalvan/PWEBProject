@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using RESTfulAPIPWEB.Data;
 using RESTfulAPIPWEB.Repositories;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,7 +74,11 @@ builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
 // -------------------- Controllers --------------------
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 // -------------------- Swagger --------------------
 builder.Services.AddEndpointsApiExplorer();
