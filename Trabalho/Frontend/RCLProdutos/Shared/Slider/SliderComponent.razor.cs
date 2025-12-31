@@ -23,6 +23,9 @@ namespace RCLProdutos.Shared.Slider
         [Parameter]
         public int? initProd { get; set; }
 
+        [Parameter]
+        public bool ShowSuggestedProduct { get; set; } = true;
+
         [Inject]
         public IApiServices? _apiServices { get; set; }
 
