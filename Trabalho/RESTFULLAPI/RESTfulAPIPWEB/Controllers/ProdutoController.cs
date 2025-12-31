@@ -7,7 +7,7 @@ using RESTfulAPIPWEB.Repositories;
 
 namespace RESTfulAPIPWEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Produtos")]
     [ApiController]
     [Authorize]
     public class ProdutoController : Controller
@@ -21,22 +21,21 @@ namespace RESTfulAPIPWEB.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProdutos(string? tipoProduto, int? categoriaId = null)
+        public async Task<IActionResult> GetProdutos(int? categoriaId = null, bool soAtivos = true)
         {
-            tipoProduto = string.IsNullOrWhiteSpace(tipoProduto) ? "todos" : tipoProduto;
-
             IEnumerable<Produto> produtos;
-
-            if (tipoProduto == "categoria" && categoriaId != null)
-                produtos = await _produtoRepository.ObterProdutosPorCategoriaAsync(categoriaId.Value);
-            else if (tipoProduto == "promocao")
-                produtos = await _produtoRepository.ObterProdutosPromocaoAsync();
-            else if (tipoProduto == "maisvendido")
-                produtos = await _produtoRepository.ObterProdutosMaisVendidosAsync();
-            else if (tipoProduto == "todos")
+            if (!soAtivos)
+            {
                 produtos = await _produtoRepository.ObterTodosProdutosAsync();
+            }
+            else if (categoriaId != null)
+            {
+                produtos = await _produtoRepository.ObterProdutosPorCategoriaAsync(categoriaId.Value);
+            }
             else
-                return BadRequest("Tipo de produto inválido. Use: categoria, promocao, maisvendido, todos.");
+            {
+                produtos = await _produtoRepository.ObterTodosProdutosAsync();
+            }
 
             var produtosDto = produtos.Select(MapProduto);
             return Ok(produtosDto);

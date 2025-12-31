@@ -98,7 +98,7 @@ public class ApiService : IApiServices
     // ********************* Categorias  **********
     public async Task<List<Categoria>> GetCategorias()
     {
-        string endpoint = $"api/categoria";
+        string endpoint = $"api/Categorias";
 
         try
         {
@@ -129,11 +129,11 @@ public class ApiService : IApiServices
 
         if (produtoTipo == "categoria" && IdCategoria != null)
         {
-            endpoint = $"api/Produto?tipoProduto=categoria&categoriaId={IdCategoria}";
+            endpoint = $"api/Produtos?categoriaId={IdCategoria}&soAtivos=true";
         }
         else if (produtoTipo == "todos")
         {
-            endpoint = $"api/Produto?tipoProduto=todos";
+            endpoint = $"api/Produtos?soAtivos=true";
         }
         else
         {
