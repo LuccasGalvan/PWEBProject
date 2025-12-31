@@ -549,7 +549,10 @@ public class ApiService : IApiServices
 
         try
         {
-            var response = await _httpClient.PutAsJsonAsync($"{AppConfig.BaseUrl}{endpoint}", user);
+            var json = JsonSerializer.Serialize(user, _serializerOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var request = await CreateAuthorizedRequest(HttpMethod.Put, endpoint, content);
+            var response = await _httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -687,8 +690,7 @@ public class ApiService : IApiServices
     {
         try
         {
-            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos");
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -717,8 +719,7 @@ public class ApiService : IApiServices
         {
             var json = JsonSerializer.Serialize(produto, _serializerOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var request = await CreateAuthorizedRequest(HttpMethod.Post, "api/FornecedorProdutos", content);
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.PostAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -747,8 +748,7 @@ public class ApiService : IApiServices
         {
             var json = JsonSerializer.Serialize(produto, _serializerOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var request = await CreateAuthorizedRequest(HttpMethod.Put, $"api/FornecedorProdutos/{id}", content);
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.PutAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/{id}", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -775,8 +775,7 @@ public class ApiService : IApiServices
     {
         try
         {
-            var request = await CreateAuthorizedRequest(HttpMethod.Delete, $"api/FornecedorProdutos/{id}");
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.DeleteAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -801,8 +800,7 @@ public class ApiService : IApiServices
     {
         try
         {
-            var request = await CreateAuthorizedRequest(HttpMethod.Get, "api/FornecedorProdutos/vendas");
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.GetAsync($"{AppConfig.BaseUrl}api/FornecedorProdutos/vendas");
 
             if (!response.IsSuccessStatusCode)
             {
