@@ -38,7 +38,7 @@ namespace RCLAPI.Services
                 };
             }
 
-            var role = await _authStorage.GetItemAsync(AuthStorageKeys.UserRole);
+            var role = await _apiServices.GetRoleFromTokenAsync();
             var user = await GetUserInformation();
 
             if (user != null)
@@ -66,7 +66,8 @@ namespace RCLAPI.Services
             {
                 if (string.IsNullOrWhiteSpace(user.UserId))
                 {
-                    user.UserId = await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
+                    user.UserId = await _apiServices.GetUserIdFromTokenAsync()
+                        ?? await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
                 }
 
                 // Chama a API para atualizar as informações do usuário
@@ -93,7 +94,7 @@ namespace RCLAPI.Services
             LastErrorMessage = null;
 
             var accessToken = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
-            var role = await _authStorage.GetItemAsync(AuthStorageKeys.UserRole);
+            var role = await _apiServices.GetRoleFromTokenAsync();
 
             if (string.IsNullOrWhiteSpace(accessToken))
             {

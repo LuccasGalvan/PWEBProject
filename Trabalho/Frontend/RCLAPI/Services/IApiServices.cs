@@ -12,6 +12,8 @@ public interface IApiServices
     public Task<List<Categoria>> GetCategorias();
     public Task<(bool Data, string? ErrorMessage)> ActualizaFavorito(string acao,int produtoId);
     public Task<(List<ProdutoFavorito>? Data, string? ErrorMessage)> GetFavoritos(string utilizadorId);
+    public Task<string?> GetRoleFromTokenAsync();
+    public Task<string?> GetUserIdFromTokenAsync();
     public Task<ApiResponse<bool>> RegistarUtilizador(Utilizador novoUtilizador);
     public Task<ApiResponse<bool>> RegistarFornecedor(Utilizador novoUtilizador);
     public Task<ApiResponse<bool>> Login(LoginModel login);

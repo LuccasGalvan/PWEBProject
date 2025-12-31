@@ -1,5 +1,6 @@
 ﻿@using RCLAPI
-@inject IJSRuntime JSRuntime
+@using RCLAPI.Services
+@inject IApiServices ApiServices
 
 <div class="header-container">
     <div class="header-main">
@@ -47,9 +48,9 @@
     {
         if (firstRender)
         {
-            // Carrega o userID do localStorage quando a página for renderizada no cliente
-            userID = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userID");
-            userRole = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userRole");
+            // Carrega o userID e o role a partir do token armazenado
+            userID = await ApiServices.GetUserIdFromTokenAsync();
+            userRole = await ApiServices.GetRoleFromTokenAsync();
 
             // Atribui false após o carregamento ser concluído
             isLoading = false;
