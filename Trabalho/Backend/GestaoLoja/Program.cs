@@ -37,6 +37,20 @@ builder.Services.AddScoped<GestaoLoja.Services.EncomendaWorkflowService>();
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+var corsOrigins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>()
+    ?? new[] { "http://localhost:5173" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy.WithOrigins(corsOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 // HERE change this later if add email conf (change to true)
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddSignInManager()
@@ -83,6 +97,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Frontend");
 
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
