@@ -495,10 +495,10 @@ public class ApiService : IApiServices
                 if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
                 {
                     await ClearAuthTokensAsync();
-                    _logger.LogWarning("Sessão expirada ou sem permissões. Faça login novamente.");
+                    _logger.LogWarning("Sessão expirada. Faça login novamente.");
                     return new ApiResponse<Utilizador>
                     {
-                        ErrorMessage = "Sessão expirada ou sem permissões. Faça login novamente."
+                        ErrorMessage = "Sessão expirada. Faça login novamente."
                     };
                 }
 

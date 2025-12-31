@@ -1,7 +1,6 @@
 @using RCLAPI.DTO
 @using RCLAPI.Services
 @inject AuthService AuthService
-@inject NavigationManager NavigationManager
 
 <h3>Informações do Utilizador</h3>
 
@@ -230,7 +229,12 @@ else
     {
         await AuthService.ClearUserAsync();
         user = null;
+        userRole = null;
+        _isEditing = false;
+        showProdutosEditor = false;
+        showVendasViewer = false;
+        loadError = "Sessão encerrada. Faça login novamente.";
 
-        NavigationManager.NavigateTo("/", true);
+        await InvokeAsync(StateHasChanged);
     }
 }
