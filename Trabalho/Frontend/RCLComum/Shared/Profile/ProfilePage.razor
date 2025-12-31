@@ -132,12 +132,17 @@ else if (user != null)
     {
         <div>
             <button @onclick="ToggleProdutosEditor">Gerir Produtos</button>
-            <button @onclick="NavigateToVendas">Gerir Vendas</button>
+            <button @onclick="ToggleVendasViewer">Gerir Vendas</button>
         </div>
 
         @if (showProdutosEditor)
         {
             <FornecedorProdutosEditor />
+        }
+
+        @if (showVendasViewer)
+        {
+            <FornecedorVendasViewer />
         }
     }
 }
@@ -154,6 +159,7 @@ else
     private string? loadError;
     private string? userRole;
     private bool showProdutosEditor;
+    private bool showVendasViewer;
 
     protected override async Task OnInitializedAsync()
     {
@@ -184,9 +190,10 @@ else
         return Task.CompletedTask;
     }
 
-    private void NavigateToVendas()
+    private Task ToggleVendasViewer()
     {
-        NavigationManager.NavigateTo("/fornecedor/vendas");
+        showVendasViewer = !showVendasViewer;
+        return Task.CompletedTask;
     }
 
     private async Task Gravar()
