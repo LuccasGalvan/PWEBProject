@@ -1,0 +1,222 @@
+﻿@page "/fornecedor/produtos-disponiveis/editar"
+
+@using RCLAPI.DTO
+@using RCLAPI.DTO.Fornecedor
+@using RCLAPI.Services
+@using Microsoft.AspNetCore.Components
+@inject IApiServices ApiServices
+
+<PageTitle>Editar produtos disponíveis</PageTitle>
+
+<h1>Editar produtos disponíveis</h1>
+
+@if (isLoading)
+{
+    <p>A carregar produtos...</p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (produtosDisponiveis.Count == 0)
+{
+    <p>Não existem produtos disponíveis para editar.</p>
+}
+else
+{
+    <div class="mb-3">
+        <label class="form-label">Produto</label>
+        <InputSelect class="form-select" @bind-Value="SelectedProdutoId">
+            <option value="">Selecione um produto</option>
+            @foreach (var produto in produtosDisponiveis)
+            {
+                <option value="@produto.Id">@produto.Nome</option>
+            }
+        </InputSelect>
+    </div>
+}
+
+@if (editProduto is not null)
+{
+    <p class="text-muted">Ao editar, o produto fica pendente de validação.</p>
+    <EditForm Model="editProduto" OnValidSubmit="SubmitEdit">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" />
+
+        <div class="mb-2">
+            <label class="form-label">Nome</label>
+            <InputText class="form-control" @bind-Value="editProduto.Nome" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Detalhe</label>
+            <InputText class="form-control" @bind-Value="editProduto.Detalhe" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">URL Imagem</label>
+            <InputText class="form-control" @bind-Value="editProduto.UrlImagem" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Preço base</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.PrecoBase" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Margem percentual</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.MargemPercentual" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Stock</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.EmStock" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Categoria</label>
+            <InputSelect class="form-select" @bind-Value="editProduto.CategoriaId">
+                @foreach (var categoria in categorias)
+                {
+                    <option value="@categoria.Id">@categoria.Nome</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Modo de entrega (ID)</label>
+            <InputNumber class="form-control" @bind-Value="editProduto.ModoEntregaId" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Origem</label>
+            <InputText class="form-control" @bind-Value="editProduto.Origem" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Promoção</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.Promocao" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Mais vendido</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.MaisVendido" />
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Para venda</label>
+            <InputCheckbox class="form-check-input" @bind-Value="editProduto.ParaVenda" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </EditForm>
+}
+
+@if (!string.IsNullOrWhiteSpace(statusMessage))
+{
+    <div class="alert alert-success mt-3">@statusMessage</div>
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "produtoId")]
+    public int? ProdutoId { get; set; }
+
+    private readonly List<FornecedorProdutoDto> produtosDisponiveis = new();
+    private readonly List<Categoria> categorias = new();
+    private FornecedorProdutoUpdateDto? editProduto;
+    private int? selectedProdutoId;
+    private bool isLoading = true;
+    private string? errorMessage;
+    private string? statusMessage;
+
+    private int? SelectedProdutoId
+    {
+        get => selectedProdutoId;
+        set
+        {
+            if (selectedProdutoId == value)
+            {
+                return;
+            }
+
+            selectedProdutoId = value;
+            StartEditById(selectedProdutoId);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categoriasResult = await ApiServices.GetCategorias();
+        if (categoriasResult != null)
+        {
+            categorias.AddRange(categoriasResult);
+        }
+
+        var produtosResult = await ApiServices.GetFornecedorProdutos();
+        if (!string.IsNullOrWhiteSpace(produtosResult.ErrorMessage))
+        {
+            errorMessage = produtosResult.ErrorMessage;
+        }
+        else if (produtosResult.Data != null)
+        {
+            produtosDisponiveis.AddRange(produtosResult.Data.Where(produto => produto.ParaVenda));
+        }
+
+        isLoading = false;
+
+        if (ProdutoId.HasValue)
+        {
+            SelectedProdutoId = ProdutoId;
+        }
+    }
+
+    private void StartEditById(int? produtoId)
+    {
+        statusMessage = null;
+        if (!produtoId.HasValue)
+        {
+            editProduto = null;
+            return;
+        }
+
+        var produto = produtosDisponiveis.FirstOrDefault(item => item.Id == produtoId.Value);
+        if (produto is null)
+        {
+            editProduto = null;
+            return;
+        }
+
+        editProduto = new FornecedorProdutoUpdateDto
+        {
+            Nome = produto.Nome,
+            Detalhe = produto.Detalhe,
+            UrlImagem = produto.UrlImagem,
+            Imagem = produto.Imagem,
+            PrecoBase = produto.PrecoBase,
+            MargemPercentual = produto.MargemPercentual,
+            Promocao = produto.Promocao,
+            MaisVendido = produto.MaisVendido,
+            EmStock = produto.EmStock,
+            ParaVenda = produto.ParaVenda,
+            Origem = produto.Origem,
+            CategoriaId = produto.CategoriaId,
+            ModoEntregaId = produto.ModoEntregaId
+        };
+    }
+
+    private async Task SubmitEdit()
+    {
+        if (editProduto is null || !selectedProdutoId.HasValue)
+        {
+            return;
+        }
+
+        var response = await ApiServices.UpdateFornecedorProduto(selectedProdutoId.Value, editProduto);
+        if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            errorMessage = response.ErrorMessage;
+            return;
+        }
+
+        if (response.Data != null)
+        {
+            var index = produtosDisponiveis.FindIndex(produto => produto.Id == response.Data.Id);
+            if (index >= 0)
+            {
+                produtosDisponiveis[index] = response.Data;
+            }
+        }
+
+        statusMessage = "Produto atualizado e marcado como pendente.";
+    }
+}

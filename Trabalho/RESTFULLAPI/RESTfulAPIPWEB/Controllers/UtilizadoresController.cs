@@ -144,16 +144,20 @@ public class UtilizadoresController : ControllerBase
         if (utilizador == null)
             return NotFound("Utilizador não encontrado.");
 
-        // Don’t return full ApplicationUser (contains more than you want)
-        return Ok(new
-        {
-            utilizador.Id,
-            utilizador.Email,
-            utilizador.Nome,
-            utilizador.Apelido,
-            utilizador.NIF,
-            utilizador.Estado
-        });
+        return Ok(CreateUserInfoResponse(utilizador));
+    }
+
+    [HttpGet("{id}")]
+    [Authorize(Roles = "Cliente,Fornecedor")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetUserInformationById(string id)
+    {
+        var utilizador = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        if (utilizador == null)
+            return NotFound("Utilizador não encontrado.");
+
+        return Ok(CreateUserInfoResponse(utilizador));
     }
 
     [HttpGet("me")]
@@ -171,15 +175,7 @@ public class UtilizadoresController : ControllerBase
         if (utilizador == null)
             return NotFound("Utilizador não encontrado.");
 
-        return Ok(new
-        {
-            utilizador.Id,
-            utilizador.Email,
-            utilizador.Nome,
-            utilizador.Apelido,
-            utilizador.NIF,
-            utilizador.Estado
-        });
+        return Ok(CreateUserInfoResponse(utilizador));
     }
 
     [HttpPut("UpdateUser")]
@@ -242,4 +238,15 @@ public class UtilizadoresController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    private static object CreateUserInfoResponse(ApplicationUser utilizador)
+        => new
+        {
+            utilizador.Id,
+            utilizador.Email,
+            utilizador.Nome,
+            utilizador.Apelido,
+            utilizador.NIF,
+            utilizador.Estado
+        };
 }

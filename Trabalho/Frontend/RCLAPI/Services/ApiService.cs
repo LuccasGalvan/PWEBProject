@@ -530,7 +530,13 @@ public class ApiService : IApiServices
     {
         try
         {
-            string endpoint = "api/Utilizadores/me";
+            var userId = await _authStorage.GetItemAsync(AuthStorageKeys.UserId);
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return new ApiResponse<Utilizador> { ErrorMessage = "Sessão expirada. Faça login novamente." };
+            }
+
+            string endpoint = $"api/Utilizadores/{Uri.EscapeDataString(userId)}";
 
             // Realiza a requisição HTTP GET
             var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);

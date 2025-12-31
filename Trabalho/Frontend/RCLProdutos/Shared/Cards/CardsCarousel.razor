@@ -17,11 +17,10 @@
         {
            <CardComponent categoria="@categoria"
                           selectedCatId="@SelectedCategoryId"
-                          marginLeft="@(marginLeftSlide[categorias.IndexOf(categoria)])"
+                          marginLeft="@GetMarginLeft(categorias.IndexOf(categoria))"
                           OnSelect="OnSelect" />
         }
     }
         <button @onclick="NextCard" disabled="@IsDisabledNext" class="btn-cards-right"><img src="/images/next.png" /></button>
     </div>
 </section>
-
