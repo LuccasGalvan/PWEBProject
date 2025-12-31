@@ -6,13 +6,11 @@
 @using Microsoft.AspNetCore.Components
 @using RCLAPI.DTO
 @using RCLProdutos.Shared.Slider
-@using RCLProdutos.Shared.Cards
 @using RCLProdutos.Shared.CardProduto
 
 @inject IApiServices ApiServices
 
-<CardsCarousel/>
-<SliderComponent initProd="-1" />
+<SliderComponent initProd="-1" ShowSuggestedProduct="false" />
 
 <section class="featured-product">
     <h2>Produto em destaque</h2>

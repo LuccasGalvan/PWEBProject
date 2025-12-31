@@ -6,10 +6,12 @@
 	@if (sugestProduto.Id > 0)
 	{
 		<div class="recommended-product__content">
-			<img class="recommended-product__image"
-				 title="Imagem Actual: @sugestProduto.UrlImagem"
-				 id="imagePreview"
-				 src="data:image/*;base64,@(Convert.ToBase64String(sugestProduto.Imagem))" />
+			<div class="recommended-product__media">
+				<img class="recommended-product__image"
+					 title="Imagem Actual: @sugestProduto.UrlImagem"
+					 id="imagePreview"
+					 src="data:image/*;base64,@(Convert.ToBase64String(sugestProduto.Imagem))" />
+			</div>
 
 			<div class="recommended-product__text">
 				<span class="font-valor1">A nossa sugestão</span>

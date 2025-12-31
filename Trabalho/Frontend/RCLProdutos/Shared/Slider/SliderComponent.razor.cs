@@ -23,6 +23,9 @@ namespace RCLProdutos.Shared.Slider
         [Parameter]
         public int? initProd { get; set; }
 
+        [Parameter]
+        public bool ShowSuggestedProduct { get; set; } = true;
+
         [Inject]
         public IApiServices? _apiServices { get; set; }
 
@@ -176,6 +179,7 @@ namespace RCLProdutos.Shared.Slider
                     await LoadMarginsLeft();
                     witdthPerc = 0;
                     sliderUtilsService.WidthSlide2 = 0;
+                    UpdateNavigationState();
                     return;
                 }
 
@@ -224,6 +228,7 @@ namespace RCLProdutos.Shared.Slider
             if (produtos == null)
             {
                 Console.WriteLine("Erro: produtos é null.");
+                UpdateNavigationState();
                 return;
             }
 
@@ -232,11 +237,13 @@ namespace RCLProdutos.Shared.Slider
             {
                 witdthPerc = 0;
                 sliderUtilsService.WidthSlide2 = 0;
+                UpdateNavigationState();
                 return;
             }
 
             witdthPerc = qtdProd * 100;
             sliderUtilsService.WidthSlide2 = 100f / qtdProd;
+            UpdateNavigationState();
         }
 
         private static bool IsAuthError(string? errorMessage)
@@ -266,8 +273,7 @@ namespace RCLProdutos.Shared.Slider
         {
             if (sliderUtilsService.MarginLeftSlide.Count == 0)
             {
-                IsDisbledPrevious = true;
-                IsDisabledNext = true;
+                UpdateNavigationState();
                 return;
             }
 
@@ -275,48 +281,39 @@ namespace RCLProdutos.Shared.Slider
             {
                 sliderUtilsService.MarginLeftSlide[sliderUtilsService.CountSlide - 1] = "margin-left:0%";
                 sliderUtilsService.CountSlide--;
-                IsDisabledNext = false;
-                IsDisbledPrevious = false;
             }
-            else
+            else if (sliderUtilsService.MarginLeftSlide.Count > 0)
             {
                 sliderUtilsService.MarginLeftSlide[0] = "margin-left:0%";
-                IsDisbledPrevious = true;
             }
+
+            sliderUtilsService.CountSlide = Math.Clamp(
+                sliderUtilsService.CountSlide,
+                0,
+                sliderUtilsService.MarginLeftSlide.Count - 1);
             sliderUtilsService.Index = sliderUtilsService.CountSlide;
+            UpdateNavigationState();
         }
 
         void NextSlide()
         {
-            if (sliderUtilsService.MarginLeftSlide.Count == 0)
-            {
-                IsDisbledPrevious = true;
-                IsDisabledNext = true;
-                return;
-            }
-
             var maxIndex = sliderUtilsService.MarginLeftSlide.Count - 1;
-            if (sliderUtilsService.CountSlide >= maxIndex)
+            if (maxIndex < 0)
             {
-                sliderUtilsService.CountSlide = maxIndex;
-                sliderUtilsService.Index = sliderUtilsService.CountSlide;
-                IsDisabledNext = true;
+                UpdateNavigationState();
                 return;
             }
 
-            sliderUtilsService.CountSlide++;
-            sliderUtilsService.Index = sliderUtilsService.CountSlide;
-            if (sliderUtilsService.CountSlide < sliderUtilsService.MarginLeftSlide.Count)
+            if (sliderUtilsService.CountSlide < maxIndex)
             {
+                sliderUtilsService.CountSlide++;
                 var widthValue = sliderUtilsService.WidthSlide2.ToString(CultureInfo.InvariantCulture);
                 sliderUtilsService.MarginLeftSlide[sliderUtilsService.CountSlide - 1] = $"margin-left:-{widthValue}%";
-                IsDisabledNext = false;
-                IsDisbledPrevious = false;
             }
-            else
-            {
-                IsDisabledNext = true;
-            }
+
+            sliderUtilsService.CountSlide = Math.Clamp(sliderUtilsService.CountSlide, 0, maxIndex);
+            sliderUtilsService.Index = sliderUtilsService.CountSlide;
+            UpdateNavigationState();
         }
 
         private string GetSlideMargin(int index)
@@ -327,6 +324,24 @@ namespace RCLProdutos.Shared.Slider
             }
 
             return sliderUtilsService.MarginLeftSlide[index];
+        }
+
+        private void UpdateNavigationState()
+        {
+            var maxIndex = (produtos?.Count ?? 0) - 1;
+            if (maxIndex < 0)
+            {
+                sliderUtilsService.CountSlide = 0;
+                sliderUtilsService.Index = 0;
+                IsDisbledPrevious = true;
+                IsDisabledNext = true;
+                return;
+            }
+
+            sliderUtilsService.CountSlide = Math.Clamp(sliderUtilsService.CountSlide, 0, maxIndex);
+            sliderUtilsService.Index = sliderUtilsService.CountSlide;
+            IsDisbledPrevious = sliderUtilsService.CountSlide <= 0;
+            IsDisabledNext = sliderUtilsService.CountSlide >= maxIndex;
         }
     }
 }
