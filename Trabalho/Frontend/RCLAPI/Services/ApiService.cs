@@ -68,6 +68,26 @@ public class ApiService : IApiServices
         return request;
     }
 
+    private async Task<(HttpRequestMessage? Request, string? ErrorMessage)> CreateAuthorizedRequestOrPrompt(
+        HttpMethod method,
+        string endpoint,
+        HttpContent? content = null)
+    {
+        var token = await _authStorage.GetItemAsync(AuthStorageKeys.AccessToken);
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return (null, "Sessão expirada. Faça login novamente.");
+        }
+
+        var request = new HttpRequestMessage(method, $"{AppConfig.BaseUrl}{endpoint}")
+        {
+            Content = content
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        return (request, null);
+    }
+
     private async Task ClearAuthTokensAsync()
     {
         await _authStorage.RemoveItemAsync(AuthStorageKeys.AccessToken);
@@ -390,7 +410,13 @@ public class ApiService : IApiServices
 
         try
         {
-            var request = await CreateAuthorizedRequest(HttpMethod.Get, endpoint);
+            var (request, authError) = await CreateAuthorizedRequestOrPrompt(HttpMethod.Get, endpoint);
+            if (request == null)
+            {
+                _logger.LogWarning(authError);
+                return (null, authError);
+            }
+
             HttpResponseMessage response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
@@ -450,7 +476,14 @@ public class ApiService : IApiServices
 
             // Envia a requisição PUT para a API
             var content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
-            var response = await FavoritosPutRequest(url, content);
+            var (request, authError) = await CreateAuthorizedRequestOrPrompt(HttpMethod.Put, url, content);
+            if (request == null)
+            {
+                _logger.LogWarning(authError);
+                return (false, authError);
+            }
+
+            var response = await _httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -480,19 +513,6 @@ public class ApiService : IApiServices
             string errorMessage = $"Erro inesperado: {ex.Message}";
             _logger.LogError(errorMessage);
             return (false, errorMessage);
-        }
-    }
-    private async Task<HttpResponseMessage> FavoritosPutRequest(string uri, HttpContent content)
-    {
-        try
-        {
-            var request = await CreateAuthorizedRequest(HttpMethod.Put, uri, content);
-            return await _httpClient.SendAsync(request);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Erro ao enviar requisição PUT para {uri}: {ex.Message}");
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
     }
 
