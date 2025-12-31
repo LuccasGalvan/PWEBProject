@@ -14,7 +14,7 @@ namespace RCLAPI.DTO
 
         [Required(ErrorMessage = "O email é obrigatório")]
         [EmailAddress(ErrorMessage = "Endereço de Email Inválido")]
-        public string? EMail { get; set; }
+        public string? Email { get; set; }
 
         [Required(ErrorMessage = "A indicação da Password é obrigatória!")]
         public string Password { get; set; }
