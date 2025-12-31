@@ -8,6 +8,11 @@
     <div class="slider-container" style="width:@(witdthPerc)%">
         <button @onclick="PreviousSlide" disabled="@IsDisbledPrevious" class="btn-slides-left"><img src="/images/back.png" /></button>
 
+        @if (!string.IsNullOrWhiteSpace(favoritosAuthMessage))
+        {
+            <p class="font-valor3">@favoritosAuthMessage</p>
+        }
+
         @if (produtos == null)
         {
             <p>Aguarde carregando...</p>
@@ -52,6 +57,5 @@
 </div>
 
 <SlideProdutoComponent sugestProduto="@sugestaoProduto" />
-
 
 

@@ -11,6 +11,10 @@
 {
     <p>Carregando favoritos...</p>
 }
+else if (!string.IsNullOrWhiteSpace(favoritosAuthMessage))
+{
+    <p>@favoritosAuthMessage</p>
+}
 else if (!favoritos.Any())
 {
     <p>Nenhum produto favorito encontrado.</p>
@@ -58,6 +62,7 @@ else
 
 @code {
     private List<ProdutoFavorito>? favoritos;
+    private string? favoritosAuthMessage;
     private int quantidade_item = 1;
 
     protected override async Task OnInitializedAsync()
@@ -70,7 +75,16 @@ else
             if (!string.IsNullOrEmpty(userId))
             {
                 // Obter os favoritos do utilizador
-                favoritos = await _apiServices.GetFavoritos(userId);
+                var (data, errorMessage) = await _apiServices.GetFavoritos(userId);
+                if (IsAuthError(errorMessage))
+                {
+                    favoritosAuthMessage = "Inicie sessão para ver os seus favoritos.";
+                    favoritos = new List<ProdutoFavorito>();
+                }
+                else
+                {
+                    favoritos = data ?? new List<ProdutoFavorito>();
+                }
 
                 if (favoritos == null || !favoritos.Any())
                 {
@@ -80,6 +94,7 @@ else
             else
             {
                 Console.WriteLine("ID do utilizador não encontrado no Local Storage.");
+                favoritosAuthMessage = "Inicie sessão para ver os seus favoritos.";
                 favoritos = new List<ProdutoFavorito>();
             }
         }
@@ -141,6 +156,10 @@ else
             }
             else
             {
+                if (IsAuthError(mensagemErro))
+                {
+                    favoritosAuthMessage = "Inicie sessão para gerir os seus favoritos.";
+                }
                 Console.WriteLine($"Erro ao remover favorito: {mensagemErro}");
             }
         }
@@ -168,5 +187,10 @@ else
         var guestId = $"guest_{Guid.NewGuid()}";
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", "cartUserId", guestId);
         return guestId;
+    }
+
+    private static bool IsAuthError(string? errorMessage)
+    {
+        return errorMessage == "Unauthorized" || errorMessage == "Forbidden";
     }
 }

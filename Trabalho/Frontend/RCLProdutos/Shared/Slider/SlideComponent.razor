@@ -20,6 +20,10 @@
 
             <div class="slide-description-header">
                 <a href="" @onclick='(() => Favoritos("troca",produto!.Id))'> <img alt="Pesquisar produtos" src=@favoritoicon width="30" /></a>
+                @if (!string.IsNullOrWhiteSpace(favoritoAuthMessage))
+                {
+                    <p class="font-valor3">@favoritoAuthMessage</p>
+                }
             </div>
 
             <div class="slide-description-top">
@@ -196,4 +200,3 @@
     </div>
 
 }
-
