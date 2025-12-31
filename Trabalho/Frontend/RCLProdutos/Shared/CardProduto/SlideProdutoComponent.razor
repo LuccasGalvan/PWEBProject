@@ -2,30 +2,29 @@
 
 @using RCLProdutos.Shared.CardProduto
 
-<div class="prod-container">
-	<div class="slide-descr">
-		<div class="slide-description-middle">
+<div class="recommended-product">
+	@if (sugestProduto.Id > 0)
+	{
+		<div class="recommended-product__content">
+			<img class="recommended-product__image"
+				 title="Imagem Actual: @sugestProduto.UrlImagem"
+				 id="imagePreview"
+				 src="data:image/*;base64,@(Convert.ToBase64String(sugestProduto.Imagem))" />
 
-			@if (sugestProduto.Id > 0)
-			{
-				<p class="font-valor1">
-
-					<img title="Imagem Actual: @sugestProduto.UrlImagem" style="height:60px" id="imagePreview" src="data:image/*;base64,@(Convert.ToBase64String(sugestProduto.Imagem))" />
-
-					A nossa sugestão <span class="font-valor2">@sugestProduto.Nome @sugestProduto.Preco €/@sugestProduto.modoentrega.Nome</span>
-				</p>
-				<div class="slide-description-botton">
-					<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="/images/infoicontransp50x50.png" width="30" /></a>
-					@if (sugestProduto.Disponivel)
-					{
-						<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="/images/cart.png" width="30" /></a>
-					}
-				</div>
-			}
-
+			<div class="recommended-product__text">
+				<span class="font-valor1">A nossa sugestão</span>
+				<span class="font-valor2">@sugestProduto.Nome @sugestProduto.Preco €/@sugestProduto.modoentrega.Nome</span>
+			</div>
 		</div>
 
-	</div>
+		<div class="recommended-product__actions">
+			<a href="" @onclick='(() => AbreFecha("abre",""))'> <img alt="Pesquisar" src="/images/infoicontransp50x50.png" width="30" /></a>
+			@if (sugestProduto.Disponivel)
+			{
+				<a href="" @onclick='(() => AbreFecha("","abre"))'> <img alt="Comprar" src="/images/cart.png" width="30" /></a>
+			}
+		</div>
+	}
 </div>
 
 @* INFO *@

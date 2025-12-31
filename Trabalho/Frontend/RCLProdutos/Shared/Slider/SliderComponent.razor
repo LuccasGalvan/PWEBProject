@@ -4,61 +4,62 @@
 
 @page "/slider"
 
-<div class="friso-filters">
-    @if (categoriaNivel1?.Any() == true)
-    {
-        <CardsCarousel Title="Categorias"
-                       Categories="categoriaNivel1"
-                       SelectedCategoryId="selectedNivel1Id"
-                       OnSelect="HandleCategoriaSelecionada" />
-    }
-
-    @if (categoriaNivel2?.Any() == true)
-    {
-        <CardsCarousel Title="Subcategorias"
-                       Categories="categoriaNivel2"
-                       SelectedCategoryId="selectedNivel2Id"
-                       OnSelect="HandleCategoriaSelecionada" />
-    }
-
-    @if (categoriaNivel3?.Any() == true)
-    {
-        <CardsCarousel Title="Detalhes"
-                       Categories="categoriaNivel3"
-                       SelectedCategoryId="selectedNivel3Id"
-                       OnSelect="HandleCategoriaSelecionada" />
-    }
-</div>
-
-<section class="slider">
-    <div class="slider-container" style="width:@(witdthPerc)%">
-        <button @onclick="PreviousSlide" disabled="@IsDisbledPrevious" class="btn-slides-left" type="button">
-            <img src="/images/back.png" />
-        </button>
-
-        @if (!string.IsNullOrWhiteSpace(favoritosAuthMessage))
+<div class="slider-page">
+    <div class="friso-filters">
+        @if (categoriaNivel1?.Any() == true)
         {
-            <p class="font-valor3">@favoritosAuthMessage</p>
+            <CardsCarousel Title="Categorias"
+                           Categories="categoriaNivel1"
+                           SelectedCategoryId="selectedNivel1Id"
+                           OnSelect="HandleCategoriaSelecionada" />
         }
 
-        @if (produtos == null)
+        @if (categoriaNivel2?.Any() == true)
         {
-            <p>Aguarde carregando...</p>
-        }
-        else
-        {
-            @foreach (var produto in produtos)
-            {             
-                <SlideComponent produto="@produto" width="@sliderUtilsService.WidthSlide2" marginLeft="@(sliderUtilsService.MarginLeftSlide[produtos.IndexOf(produto)])" />
-            }
-            <IndicadoresComponent Produtos="@produtos" />
+            <CardsCarousel Title="Subcategorias"
+                           Categories="categoriaNivel2"
+                           SelectedCategoryId="selectedNivel2Id"
+                           OnSelect="HandleCategoriaSelecionada" />
         }
 
-        <button @onclick="NextSlide" disabled="@IsDisabledNext" class="btn-slides-right" type="button">
-            <img src="/images/next.png" />
-        </button>
+        @if (categoriaNivel3?.Any() == true)
+        {
+            <CardsCarousel Title="Detalhes"
+                           Categories="categoriaNivel3"
+                           SelectedCategoryId="selectedNivel3Id"
+                           OnSelect="HandleCategoriaSelecionada" />
+        }
     </div>
-</section>
 
-<SlideProdutoComponent sugestProduto="@sugestaoProduto" />
+    <section class="slider">
+        <div class="slider-container" style="width:@(witdthPerc)%">
+            <button @onclick="PreviousSlide" disabled="@IsDisbledPrevious" class="btn-slides-left" type="button">
+                <img src="/images/back.png" />
+            </button>
 
+            @if (!string.IsNullOrWhiteSpace(favoritosAuthMessage))
+            {
+                <p class="font-valor3">@favoritosAuthMessage</p>
+            }
+
+            @if (produtos == null)
+            {
+                <p>Aguarde carregando...</p>
+            }
+            else
+            {
+                @foreach (var produto in produtos)
+                {
+                    <SlideComponent produto="@produto" width="@sliderUtilsService.WidthSlide2" marginLeft="@(sliderUtilsService.MarginLeftSlide[produtos.IndexOf(produto)])" />
+                }
+                <IndicadoresComponent Produtos="@produtos" />
+            }
+
+            <button @onclick="NextSlide" disabled="@IsDisabledNext" class="btn-slides-right" type="button">
+                <img src="/images/next.png" />
+            </button>
+        </div>
+    </section>
+
+    <SlideProdutoComponent sugestProduto="@sugestaoProduto" />
+</div>
