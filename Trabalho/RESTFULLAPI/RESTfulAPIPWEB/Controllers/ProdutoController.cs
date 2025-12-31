@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RESTfulAPIPWEB.DTO;
 using RESTfulAPIPWEB.Entity;
 using RESTfulAPIPWEB.Repositories;
 
@@ -37,7 +38,8 @@ namespace RESTfulAPIPWEB.Controllers
             else
                 return BadRequest("Tipo de produto inválido. Use: categoria, promocao, maisvendido, todos.");
 
-            return Ok(produtos);
+            var produtosDto = produtos.Select(MapProduto);
+            return Ok(produtosDto);
         }
 
         [HttpGet("{id}")]
@@ -48,7 +50,7 @@ namespace RESTfulAPIPWEB.Controllers
             if (produto == null)
                 return NotFound($"Produto com id={id} não encontrado");
 
-            return Ok(produto);
+            return Ok(MapProduto(produto));
         }
 
         [HttpGet("featured")]
@@ -59,7 +61,30 @@ namespace RESTfulAPIPWEB.Controllers
             if (produto == null)
                 return NotFound("Nenhum produto activo disponível.");
 
-            return Ok(produto);
+            return Ok(MapProduto(produto));
+        }
+
+        private static ProdutoDto MapProduto(Produto produto)
+        {
+            return new ProdutoDto
+            {
+                Id = produto.Id,
+                Nome = produto.Nome,
+                Detalhe = produto.Detalhe,
+                Origem = produto.Origem,
+                Titulo = string.Empty,
+                UrlImagem = produto.UrlImagem,
+                Preco = produto.PrecoFinal ?? produto.PrecoBase,
+                Promocao = produto.Promocao,
+                MaisVendido = produto.MaisVendido,
+                EmStock = produto.EmStock,
+                Disponivel = produto.ParaVenda,
+                ModoEntregaId = produto.ModoEntregaId,
+                modoentrega = produto.modoentrega,
+                CategoriaId = produto.CategoriaId,
+                categoria = produto.categoria,
+                Imagem = produto.Imagem,
+            };
         }
     }
 }
