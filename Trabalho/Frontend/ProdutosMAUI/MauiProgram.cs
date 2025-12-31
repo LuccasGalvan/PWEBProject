@@ -6,7 +6,6 @@ using RCLProdutos.Services;
 using RCLAPI;
 using RCLAPI.Services;
 using ProdutosMAUI.Services;
-using System.Net.Http; // Para HttpClient
 
 namespace ProdutosMAUI
 {
@@ -38,16 +37,16 @@ namespace ProdutosMAUI
             builder.Services.AddScoped<ICardsUtilsServices, CardsUtilsServices>();
 
             builder.Services.AddScoped<IAuthStorage, SecureStorageAuthStorage>();
-            builder.Services.AddScoped<IApiServices, ApiService>();
+            builder.Services.AddHttpClient<IApiServices, ApiService>(client =>
+            {
+                client.BaseAddress = new Uri(AppConfig.BaseUrl);
+            });
 
             // Registro do HttpContextAccessor (em MAUI, não é comum usá-lo diretamente, mas se for necessário)
             builder.Services.AddHttpContextAccessor();
 
             // Registro do AuthService (como no código original)
             builder.Services.AddScoped<AuthService>();
-
-            // Registro do HttpClient
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7213") });
 
             return builder.Build();
         }

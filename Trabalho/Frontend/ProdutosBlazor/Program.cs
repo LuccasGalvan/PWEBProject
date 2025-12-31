@@ -4,14 +4,13 @@ using ProdutosBlazor.Components;
 
 using RCLProdutos.Services.Interfaces;
 using RCLProdutos.Services;
+using RCLAPI;
 using RCLAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<ISliderUtilsServices, SliderUtilsServices>();
 builder.Services.AddScoped<ICardsUtilsServices, CardsUtilsServices>();
@@ -20,13 +19,12 @@ builder.Services.AddScoped<ICardsUtilsServices, CardsUtilsServices>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IAuthStorage, BrowserAuthStorage>();
-builder.Services.AddScoped<IApiServices, ApiService>();
+builder.Services.AddHttpClient<IApiServices, ApiService>(client =>
+{
+    client.BaseAddress = new Uri(AppConfig.BaseUrl);
+});
 
 builder.Services.AddScoped<AuthService>(); 
-
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress =
-    new Uri("https://localhost:7213") });
-
 
 var app = builder.Build();
 
