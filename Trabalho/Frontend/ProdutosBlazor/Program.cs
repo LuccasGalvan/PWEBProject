@@ -4,11 +4,8 @@ using ProdutosBlazor.Components;
 
 using RCLProdutos.Services.Interfaces;
 using RCLProdutos.Services;
-using RCLAPI;
 using RCLAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
-
-AppConfig.Configure(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
