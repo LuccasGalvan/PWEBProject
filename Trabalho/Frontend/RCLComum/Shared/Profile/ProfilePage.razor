@@ -124,13 +124,21 @@ else if (user != null)
         else
         {
             <button @onclick="LogoutUser">Logout</button>
-            <button @onclick="ToggleEditing">Editar</button>
+            <button @onclick="ToggleEditing">Editar perfil</button>
         }
     </div>
 
     @if (string.Equals(userRole, "Fornecedor", StringComparison.OrdinalIgnoreCase))
     {
-        <FornecedorProdutosEditor />
+        <div>
+            <button @onclick="ToggleProdutosEditor">Gerir Produtos</button>
+            <button @onclick="NavigateToVendas">Gerir Vendas</button>
+        </div>
+
+        @if (showProdutosEditor)
+        {
+            <FornecedorProdutosEditor />
+        }
     }
 }
 else
@@ -145,6 +153,7 @@ else
     private bool isLoading = true;
     private string? loadError;
     private string? userRole;
+    private bool showProdutosEditor;
 
     protected override async Task OnInitializedAsync()
     {
@@ -167,6 +176,17 @@ else
     {
         _isEditing = !_isEditing;
         return Task.CompletedTask;
+    }
+
+    private Task ToggleProdutosEditor()
+    {
+        showProdutosEditor = !showProdutosEditor;
+        return Task.CompletedTask;
+    }
+
+    private void NavigateToVendas()
+    {
+        NavigationManager.NavigateTo("/fornecedor/vendas");
     }
 
     private async Task Gravar()
