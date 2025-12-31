@@ -18,7 +18,7 @@ namespace RCLAPI.Services;
 public class ApiService : IApiServices
 {
     private readonly ILogger<ApiService> _logger;
-    private readonly HttpClient _httpClient = new();
+    private readonly HttpClient _httpClient;
     private readonly IAuthStorage _authStorage;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -30,11 +30,16 @@ public class ApiService : IApiServices
     private List<Categoria> categorias;
 
     private ProdutoDTO _detalhesProduto;
-    public ApiService(ILogger<ApiService> logger, IHttpContextAccessor httpContextAccessor, IAuthStorage authStorage)
+    public ApiService(
+        ILogger<ApiService> logger,
+        HttpClient httpClient,
+        IHttpContextAccessor httpContextAccessor,
+        IAuthStorage authStorage)
     {
         _httpContextAccessor = httpContextAccessor;
 
         _logger = logger;
+        _httpClient = httpClient;
         _authStorage = authStorage;
         _serializerOptions = new JsonSerializerOptions
         {
