@@ -264,7 +264,14 @@ namespace RCLProdutos.Shared.Slider
 
         void PreviousSlide()
         {
-            if (sliderUtilsService.CountSlide != 0)
+            if (sliderUtilsService.MarginLeftSlide.Count == 0)
+            {
+                IsDisbledPrevious = true;
+                IsDisabledNext = true;
+                return;
+            }
+
+            if (sliderUtilsService.CountSlide > 0 && sliderUtilsService.CountSlide <= sliderUtilsService.MarginLeftSlide.Count)
             {
                 sliderUtilsService.MarginLeftSlide[sliderUtilsService.CountSlide - 1] = "margin-left:0%";
                 sliderUtilsService.CountSlide--;
@@ -281,6 +288,22 @@ namespace RCLProdutos.Shared.Slider
 
         void NextSlide()
         {
+            if (sliderUtilsService.MarginLeftSlide.Count == 0)
+            {
+                IsDisbledPrevious = true;
+                IsDisabledNext = true;
+                return;
+            }
+
+            var maxIndex = sliderUtilsService.MarginLeftSlide.Count - 1;
+            if (sliderUtilsService.CountSlide >= maxIndex)
+            {
+                sliderUtilsService.CountSlide = maxIndex;
+                sliderUtilsService.Index = sliderUtilsService.CountSlide;
+                IsDisabledNext = true;
+                return;
+            }
+
             sliderUtilsService.CountSlide++;
             sliderUtilsService.Index = sliderUtilsService.CountSlide;
             if (sliderUtilsService.CountSlide < sliderUtilsService.MarginLeftSlide.Count)
@@ -294,6 +317,16 @@ namespace RCLProdutos.Shared.Slider
             {
                 IsDisabledNext = true;
             }
+        }
+
+        private string GetSlideMargin(int index)
+        {
+            if (index < 0 || index >= sliderUtilsService.MarginLeftSlide.Count)
+            {
+                return "margin-left:0%";
+            }
+
+            return sliderUtilsService.MarginLeftSlide[index];
         }
     }
 }
