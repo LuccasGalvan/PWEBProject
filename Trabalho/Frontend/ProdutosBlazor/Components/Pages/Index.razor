@@ -29,7 +29,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var (data, error) = await ApiServices.GetAsync<ProdutoDTO>("api/Produto/featured");
+        var (data, error) = await ApiServices.GetAsync<ProdutoDTO>("api/Produtos/featured");
 
         if (error is null && data is not null && data.Id > 0)
         {
