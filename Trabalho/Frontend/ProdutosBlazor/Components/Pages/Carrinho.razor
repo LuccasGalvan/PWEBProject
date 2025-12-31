@@ -192,29 +192,23 @@ else
             return;
         }
 
-        var venda = new Vendas
-            {
-                ProdutoId = item.ProdutoId,
-                Produto = item.Produto,
-                Quantidade = item.Quantidade,
-                UserId = userId,
-                Preco = (double)(item.Produto.Preco * item.Quantidade),
-                DataAdicionado = DateTime.UtcNow
-            };
-
-        var sucessoVenda = await _apiServices.CriarVenda(venda);
-
-        if (sucessoVenda)
+        var checkoutResult = await _apiServices.CheckoutEncomenda(userId);
+        if (checkoutResult.Data == null)
         {
-            Console.WriteLine($"Compra do produto {item.Produto.Nome} realizada com sucesso!");
-            await LimparCheckoutPendenteAsync();
-            // Remove o item comprado do carrinho
-            await RemoverItemCarrinho(item.ProdutoId, item.Quantidade);
+            Console.WriteLine($"Erro ao fazer checkout: {checkoutResult.ErrorMessage}");
+            return;
         }
-        else
+
+        var pagamentoResult = await _apiServices.PagarEncomenda(checkoutResult.Data.Id);
+        if (pagamentoResult.Data == null)
         {
-            Console.WriteLine($"Erro ao criar venda para o produto {item.Produto.Nome}.");
+            Console.WriteLine($"Erro ao pagar encomenda: {pagamentoResult.ErrorMessage}");
+            return;
         }
+
+        Console.WriteLine($"Compra do produto {item.Produto.Nome} realizada com sucesso!");
+        await LimparCheckoutPendenteAsync();
+        await CarregarCarrinho();
     }
 
     private void LimparDadosCartao()

@@ -1,5 +1,6 @@
-﻿using RCLAPI.DTO;
+using RCLAPI.DTO;
 using RCLAPI.DTO.Fornecedor;
+using System;
 using System.Net.Http;
 
 namespace RCLAPI.Services;
@@ -21,7 +22,8 @@ public interface IApiServices
     public Task<(bool Success, string? Message)> AtualizarCarrinho(string userId, int produtoId, string acao, int quantidade);
     public Task<List<Vendas>> ObterVendas(string userId);
     public Task<List<Encomenda>> ObterEncomendas(string userId);
-    public Task<bool> CriarVenda(Vendas venda);
+    public Task<ApiResponse<Encomenda>> CheckoutEncomenda(string userId);
+    public Task<ApiResponse<EncomendaPagamentoResponse>> PagarEncomenda(Guid encomendaId);
     public Task LimparCarrinho(string userId);
     public Task<ApiResponse<List<FornecedorProdutoDto>>> GetFornecedorProdutos();
     public Task<ApiResponse<FornecedorProdutoDto>> CreateFornecedorProduto(FornecedorProdutoCreateDto produto);
