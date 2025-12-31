@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using RCLAPI.DTO;
 using RCLAPI.Services;
 using RCLProdutos.Services.Interfaces;
+using System;
 using System.Text.Json;
 
 namespace RCLProdutos.Shared.Slider
@@ -29,6 +30,9 @@ namespace RCLProdutos.Shared.Slider
 
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         private List<ProdutoDTO>? produtos { get; set; }
         private List<ProdutoFavorito>? userFavoritos { get; set; }
@@ -149,6 +153,8 @@ namespace RCLProdutos.Shared.Slider
             nomeCat = categoria.Nome ?? nomeCat;
             actualProd = categoria.Id;
             UpdateCategoriaNiveis(categoria.Id);
+            var encodedNomeCat = Uri.EscapeDataString(nomeCat ?? string.Empty);
+            NavigationManager.NavigateTo($"/slider?Id={categoria.Id}&nomeCat={encodedNomeCat}");
             await LoadProdutosAsync();
         }
 
@@ -163,7 +169,13 @@ namespace RCLProdutos.Shared.Slider
 
                 if (produtos == null || !produtos.Any())
                 {
-                    throw new Exception("Nenhum produto foi recuperado.");
+                    Console.WriteLine("Nenhum produto foi recuperado.");
+                    produtos ??= new List<ProdutoDTO>();
+                    sugestaoProduto = new ProdutoDTO();
+                    await LoadMarginsLeft();
+                    witdthPerc = 0;
+                    sliderUtilsService.WidthSlide2 = 0;
+                    return;
                 }
 
                 var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", new object[] { "userID" });
@@ -194,13 +206,8 @@ namespace RCLProdutos.Shared.Slider
                 }
 
                 Random random = new Random();
-                int[]? indices = produtos
-                                   .Where(item => item is not null)
-                                   .Select(item => item.Id)
-                                   .ToArray();
-
-                int sugestaoProdutoId = random.Next(0, produtos.Count - 1);
-                sugestaoProduto = produtos[indices[sugestaoProdutoId] - 1];
+                int sugestaoIndex = random.Next(produtos.Count);
+                sugestaoProduto = produtos[sugestaoIndex];
             }
             catch (JsonException jsonEx)
             {
@@ -220,8 +227,14 @@ namespace RCLProdutos.Shared.Slider
             }
 
             int qtdProd = produtos.Count;
-            witdthPerc = qtdProd * 100;
+            if (qtdProd == 0)
+            {
+                witdthPerc = 0;
+                sliderUtilsService.WidthSlide2 = 0;
+                return;
+            }
 
+            witdthPerc = qtdProd * 100;
             sliderUtilsService.WidthSlide2 = 100f / qtdProd;
         }
 
