@@ -3858,6 +3858,7 @@
           "RCLAPI": "1.0.0",
           "RCLProdutos": "1.0.0",
           "SQLitePCLRaw.bundle_green": "2.1.10",
+          "System.IdentityModel.Tokens.Jwt": "6.35.0",
           "Xamarin.Essentials": "1.8.1",
           "sqlite-net-pcl": "1.9.172"
         },

@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\fornecedorprodutoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\fornecedorprodutoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\dto\\fornecedor\\fornecedorprodutodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\dto\\fornecedor\\fornecedorprodutodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -15,10 +27,6 @@
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\favoritoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\favoritoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -29,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\utilizadorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\utilizadorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\fornecedorprodutoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|solutionrelative:restfulapipweb\\controllers\\fornecedorprodutoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BBDCE52C-58EB-40EB-9BD8-777175FAD0EE}|RESTfulAPIPWEB\\RESTfulAPIPWEB.csproj|c:\\users\\luccas\\desktop\\pwebproj\\trabalho\\restfullapi\\restfulapipweb\\controllers\\carrinhocomprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,7 +82,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "FornecedorProdutoDto.cs",
+              "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\DTO\\Fornecedor\\FornecedorProdutoDto.cs",
+              "RelativeDocumentMoniker": "RESTfulAPIPWEB\\DTO\\Fornecedor\\FornecedorProdutoDto.cs",
+              "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\DTO\\Fornecedor\\FornecedorProdutoDto.cs",
+              "RelativeToolTip": "RESTfulAPIPWEB\\DTO\\Fornecedor\\FornecedorProdutoDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-01T19:22:58.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\appsettings.Development.json",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\appsettings.Development.json",
@@ -91,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Properties\\launchSettings.json",
@@ -103,19 +120,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Program.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Program.cs",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Program.cs",
               "RelativeToolTip": "RESTfulAPIPWEB\\Program.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAwwJAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAADwv5AAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T16:49:16.189Z"
+              "WhenOpened": "2025-12-30T16:49:16.189Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "UtilizadoresController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\UtilizadoresController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\UtilizadoresController.cs",
@@ -127,7 +145,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\appsettings.json",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\appsettings.json",
@@ -139,19 +157,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "FornecedorProdutosController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\FornecedorProdutosController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\FornecedorProdutosController.cs",
               "ToolTip": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\FornecedorProdutosController.cs",
               "RelativeToolTip": "RESTfulAPIPWEB\\Controllers\\FornecedorProdutosController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMcAAAAAAAAAAADwvw8AAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T08:02:06.901Z"
+              "WhenOpened": "2025-12-29T08:02:06.901Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "FavoritosController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\FavoritosController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\FavoritosController.cs",
@@ -163,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ProdutoController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\ProdutoController.cs",
@@ -175,7 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "ProdutoRepository.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Repositories\\ProdutoRepository.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Repositories\\ProdutoRepository.cs",
@@ -187,7 +206,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "EncomendasController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\EncomendasController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\EncomendasController.cs",
@@ -199,7 +218,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "CarrinhoComprasController.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Controllers\\CarrinhoComprasController.cs",
@@ -211,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "CategoriaRepository.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Repositories\\CategoriaRepository.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Repositories\\CategoriaRepository.cs",
@@ -223,7 +242,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "CarrinhoCompras.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Entity\\CarrinhoCompras.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Entity\\CarrinhoCompras.cs",
@@ -235,7 +254,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Categoria.cs",
               "DocumentMoniker": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\RESTFULLAPI\\RESTfulAPIPWEB\\Entity\\Categoria.cs",
               "RelativeDocumentMoniker": "RESTfulAPIPWEB\\Entity\\Categoria.cs",

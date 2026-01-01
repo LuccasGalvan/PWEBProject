@@ -6,13 +6,14 @@ using RESTfulAPIPWEB.Data;
 using RESTfulAPIPWEB.DTO.Fornecedor;
 using RESTfulAPIPWEB.Entity;
 using RESTfulAPIPWEB.Entity.Enums;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace RESTfulAPIPWEB.Controllers
 {
     [Route("api/[controller]")]
     [Route("api/fornecedor/produtos")]
     [ApiController]
-    [Authorize(Roles = "Fornecedor")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Fornecedor")]
     public class FornecedorProdutosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

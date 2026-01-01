@@ -1037,7 +1037,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <FileLength>2305</FileLength>
-      <LastWriteTime>Thu, 01 Jan 2026 18:48:40 GMT</LastWriteTime>
+      <LastWriteTime>Thu, 01 Jan 2026 19:29:24 GMT</LastWriteTime>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ProdutosMAUI.styles.css'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
