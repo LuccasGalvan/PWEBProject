@@ -24,8 +24,6 @@
         ],
         "originalTargetFrameworks": [
           "net8.0-android",
-          "net8.0-ios",
-          "net8.0-maccatalyst",
           "net8.0-windows10.0.19041.0"
         ],
         "sources": {
@@ -36,34 +34,6 @@
         "frameworks": {
           "net8.0-android34.0": {
             "targetAlias": "net8.0-android",
-            "projectReferences": {
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj"
-              },
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\RCLComum.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\RCLComum.csproj"
-              },
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLProdutos\\RCLProdutos.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLProdutos\\RCLProdutos.csproj"
-              }
-            }
-          },
-          "net8.0-ios1.0": {
-            "targetAlias": "net8.0-ios",
-            "projectReferences": {
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj"
-              },
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\RCLComum.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLComum\\RCLComum.csproj"
-              },
-              "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLProdutos\\RCLProdutos.csproj": {
-                "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RCLProdutos\\RCLProdutos.csproj"
-              }
-            }
-          },
-          "net8.0-maccatalyst1.0": {
-            "targetAlias": "net8.0-maccatalyst",
             "projectReferences": {
               "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj": {
                 "projectPath": "C:\\Users\\Luccas\\Desktop\\PWEBProj\\Trabalho\\Frontend\\RclAPI\\RCLAPI.csproj"
@@ -130,6 +100,18 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.10, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Logging": {
               "target": "Package",
@@ -209,154 +191,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         },
-        "net8.0-ios1.0": {
-          "targetAlias": "net8.0-ios",
-          "dependencies": {
-            "Blazored.LocalStorage": {
-              "target": "Package",
-              "version": "[4.5.0, )"
-            },
-            "Microsoft.AspNetCore.Components.WebAssembly": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.AspNetCore.Components.WebView.Maui": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "Microsoft.AspNetCore.Http.Abstractions": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.Extensions.Logging": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.Extensions.Logging.Debug": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.Maui.Controls": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "Microsoft.Maui.Controls.Compatibility": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "SQLitePCLRaw.bundle_green": {
-              "target": "Package",
-              "version": "[2.1.10, )"
-            },
-            "Xamarin.Essentials": {
-              "target": "Package",
-              "version": "[1.8.1, )"
-            },
-            "sqlite-net-pcl": {
-              "target": "Package",
-              "version": "[1.9.172, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
-        },
-        "net8.0-maccatalyst1.0": {
-          "targetAlias": "net8.0-maccatalyst",
-          "dependencies": {
-            "Blazored.LocalStorage": {
-              "target": "Package",
-              "version": "[4.5.0, )"
-            },
-            "Microsoft.AspNetCore.Components.WebAssembly": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.AspNetCore.Components.WebView.Maui": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "Microsoft.AspNetCore.Http.Abstractions": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.Extensions.Logging": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.Extensions.Logging.Debug": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.Maui.Controls": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "Microsoft.Maui.Controls.Compatibility": {
-              "target": "Package",
-              "version": "[8.0.92, )"
-            },
-            "SQLitePCLRaw.bundle_green": {
-              "target": "Package",
-              "version": "[2.1.10, )"
-            },
-            "Xamarin.Essentials": {
-              "target": "Package",
-              "version": "[1.8.1, )"
-            },
-            "sqlite-net-pcl": {
-              "target": "Package",
-              "version": "[1.9.172, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
-        },
         "net8.0-windows10.0.19041": {
           "targetAlias": "net8.0-windows10.0.19041.0",
           "dependencies": {
@@ -383,6 +217,18 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.10, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Logging": {
               "target": "Package",
@@ -535,6 +381,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.10, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "Microsoft.Extensions.Logging": {
               "target": "Package",

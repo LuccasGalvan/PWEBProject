@@ -22,22 +22,6 @@
     <Import Project="$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props')" />
   </ImportGroup>
-  <ImportGroup Condition=" '$(TargetFramework)' == 'net8.0-ios' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.resizetizer\8.0.92\buildTransitive\Microsoft.Maui.Resizetizer.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.resizetizer\8.0.92\buildTransitive\Microsoft.Maui.Resizetizer.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.core\8.0.92\buildTransitive\Microsoft.Maui.Core.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.core\8.0.92\buildTransitive\Microsoft.Maui.Core.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props')" />
-  </ImportGroup>
-  <ImportGroup Condition=" '$(TargetFramework)' == 'net8.0-maccatalyst' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.resizetizer\8.0.92\buildTransitive\Microsoft.Maui.Resizetizer.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.resizetizer\8.0.92\buildTransitive\Microsoft.Maui.Resizetizer.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.core\8.0.92\buildTransitive\Microsoft.Maui.Core.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.core\8.0.92\buildTransitive\Microsoft.Maui.Core.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props" Condition="Exists('$(NuGetPackageRoot)microsoft.maui.controls.build.tasks\8.0.92\buildTransitive\netstandard2.0\Microsoft.Maui.Controls.Build.Tasks.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webview.maui\8.0.92\build\Microsoft.AspNetCore.Components.WebView.Maui.props')" />
-  </ImportGroup>
   <ImportGroup Condition=" '$(TargetFramework)' == 'net8.0-windows10.0.19041.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.10\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\8.0.10\build\net8.0\Microsoft.AspNetCore.Components.WebAssembly.props')" />
@@ -51,16 +35,6 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0-android' AND '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\Luccas\.nuget\packages\entityframework\6.1.0</PkgEntityFramework>
     <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.net.illink.tasks\8.0.22</PkgMicrosoft_NET_ILLink_Tasks>
-    <PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.aspnetcore.components.webassembly.devserver\8.0.10</PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0-ios' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\Luccas\.nuget\packages\entityframework\6.1.0</PkgEntityFramework>
-    <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.net.illink.tasks\8.0.10</PkgMicrosoft_NET_ILLink_Tasks>
-    <PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.aspnetcore.components.webassembly.devserver\8.0.10</PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0-maccatalyst' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\Luccas\.nuget\packages\entityframework\6.1.0</PkgEntityFramework>
-    <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.net.illink.tasks\8.0.10</PkgMicrosoft_NET_ILLink_Tasks>
     <PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer)' == '' ">C:\Users\Luccas\.nuget\packages\microsoft.aspnetcore.components.webassembly.devserver\8.0.10</PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0-windows10.0.19041.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">

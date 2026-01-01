@@ -1,4 +1,4 @@
-@import '_content/RCLProdutos/RCLProdutos.zmlyf5oil9.bundle.scp.css';
+@import '_content/RCLProdutos/RCLProdutos.zzwoyp27ss.bundle.scp.css';
 
 /* _content/RCLComum/Shared/BtnCarrinho.razor.rz.scp.css */
 .btn-favoritos[b-gx1sm3g3cb] {
@@ -390,7 +390,7 @@ p[b-s6fbsqhdck] {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

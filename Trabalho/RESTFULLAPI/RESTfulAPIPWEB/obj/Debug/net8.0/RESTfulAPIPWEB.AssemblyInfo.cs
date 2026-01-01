@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RESTfulAPIPWEB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c273abc21fc559c2354e34cf39697a4a81b9209")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19ebc8a9cd67dc7c5f7917dd42e05cefe321d03e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RESTfulAPIPWEB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RESTfulAPIPWEB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,16 +1,16 @@
 ﻿<Project>
   <ItemGroup>
     <StaticWebAssetEndpoint Include="_content/RCLProdutos/RCLProdutos.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLProdutos.zmlyf5oil9.bundle.scp.css'))</AssetFile>
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLProdutos.zzwoyp27ss.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-C0XxnO5dAYo8FgQ6QonFvebdbK87gvjyMj8xrjFwgmQ="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"11689"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022C0XxnO5dAYo8FgQ6QonFvebdbK87gvjyMj8xrjFwgmQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 29 Dec 2025 07:06:39 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-8fy\u002BR5qCpqyBlovIWUpvamKYzZ8VyGby7P8pjXCu2l4="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"10568"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00228fy\u002BR5qCpqyBlovIWUpvamKYzZ8VyGby7P8pjXCu2l4=\u0022"},{"Name":"Last-Modified","Value":"Thu, 01 Jan 2026 17:35:17 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/RCLProdutos/RCLProdutos.zmlyf5oil9.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLProdutos.zmlyf5oil9.bundle.scp.css'))</AssetFile>
+    <StaticWebAssetEndpoint Include="_content/RCLProdutos/RCLProdutos.zzwoyp27ss.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLProdutos.zzwoyp27ss.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"zmlyf5oil9"},{"Name":"integrity","Value":"sha256-C0XxnO5dAYo8FgQ6QonFvebdbK87gvjyMj8xrjFwgmQ="},{"Name":"label","Value":"_content/RCLProdutos/RCLProdutos.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"11689"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022C0XxnO5dAYo8FgQ6QonFvebdbK87gvjyMj8xrjFwgmQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 29 Dec 2025 07:06:39 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"zzwoyp27ss"},{"Name":"integrity","Value":"sha256-8fy\u002BR5qCpqyBlovIWUpvamKYzZ8VyGby7P8pjXCu2l4="},{"Name":"label","Value":"_content/RCLProdutos/RCLProdutos.bundle.scp.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"10568"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00228fy\u002BR5qCpqyBlovIWUpvamKYzZ8VyGby7P8pjXCu2l4=\u0022"},{"Name":"Last-Modified","Value":"Thu, 01 Jan 2026 17:35:17 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

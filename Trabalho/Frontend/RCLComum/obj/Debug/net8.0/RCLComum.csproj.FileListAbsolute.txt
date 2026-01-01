@@ -23,9 +23,12 @@ C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\rjs
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnCarrinho.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnHabituais.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnLogin.razor.rz.scp.css
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnLogout.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnRegister.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\HeaderComponent.razor.rz.scp.css
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\HistoricoCompras.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\LocationComponent.razor.rz.scp.css
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\NavLoginComponent.razor.rz.scp.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\bundle\RCLComum.styles.css
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\projectbundle\RCLComum.bundle.scp.css
@@ -45,6 +48,3 @@ C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\RCL
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\refint\RCLComum.dll
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\RCLComum.pdb
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\ref\RCLComum.dll
-C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\HistoricoCompras.razor.rz.scp.css
-C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
-C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\RCLComum\obj\Debug\net8.0\scopedcss\Shared\BtnLogout.razor.rz.scp.css

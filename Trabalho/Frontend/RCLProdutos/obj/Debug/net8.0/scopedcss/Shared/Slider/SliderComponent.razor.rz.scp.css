@@ -1,11 +1,17 @@
+.slider-page[b-1kn7vnvb89] {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .slider[b-1kn7vnvb89] {
     margin: 0 0;
     padding: 0 !important;
     width: 100%;
     height: auto;
     overflow: hidden;
-    position: absolute;
-    top: 220px;
+    position: relative;
+    top: 0;
     left: 0;
     border-color: transparent;
 }
@@ -83,21 +89,24 @@
 }
 
 .friso-filters[b-1kn7vnvb89] {
-    margin-top: 520px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin-bottom: 16px;
     position: relative;
 }
 
 
 @media (max-width: 640px) {
+    .slider-page[b-1kn7vnvb89] {
+        gap: 16px;
+    }
+
     .slider[b-1kn7vnvb89] {
-        top:60px;
+        top: 0;
     }
 
     .friso-filters[b-1kn7vnvb89] {
-        margin-top: 300px;
+        margin-bottom: 0;
     }
-
 }

@@ -3,6 +3,7 @@ C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\RCLProdutos.staticwebassets.endpoints.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\RCLComum.staticwebassets.runtime.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\RCLComum.staticwebassets.endpoints.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\appsettings.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\ProdutosBlazor.staticwebassets.runtime.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\ProdutosBlazor.staticwebassets.endpoints.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosBlazor\bin\Debug\net8.0\ProdutosBlazor.exe

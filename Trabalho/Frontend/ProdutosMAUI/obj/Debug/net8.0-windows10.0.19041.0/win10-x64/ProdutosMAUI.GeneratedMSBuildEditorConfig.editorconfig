@@ -56,6 +56,20 @@ build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcHJhcy5yYXpvcg==
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/ProdutosMAUI/Pages/FornecedorProdutosDisponiveis.razor]
+build_metadata.AdditionalFiles.GenKind = 
+build_metadata.AdditionalFiles.ManifestResourceName = 
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9ybmVjZWRvclByb2R1dG9zRGlzcG9uaXZlaXMucmF6b3I=
+build_metadata.AdditionalFiles.RelativePath = 
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/ProdutosMAUI/Pages/FornecedorProdutosEditar.razor]
+build_metadata.AdditionalFiles.GenKind = 
+build_metadata.AdditionalFiles.ManifestResourceName = 
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9ybmVjZWRvclByb2R1dG9zRWRpdGFyLnJhem9y
+build_metadata.AdditionalFiles.RelativePath = 
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/ProdutosMAUI/Pages/Habituais.razor]
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
@@ -67,13 +81,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
-build_metadata.AdditionalFiles.RelativePath = 
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Luccas/Desktop/PWEBProj/Trabalho/Frontend/ProdutosMAUI/Pages/Sobre.razor]
-build_metadata.AdditionalFiles.GenKind = 
-build_metadata.AdditionalFiles.ManifestResourceName = 
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU29icmUucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
