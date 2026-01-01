@@ -56,19 +56,24 @@ else
     private readonly List<FornecedorProdutoDto> produtosDisponiveis = new();
     private bool isLoading = true;
     private string? errorMessage;
+    private bool _loaded;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender || _loaded)
+            return;
+
+        _loaded = true;
+
         var response = await ApiServices.GetFornecedorProdutos();
+
         if (!string.IsNullOrWhiteSpace(response.ErrorMessage))
-        {
             errorMessage = response.ErrorMessage;
-        }
         else if (response.Data != null)
-        {
-            produtosDisponiveis.AddRange(response.Data.Where(produto => produto.ParaVenda));
-        }
+            produtosDisponiveis.AddRange(response.Data.Where(p => p.ParaVenda));
 
         isLoading = false;
+        StateHasChanged();
     }
 }
+

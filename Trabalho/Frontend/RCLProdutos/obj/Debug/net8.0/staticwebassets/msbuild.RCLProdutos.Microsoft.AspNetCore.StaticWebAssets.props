@@ -17,7 +17,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <FileLength>10568</FileLength>
-      <LastWriteTime>Thu, 01 Jan 2026 17:35:17 GMT</LastWriteTime>
+      <LastWriteTime>Thu, 01 Jan 2026 18:48:35 GMT</LastWriteTime>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RCLProdutos.zzwoyp27ss.bundle.scp.css'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>

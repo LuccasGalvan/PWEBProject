@@ -305,8 +305,8 @@ C:\Users\Luccas\Downloads\LucasMonteiro_2022153271_AfonsoSilva_2021133861\Trabal
 C:\Users\Luccas\Downloads\LucasMonteiro_2022153271_AfonsoSilva_2021133861\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\obj\Debug\net8.0\ref\RESTfulAPIPWEB.dll
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\appsettings.json
-C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.staticwebassets.endpoints.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.staticwebassets.runtime.json
+C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.staticwebassets.endpoints.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.exe
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.deps.json
 C:\Users\Luccas\Desktop\PWEBProj\Trabalho\RESTFULLAPI\RESTfulAPIPWEB\bin\Debug\net8.0\RESTfulAPIPWEB.runtimeconfig.json

@@ -17,6 +17,8 @@ attr;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\n
 attr;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\values\attr.xml
 background;obj\Debug\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 background;obj\Debug\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
+bitmap;obj\Debug\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+bitmap;obj\Debug\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 cache-path;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\161\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 cache-path;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\82\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml
 color;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\values\colors.xml
@@ -37,8 +39,12 @@ foreground;obj\Debug\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_roun
 item;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\157\jl\res\values\styles.xml
 item;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\drawable\maui_splash.xml
 item;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\values\styles.xml
+item;obj\Debug\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+item;obj\Debug\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 layer-list;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\drawable\maui_splash.xml
 layer-list;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\drawable\maui_splash_image.xml
+layer-list;obj\Debug\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+layer-list;obj\Debug\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 microsoft.maui.controls.platform.compatibility.ShellFlyoutLayout;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\158\jl\res\layout\flyoutcontent.xml
 monochrome;obj\Debug\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 monochrome;obj\Debug\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
@@ -52,6 +58,7 @@ resources;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\De
 resources;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\values\colors.xml
 resources;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\160\jl\res\values\styles.xml
 resources;obj\Debug\net8.0-android\res\values\colors.xml
+resources;obj\Debug\net8.0-android\resizetizer\sp\values\maui_colors.xml
 set;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\158\jl\res\anim\enterfromleft.xml
 set;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\158\jl\res\anim\enterfromright.xml
 set;C:\Users\Luccas\Desktop\PWEBProj\Trabalho\Frontend\ProdutosMAUI\obj\Debug\net8.0-android\lp\158\jl\res\anim\exittoleft.xml
